@@ -1,16 +1,24 @@
 #include "Primitive.h"
 #include "LogManager.h"
 
-Primitive::Primitive(void)
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Public
+
+/////////////////////////////////////////////////////////////
+// ctor and dtor
+
+DWI::Primitive::Primitive( void )
 {
 }
 
-Primitive::Primitive(PrimitiveType type)
+DWI::Primitive::Primitive( PrimitiveType type )
 {
 	this->type = type;
 }
 
-Primitive::Primitive(PrimitiveType type, glm::vec3* verts, glm::vec3* vertnormals)
+DWI::Primitive::Primitive( PrimitiveType type, glm::vec3* verts, glm::vec3* vertnormals )
 {
 	this->type = type;
 	this->Verticies = verts;
@@ -18,13 +26,12 @@ Primitive::Primitive(PrimitiveType type, glm::vec3* verts, glm::vec3* vertnormal
 
 	int count = 0;
 	
-
 	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof (vertexBufferData),vertexBufferData, GL_DYNAMIC_DRAW);
 }
 
-
-Primitive::~Primitive(void)
+DWI::Primitive::~Primitive( void )
 {
+
 }

@@ -1,205 +1,212 @@
-#ifndef DWINGINE
-#define DWINGINE
+#ifndef DWI_DWINGINE
+#define DWI_DWINGINE
 
 #include <string>
 
-class DWApp;
-class HardwareClock;
-class LogManager;
-class AbstractRenderer;
-using namespace std;
+using std::string;
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-class DWIngine
+namespace DWI
 {
-
-/////////////////////////////////////////////////////////////////
-private:
-
-	/////////////////////////////////////////////
-	// Singleton variable
-
-	static DWIngine* __singleton;
+	// Forward includes
+	class App;
+	class HardwareClock;
+	class LogManager;
+	class OpenGL33Renderer;
 
 
-	/////////////////////////////////////////////
-	// Private member variables
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	class DWIngine
+	{
 
-	DWApp*				__app;
-	HardwareClock*		__clock;
-	bool				__isStopping;
-	LogManager*			__logger;
-	AbstractRenderer* __renderer;
+	/////////////////////////////////////////////////////////////////
+	private:
 
+		/////////////////////////////////////////////
+		// Singleton variable
 
-	/////////////////////////////////////////////
-	// ctor and dtor
-
-	DWIngine( void );
-	~DWIngine( void );
+		static DWIngine* __singleton;
 
 
-	/////////////////////////////////////////////
-	// Main game loop
+		/////////////////////////////////////////////
+		// Private member variables
 
-	/**
-	* The game loop happens in here. All event callbacks are called from this function, and when it ends the game is over.
-	*/
-	void mainLoop( void );
-
-
-	/////////////////////////////////////////////
-	// Event callbacks
-
-	/**
-	* This function is called to start the game engine application.
-	*/
-	void eventStart( void );
-
-	/**
-	* This function is called immediately before the scene is rendered.
-	*/
-	void eventPreRender( void );
-
-	/**
-	* This function is called to render the scene.
-	*/
-	void eventRender( void );
-
-	/**
-	* This function is called immediately after the scene is rendered.
-	*/
-	void eventPostRender( void );
-
-	/**
-	* This function is called to end the game engine application.
-	*/
-	void eventStop( void );
+		App*				__app;
+		HardwareClock*		__clock;
+		bool				__isStopping;
+		LogManager*			__logger;
+		OpenGL33Renderer*	__renderer;
 
 
+		/////////////////////////////////////////////
+		// ctor and dtor
 
-/////////////////////////////////////////////////////////////////
-public:
-
-	/////////////////////////////////////////////
-	// Singleton ctor and dtor
-
-	/**
-	* Returns a pointer to the singleton instance of the game engine.
-	* @returns The pointer to the DWIngine singleton instance.
-	*/
-	static DWIngine* singleton( void );
-
-	/**
-	* Destroys the DWIngine instance and releases it from heap memory.
-	*/
-	static void destroySingleton( void );
+		DWIngine( void );
+		~DWIngine( void );
 
 
-	/////////////////////////////////////////////
-	// Start the engine
+		/////////////////////////////////////////////
+		// Main game loop
 
-	/**
-	* Initializes the game engine application and begins the render cycle.
-	*/
-	void start( void );
-	void start( DWApp* app );
-
-	/**
-	* Causes the game loop to end after the next render cycle completes.
-	*/
-	void stop( void );
+		/**
+		* The game loop happens in here. All event callbacks are called from this function, and when it ends the game is over.
+		*/
+		void mainLoop( void );
 
 
-	/////////////////////////////////////////////
-	// Message logging
+		/////////////////////////////////////////////
+		// Event callbacks
 
-	/**
-	* Trace out a message to the log file.
-	*/
-	void trace( const string& message );
+		/**
+		* This function is called to start the game engine application.
+		*/
+		void eventStart( void );
 
-	/**
-	* Output an error message to the log file.
-	*/
-	void logError( const string& message );
+		/**
+		* This function is called immediately before the scene is rendered.
+		*/
+		void eventPreRender( void );
 
-	/**
-	* Output an informational message to the log file.
-	*/
-	void logInfo( const string& message );
+		/**
+		* This function is called to render the scene.
+		*/
+		void eventRender( void );
 
-	/**
-	* Output a warning message to the log file.
-	*/
-	void logWarning( const string& message );
+		/**
+		* This function is called immediately after the scene is rendered.
+		*/
+		void eventPostRender( void );
 
-
-	/////////////////////////////////////////////
-	// Timing
-
-	/**
-	* Get the number of seconds since the scene was last rendered.
-	* @returns A double containing the number of seconds since the last render event.
-	*/
-	double dt( void );
-
-	/**
-	* Get the number of milliseconds since the scene was last rendered.
-	* @returns A double containing the number of milliseconds since the last render event.
-	*/
-	double dtMS( void );
-
-	/**
-	* Get the current frame rate at which rendering is occurring.
-	* @returns A double containing the current frame rate at which rendering is occurring.
-	*/
-	double fps( void );
-
-	/**
-	* Get the number of seconds that the app has been running for.
-	* @returns A double containing the number of seconds for which the app has been running.
-	*/
-	double time( void );
-
-	/**
-	* Get the number of milliseconds that the app has been running for.
-	* @return A double containing the number of milliseconds for which the app has been running.
-	*/
-	double timeMS( void );
+		/**
+		* This function is called to end the game engine application.
+		*/
+		void eventStop( void );
 
 
-	/////////////////////////////////////////////
-	// Getters for private members
 
-	/**
-	* Returns a pointer to the app currently running in the game engine application.
-	* @returns A DWApp pointer to the app currently running in the game engine application.
-	*/
-	DWApp* app( void );
+	/////////////////////////////////////////////////////////////////
+	public:
 
-	/**
-	* Returns whether or not the game engine application will stop after this render.
-	* @returns A boolean value of whther or not the application will quit after this render.
-	*/
-	bool isStopping( void );
+		/////////////////////////////////////////////
+		// Singleton ctor and dtor
 
-	/**
-	* Get a pointer to the AbstractRenderer used by the game engine application.
-	* @returns The AbstractRenderer used by the game engine application to render content.
-	*/
-	//AbstractRenderer* renderer( void );
+		/**
+		* Returns a pointer to the singleton instance of the game engine.
+		* This cannot be called from DWIngine's constructor or any function called by its constructor.
+		* @returns The pointer to the DWIngine singleton instance.
+		*/
+		static DWIngine* singleton( void );
+
+		/**
+		* Destroys the DWIngine instance and releases it from heap memory.
+		*/
+		static void destroySingleton( void );
 
 
-	/////////////////////////////////////////////
-	// Setters for private members
+		/////////////////////////////////////////////
+		// Start the engine
 
-	/**
-	* Sets the current app running in the game engine application and hooks it to the engine.
-	*/
-	void app( DWApp* value );
-};
+		/**
+		* Initializes the game engine application and begins the render cycle.
+		*/
+		void start( void );
+		void start( App* app );
 
-#endif
+		/**
+		* Causes the game loop to end after the next render cycle completes.
+		*/
+		void stop( void );
+
+
+		/////////////////////////////////////////////
+		// Message logging
+
+		/**
+		* Trace out a message to the log file.
+		*/
+		void trace( const string& message );
+
+		/**
+		* Output an error message to the log file.
+		*/
+		void logError( const string& message );
+
+		/**
+		* Output an informational message to the log file.
+		*/
+		void logInfo( const string& message );
+
+		/**
+		* Output a warning message to the log file.
+		*/
+		void logWarning( const string& message );
+
+
+		/////////////////////////////////////////////
+		// Timing
+
+		/**
+		* Get the number of seconds since the scene was last rendered.
+		* @returns A double containing the number of seconds since the last render event.
+		*/
+		double dt( void );
+
+		/**
+		* Get the number of milliseconds since the scene was last rendered.
+		* @returns A double containing the number of milliseconds since the last render event.
+		*/
+		double dtMS( void );
+
+		/**
+		* Get the current frame rate at which rendering is occurring.
+		* @returns A double containing the current frame rate at which rendering is occurring.
+		*/
+		double fps( void );
+
+		/**
+		* Get the number of seconds that the app has been running for.
+		* @returns A double containing the number of seconds for which the app has been running.
+		*/
+		double time( void );
+
+		/**
+		* Get the number of milliseconds that the app has been running for.
+		* @return A double containing the number of milliseconds for which the app has been running.
+		*/
+		double timeMS( void );
+
+
+		/////////////////////////////////////////////
+		// Getters for private members
+
+		/**
+		* Returns a pointer to the app currently running in the game engine application.
+		* @returns A DWApp pointer to the app currently running in the game engine application.
+		*/
+		App* app( void );
+
+		/**
+		* Returns whether or not the game engine application will stop after this render.
+		* @returns A boolean value of whther or not the application will quit after this render.
+		*/
+		bool isStopping( void );
+
+		/**
+		* Get a pointer to the AbstractRenderer used by the game engine application.
+		* @returns The AbstractRenderer used by the game engine application to render content.
+		*/
+		//AbstractRenderer* renderer( void );
+
+
+		/////////////////////////////////////////////
+		// Setters for private members
+
+		/**
+		* Sets the current app running in the game engine application and hooks it to the engine.
+		*/
+		void app( App* value );
+	};
+}
+
+#endif // DWI_DWINGINE

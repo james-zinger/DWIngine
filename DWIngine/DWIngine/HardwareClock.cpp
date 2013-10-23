@@ -13,13 +13,13 @@
 /////////////////////////////////////////////////////////////////
 // Singleton variable
 
-HardwareClock* HardwareClock::__singleton = NULL;
+DWI::HardwareClock* DWI::HardwareClock::__singleton = NULL;
 
 
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-HardwareClock::HardwareClock( void )
+DWI::HardwareClock::HardwareClock( void )
 {
 	// Zero out the values set by refresh()
 	__currentHz			= 0L;
@@ -37,7 +37,7 @@ HardwareClock::HardwareClock( void )
 	__dt = 0.0;
 }
 
-HardwareClock::~HardwareClock( void )
+DWI::HardwareClock::~HardwareClock( void )
 {
 	// No resources to release
 }
@@ -50,7 +50,7 @@ HardwareClock::~HardwareClock( void )
 /////////////////////////////////////////////////////////////////
 // Singleton ctor and dtor
 
-HardwareClock* HardwareClock::singleton( void )
+DWI::HardwareClock* DWI::HardwareClock::singleton( void )
 {
 	if ( __singleton == NULL )
 	{
@@ -60,7 +60,7 @@ HardwareClock* HardwareClock::singleton( void )
 	return __singleton;
 }
 
-void HardwareClock::destroySingleton( void )
+void DWI::HardwareClock::destroySingleton( void )
 {
 	if ( __singleton != NULL )
 	{
@@ -73,7 +73,7 @@ void HardwareClock::destroySingleton( void )
 /////////////////////////////////////////////////////////////////
 // Refresh
 
-void HardwareClock::refresh( bool updateHz )
+void DWI::HardwareClock::refresh( bool updateHz )
 {
 	LARGE_INTEGER temp;
 
@@ -104,57 +104,57 @@ void HardwareClock::refresh( bool updateHz )
 /////////////////////////////////////////////////////////////////
 // Getters
 
-double HardwareClock::currentAppTime( void ) 
+double DWI::HardwareClock::currentAppTime( void ) 
 {
 	return __currentAppTime;
 }
 
-double HardwareClock::currentAppTimeMS( void )
+double DWI::HardwareClock::currentAppTimeMS( void )
 {
 	return __currentAppTime * 1000.0;
 }
 
-long HardwareClock::currentHz( void )
+long DWI::HardwareClock::currentHz( void )
 {
 	return __currentHz;
 }
 
-double HardwareClock::dt( void ) 
+double DWI::HardwareClock::dt( void ) 
 {
 	return __dt;
 }
 
-double HardwareClock::dtMS( void ) 
+double DWI::HardwareClock::dtMS( void ) 
 {
 	return __dt * 1000.0;
 }
 
-long HardwareClock::currentTicks( void )
+long DWI::HardwareClock::currentTicks( void )
 {
 	return __currentTicks;
 }
 
-bool HardwareClock::hiResSupported( void )
+bool DWI::HardwareClock::hiResSupported( void )
 {
 	return __hiResSupported;
 }
 
-double HardwareClock::previousAppTime( void ) 
+double DWI::HardwareClock::previousAppTime( void ) 
 {
 	return __previousAppTime;
 }
 
-double HardwareClock::previousAppTimeMS( void )
+double DWI::HardwareClock::previousAppTimeMS( void )
 {
 	return __previousAppTime * 1000.0;
 }
 
-long HardwareClock::previousTicks( void )
+long DWI::HardwareClock::previousTicks( void )
 {
 	return __previousTicks;
 }
 
-long HardwareClock::startTicks( void )
+long DWI::HardwareClock::startTicks( void )
 {
 	return __startTicks;
 }

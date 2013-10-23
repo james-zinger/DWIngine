@@ -1,32 +1,71 @@
-#pragma once
+#ifndef DWI_ABSTRACTRENDERER
+#define DWI_ABSTRACTRENDERER
+
+#include "Mesh.h"
 
 
-#include "Model.h"
-#include "Primitive.h"
-#include <vector>
-class AbstractRenderer
+
+namespace DWI
 {
-protected:
-	int __screenWidth;
-	int __screenHeight;
-	std::vector<Primitive> __primitives;
-	std::vector<Model> __models;
+	// Forward includes
+	class DWIngine;
 
-	//Render Functions
-	virtual void renderMesh(Model& model) = 0; 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	class AbstractRenderer
+	{
 
-	virtual void renderPrimitive(Primitive& primitive) = 0;
+	////////////////////////////////////////////////////////////////
+	protected:
 
-public:
+		//////////////////////////////////////////
+		// Protected member variables
+
+		const DWIngine*	__engine;
+		unsigned int	__screenHeight;
+		unsigned int	__screenWidth;
 
 
-	//Ctor and Dtor
-	AbstractRenderer(void);
-	~AbstractRenderer(void);
+		//////////////////////////////////////////
+		// Abstract render functions
 
-	virtual void RenderScene(void) = 0;
+		virtual void renderMesh( Mesh& mesh ) = 0;
 
-	virtual void AddPrimitive(Primitive& primitive) = 0;
+
+	/////////////////////////////////////////////////////////////
+	public:
+
+		/////////////////////////////////////////
+		// ctor and dtor
+
+		AbstractRenderer( DWIngine* engine );
+		virtual ~AbstractRenderer( void );
+
+
+		//////////////////////////////////////////
+		// Public abstract functions
+
+		virtual void renderScene( void ) = 0;
+		virtual void resize( const unsigned int width, const unsigned int height ) = 0;
+
+
+		/////////////////////////////////////////
+		// Getters
 	
-};
+		/*
+		* Return the engine to which this app is currently attached.
+		*/
+		const DWIngine* engine( void );
 
+		/*
+		* Return the screen height to which the renderer is displaying.
+		*/
+		unsigned int screenHeight( void );
+
+		/*
+		* Return the screen width to which the renderer is displaying.
+		*/
+		unsigned int screenWidth( void );
+	};
+}
+
+#endif // DWI_ABSTRACTRENDERER

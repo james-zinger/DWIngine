@@ -1,5 +1,5 @@
-#ifndef LOGMANAGER
-#define LOGMANAGER
+#ifndef DWI_LOGMANAGER
+#define DWI_LOGMANAGER
 
 #include <fstream>
 #include <string>
@@ -8,133 +8,135 @@ using namespace std;
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-enum LogLevel
+namespace DWI
 {
-	NONE = 0,
-	TRACE,
-	ERROR,
-	WARN,
-	INFO,
-	ALL
-};
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	enum LogLevel
+	{
+		NONE = 0,
+		TRACE,
+		ERROR,
+		WARN,
+		INFO,
+		ALL
+	};
 
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	class LogManager
+	{
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-class LogManager
-{
-
-/////////////////////////////////////////////////////////////////
-private: 
+	/////////////////////////////////////////////////////////////////
+	private: 
 	
-	/////////////////////////////////////////////
-	// Singleton variable
+		/////////////////////////////////////////////
+		// Singleton variable
 
-	static LogManager* __singleton;
-
-
-	/////////////////////////////////////////////
-	// Private member variables
-
-	string		__filename;
-	ofstream*	__fileStream;
-	bool		__printToConsole;
-	LogLevel	__outputLevel;
+		static LogManager* __singleton;
 
 
-	/////////////////////////////////////////////
-	// ctor and dtor
+		/////////////////////////////////////////////
+		// Private member variables
 
-	LogManager( void );
-	~LogManager( void );
-
-	
-	
-/////////////////////////////////////////////////////////////////
-public:
-	
-	/////////////////////////////////////////////
-	// Singleton ctor and dtor
-
-	/**
-	*
-	* @returns
-	*/
-	static LogManager* singleton( void );
-
-	/**
-	*
-	*/
-	static void destroySingleton( void );
+		string		__filename;
+		ofstream*	__fileStream;
+		bool		__printToConsole;
+		LogLevel	__outputLevel;
 
 
-	/////////////////////////////////////////////
-	// Logging API
+		/////////////////////////////////////////////
+		// ctor and dtor
 
-	/**
-	*
-	*/
-	void log( LogLevel level, const string& message );
-
-	/**
-	*
-	*/
-	void logError( const string& message );
-
-	/**
-	*
-	*/
-	void logInfo( const string& message );
-
-	/**
-	*
-	*/
-	void logTrace( const string& message );
-
-	/**
-	*
-	*/
-	void logWarn( const string& message );
-
-
-	/////////////////////////////////////////////
-	// File operations
-
-	/**
-	*
-	*/
-	void closeFile( void );
-
-
-	/////////////////////////////////////////////
-	// Private variable getters
-
-	/**
-	*
-	* @returns 
-	*/
-	LogLevel outputLevel( void );
-
-	/**
-	*
-	* @returns 
-	*/
-	string& filename( void );
+		LogManager( void );
+		~LogManager( void );
 
 	
-	/////////////////////////////////////////////
-	// Private variable setters
 	
-	/**
-	*
-	*/
-	void outputLevel( const LogLevel value );
+	/////////////////////////////////////////////////////////////////
+	public:
+	
+		/////////////////////////////////////////////
+		// Singleton ctor and dtor
 
-	/**
-	*
-	*/
-	void filename( const string value );
-};
+		/**
+		*
+		* @returns
+		*/
+		static LogManager* singleton( void );
 
-#endif // LOGMANAGER
+		/**
+		*
+		*/
+		static void destroySingleton( void );
+
+
+		/////////////////////////////////////////////
+		// Logging API
+
+		/**
+		*
+		*/
+		void log( LogLevel level, const string& message );
+
+		/**
+		*
+		*/
+		void logError( const string& message );
+
+		/**
+		*
+		*/
+		void logInfo( const string& message );
+
+		/**
+		*
+		*/
+		void logTrace( const string& message );
+
+		/**
+		*
+		*/
+		void logWarn( const string& message );
+
+
+		/////////////////////////////////////////////
+		// File operations
+
+		/**
+		*
+		*/
+		void closeFile( void );
+
+
+		/////////////////////////////////////////////
+		// Private variable getters
+
+		/**
+		*
+		* @returns 
+		*/
+		LogLevel outputLevel( void );
+
+		/**
+		*
+		* @returns 
+		*/
+		string& filename( void );
+
+	
+		/////////////////////////////////////////////
+		// Private variable setters
+	
+		/**
+		*
+		*/
+		void outputLevel( const LogLevel value );
+
+		/**
+		*
+		*/
+		void filename( const string value );
+	};
+}
+
+#endif // DWI_LOGMANAGER

@@ -1,7 +1,7 @@
-#include "DWApp.h"
+#include "DWIngine.h"
+#include "App.h"
 #include "HardwareClock.h"
 #include "LogManager.h"
-#include "DWIngine.h"
 #include "OpenGL33Renderer.h"
 
 #ifndef NULL
@@ -16,23 +16,24 @@
 /////////////////////////////////////////////////////////////////
 // Singleton variable
 
-DWIngine* DWIngine::__singleton = NULL;
+DWI::DWIngine* DWI::DWIngine::__singleton = NULL;
 
 
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWIngine::DWIngine( void )
+DWI::DWIngine::DWIngine( void )
 {
+	__app = NULL;
 	__clock = HardwareClock::singleton();
 	__logger = LogManager::singleton();
 	__logger->outputLevel( LogLevel::ALL );
-	__logger->filename( "DWIngine.log" );
+	__logger->filename( "DWI.log" );
 	__isStopping = false;
-	__renderer = new OpenGL33Renderer();
+	__renderer = new OpenGL33Renderer( this );
 }
 
-DWIngine::~DWIngine( void )
+DWI::DWIngine::~DWIngine( void )
 {
 	delete __app;
 	delete __renderer;
@@ -45,7 +46,7 @@ DWIngine::~DWIngine( void )
 /////////////////////////////////////////////////////////////////
 // Main game loop
 
-void DWIngine::mainLoop( void )
+void DWI::DWIngine::mainLoop( void )
 {
 	// Begin the main event loop
 	if ( __app != NULL )
@@ -69,37 +70,37 @@ void DWIngine::mainLoop( void )
 /////////////////////////////////////////////////////////////////
 // Non-inheritable event callbacks
 
-void DWIngine::eventStart( void )
+void DWI::DWIngine::eventStart( void )
 {
 	// Perform end-user app behaviour
 	__app->onStart();
 }
 
-void DWIngine::eventPreRender( void )
+void DWI::DWIngine::eventPreRender( void )
 {
 	// Perform end-user app behaviour
 	__app->onPreRender();
 }
 
-void DWIngine::eventRender( void )
+void DWI::DWIngine::eventRender( void )
 {
 	// Refresh the game clock
 	__clock->refresh( false );
 
 	// Call render scene
-	__renderer->RenderScene();
+	__renderer->renderScene();
 
 	// Perform end-user app behaviour
 	__app->onRender();
 }
 
-void DWIngine::eventPostRender( void )
+void DWI::DWIngine::eventPostRender( void )
 {
 	// Perform end-user app behaviour
 	__app->onPostRender();
 }
 
-void DWIngine::eventStop( void )
+void DWI::DWIngine::eventStop( void )
 {
 	// Perform end-user app behaviour
 	__app->onStop();
@@ -113,7 +114,7 @@ void DWIngine::eventStop( void )
 /////////////////////////////////////////////////////////////////
 // Singleton ctor and dtor
 
-DWIngine* DWIngine::singleton( void )
+DWI::DWIngine* DWI::DWIngine::singleton( void )
 {
 	if ( __singleton == NULL )
 	{
@@ -123,7 +124,7 @@ DWIngine* DWIngine::singleton( void )
 	return __singleton;
 }
 
-void DWIngine::destroySingleton( void )
+void DWI::DWIngine::destroySingleton( void )
 {
 	if ( __singleton != NULL )
 	{
@@ -136,7 +137,7 @@ void DWIngine::destroySingleton( void )
 /////////////////////////////////////////////////////////////////
 // Start and stop the engine
 
-void DWIngine::start( DWApp* appToRun )
+void DWI::DWIngine::start( App* appToRun )
 {
 	// Link the app to this engine instance
 	app( appToRun );
@@ -144,12 +145,12 @@ void DWIngine::start( DWApp* appToRun )
 	// Begin the main event loop
 	mainLoop();
 }
-void DWIngine::start( void )
+void DWI::DWIngine::start( void )
 {
 	start( __app );
 }
 
-void DWIngine::stop( void )
+void DWI::DWIngine::stop( void )
 {
 	__isStopping = true;
 }
@@ -158,22 +159,22 @@ void DWIngine::stop( void )
 /////////////////////////////////////////////////////////////////
 // Message logging
 
-void DWIngine::trace( const string& message )
+void DWI::DWIngine::trace( const string& message )
 {
 	__logger->log( LogLevel::TRACE, message );
 }
 
-void DWIngine::logError( const string& message )
+void DWI::DWIngine::logError( const string& message )
 {
 	__logger->log( LogLevel::ERROR, message );
 }
 
-void DWIngine::logInfo( const string& message )
+void DWI::DWIngine::logInfo( const string& message )
 {
 	__logger->log( LogLevel::INFO, message );
 }
 
-void DWIngine::logWarning( const string& message )
+void DWI::DWIngine::logWarning( const string& message )
 {
 	__logger->log( LogLevel::WARN, message );
 }
@@ -182,50 +183,50 @@ void DWIngine::logWarning( const string& message )
 /////////////////////////////////////////////////////////////////
 // Timing
 
-double DWIngine::dt( void )
+double DWI::DWIngine::dt( void )
 {
 	return __clock->dt();
 }
 
-double DWIngine::dtMS( void )
+double DWI::DWIngine::dtMS( void )
 {
 	return __clock->dtMS();
 }
 
-double DWIngine::fps( void )
+double DWI::DWIngine::fps( void )
 {
 	return 1.0 / dt();
 }
 
-double DWIngine::time( void )
+double DWI::DWIngine::time( void )
 {
 	return __clock->currentAppTime();
 }
 
-double DWIngine::timeMS( void )
+double DWI::DWIngine::timeMS( void )
 {
 	return __clock->currentAppTimeMS();
 }
 
 
 /////////////////////////////////////////////////////////////////
-// Getters for private members
+// Getters
 
-DWApp* DWIngine::app( void )
+DWI::App* DWI::DWIngine::app( void )
 {
 	return __app;
 }
 
-bool DWIngine::isStopping( void )
+bool DWI::DWIngine::isStopping( void )
 {
 	return __isStopping;
 }
 
 
 /////////////////////////////////////////////////////////////////
-// Setters for private members
+// Setters
 
-void DWIngine::app( DWApp* value )
+void DWI::DWIngine::app( DWI::App* value )
 {
 	__app = value;
 	__app->engine( this );

@@ -14,13 +14,13 @@
 /////////////////////////////////////////////////////////////////
 // Singleton variable
 
-LogManager* LogManager::__singleton = NULL;
+DWI::LogManager* DWI::LogManager::__singleton = NULL;
 
 
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-LogManager::LogManager( void )
+DWI::LogManager::LogManager( void )
 {
 	__outputLevel = LogLevel::ALL;
 	__filename = "DWIngine.log";
@@ -30,7 +30,7 @@ LogManager::LogManager( void )
 }
 
 
-LogManager::~LogManager(void)
+DWI::LogManager::~LogManager(void)
 {
 	closeFile();
 }
@@ -43,7 +43,7 @@ LogManager::~LogManager(void)
 /////////////////////////////////////////////////////////////////
 // Singleton ctor and dtor
 
-LogManager* LogManager::singleton( void )
+DWI::LogManager* DWI::LogManager::singleton( void )
 {
 	if ( __singleton == NULL )
 	{
@@ -53,7 +53,7 @@ LogManager* LogManager::singleton( void )
 	return __singleton;
 }
 
-void LogManager::destroySingleton( void )
+void DWI::LogManager::destroySingleton( void )
 {
 	if ( __singleton != NULL )
 	{
@@ -66,7 +66,7 @@ void LogManager::destroySingleton( void )
 /////////////////////////////////////////////////////////////////
 // Logging API
 
-void LogManager::log( LogLevel level, const string& message )
+void DWI::LogManager::log( LogLevel level, const string& message )
 {
 	if ( level <= __outputLevel )
 	{
@@ -78,22 +78,22 @@ void LogManager::log( LogLevel level, const string& message )
 	}
 }
 
-void LogManager::logError( const string& message )
+void DWI::LogManager::logError( const string& message )
 {
 	log( LogLevel::ERROR, message );
 }
 
-void LogManager::logInfo( const string& message )
+void DWI::LogManager::logInfo( const string& message )
 {
 	log( LogLevel::INFO, message );
 }
 
-void LogManager::logTrace( const string& message )
+void DWI::LogManager::logTrace( const string& message )
 {
 	log( LogLevel::TRACE, message );
 }
 
-void LogManager::logWarn( const string& message )
+void DWI::LogManager::logWarn( const string& message )
 {
 	log( LogLevel::WARN, message );
 }
@@ -102,7 +102,7 @@ void LogManager::logWarn( const string& message )
 /////////////////////////////////////////////////////////////////
 // File operations
 
-void LogManager::closeFile( void )
+void DWI::LogManager::closeFile( void )
 {
 	if ( __fileStream != NULL )
 	{
@@ -116,12 +116,12 @@ void LogManager::closeFile( void )
 /////////////////////////////////////////////////////////////////
 // Private variable getters
 
-LogLevel LogManager::outputLevel( void )
+DWI::LogLevel DWI::LogManager::outputLevel( void )
 {
 	return __outputLevel;
 }
 
-string& LogManager::filename( void )
+string& DWI::LogManager::filename( void )
 {
 	return __filename;
 }
@@ -130,12 +130,12 @@ string& LogManager::filename( void )
 /////////////////////////////////////////////////////////////////
 // Private variable setters
 
-void LogManager::outputLevel( const LogLevel value )
+void DWI::LogManager::outputLevel( const LogLevel value )
 {
 	__outputLevel = value;
 }
 
-void LogManager::filename( const string value )
+void DWI::LogManager::filename( const string value )
 {
 	closeFile();
 	__filename = value;

@@ -1,0 +1,23 @@
+#include "Transform.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private
+
+/////////////////////////////////////////////////////////////////
+// ctor and dtor
+
+DWI::Transform::Transform( const unsigned int uniqueID ) : Component( uniqueID )
+{
+
+}
+
+DWI::Transform::~Transform( void )
+{
+
+}

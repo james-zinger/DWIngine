@@ -1,0 +1,41 @@
+#include "App.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Public
+
+/////////////////////////////////////////////////////////////////
+// ctor and dtor
+
+DWI::App::App( void )
+{
+	__engine = NULL;
+}
+
+DWI::App::~App( void )
+{
+	// No resources to release
+}
+
+
+/////////////////////////////////////////////
+// Getters
+
+DWI::DWIngine* DWI::App::engine( void )
+{
+	return __engine;
+}
+
+
+/////////////////////////////////////////////
+// Setters
+
+void DWI::App::engine( DWIngine* value )
+{
+	__engine = value;
+}

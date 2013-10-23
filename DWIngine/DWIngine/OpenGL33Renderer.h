@@ -1,5 +1,7 @@
-#pragma once
-#include "abstractrenderer.h"
+#ifndef DWI_OpenGL33Renderer
+#define DWI_OpenGL33Renderer
+
+#include "AbstractRenderer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "GL\glew.h"
@@ -10,36 +12,66 @@
 #include "LogManager.h"
 #include "shader.hpp"
 #include "glm\gtc\quaternion.hpp"
+
 using namespace glm;
 
-class OpenGL33Renderer :
-	public AbstractRenderer
+
+
+namespace DWI
 {
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	class OpenGL33Renderer : public AbstractRenderer
+	{
 
-private:
-	GLuint __programID;
-	GLuint __vertexArrayID;
-	GLuint __vertexbuffer;
-	GLuint __matrixID;
-	GLuint __colorbuffer;
+	/////////////////////////////////////////////////////////////
+	private:
 
-	mat4 __projection;
-	mat4 __view;
-	mat4 __model;
-	mat4 __mvp;
+		/////////////////////////////////////////
+		// Private member variables
 
-protected:
-	virtual void renderMesh(Model& model);
-	virtual void renderPrimitive(Primitive& primative);
+		GLuint	__programID;
+		GLuint	__vertexArrayID;
+		GLuint	__vertexbuffer;
+		GLuint	__matrixID;
+		GLuint	__colorbuffer;
 
-public:
-	OpenGL33Renderer(void);
-	~OpenGL33Renderer(void);
-
-	virtual void RenderScene(void);
-
-	virtual void AddPrimitive(Primitive& primitive);
+		mat4	__projection;
+		mat4	__view;
+		mat4	__model;
+		mat4	__mvp;
 
 
-};
+	/////////////////////////////////////////////////////////////
+	protected:
 
+		/////////////////////////////////////////
+		// Protected render functions
+
+		virtual void renderMesh( Mesh& model );
+
+
+	/////////////////////////////////////////////////////////////
+	public:
+
+		/////////////////////////////////////////
+		// ctor and dtor
+
+		OpenGL33Renderer( DWIngine* engine );
+		virtual ~OpenGL33Renderer( void );
+
+
+		/////////////////////////////////////////
+		// Public render functions
+
+		virtual void renderScene( void );
+
+
+		/////////////////////////////////////////
+		// Resize
+
+		virtual void resize( const unsigned int width, const unsigned int height );
+
+	};
+}
+
+#endif // DWI_OpenGL33Renderer
