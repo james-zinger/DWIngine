@@ -53,7 +53,7 @@
       </SDLCheck>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
-      <AdditionalIncludeDirectories>$(SolutionDir)\external\glew-1.9.0\include;$(SolutionDir)\external\glfw-2.7.6\include;$(SolutionDir)\external\glm-0.9.4.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\external\glew-1.9.0\include;$(SolutionDir)\external\glfw-3.0.3\include;$(SolutionDir)\include;$(SolutionDir)\external\glm-0.9.4.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -70,6 +70,12 @@
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>OIS_static_d.lib;glfw3.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -95,6 +101,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HardwareClock.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
@@ -121,6 +128,7 @@
     <ClCompile Include="DWResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareClock.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />

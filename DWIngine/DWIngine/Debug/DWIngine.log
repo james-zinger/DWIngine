@@ -1,37 +1,55 @@
-﻿Build started 10/23/2013 4:33:36 PM.
-     1>Project "C:\Development\_GitHub\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glfw-2.7.6\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt DWIngine.cpp OpenGL33Renderer.cpp
-         DWIngine.cpp
-         OpenGL33Renderer.cpp
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Development\_GitHub\DWIngine\DWIngine\Debug\DWIngine.lib" /NOLOGO Debug\AbstractRenderer.obj
-         Debug\App.obj
-         Debug\Component.obj
-         Debug\ComponentManager.obj
-         Debug\DWIngine.obj
-         Debug\DWResource.obj
-         Debug\GameObject.obj
-         Debug\HardwareClock.obj
-         Debug\LogManager.obj
-         Debug\Material.obj
-         Debug\Mesh.obj
-         Debug\MeshData.obj
-         Debug\MeshManager.obj
-         Debug\Model.obj
-         Debug\ObjectCouldNotBeCreatedException.obj
-         Debug\objloader.obj
-         Debug\OpenGL33Renderer.obj
-         Debug\Primitive.obj
-         Debug\ResourceManager.obj
-         Debug\Scene.obj
-         Debug\shader.obj
-         Debug\TextData.obj
-         Debug\TextureData.obj
-         Debug\Transform.obj
-         DWIngine.vcxproj -> C:\Development\_GitHub\DWIngine\DWIngine\Debug\DWIngine.lib
-     1>Done Building Project "C:\Development\_GitHub\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" (Build target(s)).
+﻿  DWIngine.cpp
+  OpenGL33Renderer.cpp
+C:\Program Files (x86)\Windows Kits\8.0\Include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition (DWIngine.cpp)
+          C:\Users\James\Git\DWIngine\DWIngine\external\glfw-3.0.3\include\GLFW\glfw3.h(92) : see previous definition of 'APIENTRY'
+C:\Program Files (x86)\Windows Kits\8.0\Include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition (OpenGL33Renderer.cpp)
+          C:\Users\James\Git\DWIngine\DWIngine\external\glfw-3.0.3\include\GLFW\glfw3.h(92) : see previous definition of 'APIENTRY'
+OpenGL33Renderer.cpp(109): error C2146: syntax error : missing ';' before identifier '__window'
+OpenGL33Renderer.cpp(109): warning C4551: function call missing argument list
 
-Build succeeded.
+Project Performance Summary:
+     4416 ms  C:\Users\James\Git\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj   1 calls
+               4416 ms  Build                                      1 calls
 
-Time Elapsed 00:00:02.56
+Target Performance Summary:
+        0 ms  _BuildGenerateSourcesAction                1 calls
+        0 ms  AfterBuildGenerateSources                  1 calls
+        0 ms  PlatformPrepareForBuild                    1 calls
+        0 ms  AfterResolveReferences                     1 calls
+        0 ms  _Midl                                      1 calls
+        0 ms  ComputeReferenceCLInput                    1 calls
+        0 ms  GetFrameworkPaths                          1 calls
+        0 ms  SelectClCompile                            1 calls
+        0 ms  ComputeMIDLGeneratedCompileInputs          1 calls
+        0 ms  _PrepareForBuild                           1 calls
+        0 ms  BuildGenerateSourcesTraverse               1 calls
+        0 ms  ResolveSDKReferences                       1 calls
+        0 ms  BuildGenerateSources                       1 calls
+        0 ms  GetInstalledSDKLocations                   1 calls
+        0 ms  SelectCustomBuild                          1 calls
+        0 ms  ResolveReferences                          1 calls
+        0 ms  _SplitProjectReferencesByFileExistence     1 calls
+        0 ms  BeforeResolveReferences                    1 calls
+        0 ms  BeforeClCompile                            1 calls
+        0 ms  PreBuildEvent                              1 calls
+        0 ms  _SelectedFiles                             1 calls
+        0 ms  ExpandSDKReferences                        1 calls
+        0 ms  AfterMidl                                  1 calls
+        0 ms  BeforeBuildGenerateSources                 1 calls
+        0 ms  _Xsd                                       1 calls
+        0 ms  AfterBuildGenerateSourcesEvent             1 calls
+        0 ms  _PrepareForReferenceResolution             1 calls
+        1 ms  GetResolvedWinMD                           1 calls
+        1 ms  MakeDirsForMidl                            1 calls
+        1 ms  ResolveProjectReferences                   1 calls
+        1 ms  ResolveAssemblyReferences                  1 calls
+        1 ms  ComputeCLInputPDBName                      1 calls
+        1 ms  BuildCompileTraverse                       1 calls
+        2 ms  PrepareForBuild                            1 calls
+        2 ms  MakeDirsForCl                              1 calls
+        2 ms  GetReferenceAssemblyPaths                  1 calls
+        2 ms  AssignProjectConfiguration                 1 calls
+        3 ms  SetBuildDefaultEnvironmentVariables        1 calls
+        8 ms  _CheckForInvalidConfigurationAndPlatform   1 calls
+       10 ms  InitializeBuildStatus                      1 calls
+     4375 ms  ClCompile                                  1 calls

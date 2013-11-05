@@ -22,7 +22,7 @@ DWI::LogManager* DWI::LogManager::__singleton = NULL;
 
 DWI::LogManager::LogManager( void )
 {
-	__outputLevel = LogLevel::ALL;
+	__outputLevel = LogLevel::DWI_ALL;
 	__filename = "DWIngine.log";
 	ofstream* file = new ofstream();
 	file->open( __filename, ios_base::out );
@@ -80,22 +80,22 @@ void DWI::LogManager::log( LogLevel level, const string& message )
 
 void DWI::LogManager::logError( const string& message )
 {
-	log( LogLevel::ERROR, message );
+	log( LogLevel::DWI_ERROR, message );
 }
 
 void DWI::LogManager::logInfo( const string& message )
 {
-	log( LogLevel::INFO, message );
+	log( LogLevel::DWI_INFO, message );
 }
 
 void DWI::LogManager::logTrace( const string& message )
 {
-	log( LogLevel::TRACE, message );
+	log( LogLevel::DWI_TRACE, message );
 }
 
 void DWI::LogManager::logWarn( const string& message )
 {
-	log( LogLevel::WARN, message );
+	log( LogLevel::DWI_WARN, message );
 }
 
 

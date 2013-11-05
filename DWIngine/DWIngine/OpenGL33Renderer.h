@@ -1,11 +1,13 @@
 #ifndef DWI_OpenGL33Renderer
 #define DWI_OpenGL33Renderer
-
+#define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
 #include "AbstractRenderer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "GL\glew.h"
-#include "GL\glfw.h"
+#include "GLFW\glfw3.h"
+#include "GLFW\glfw3native.h"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include "DWIngine.h"
@@ -40,6 +42,13 @@ namespace DWI
 		mat4	__model;
 		mat4	__mvp;
 
+		GLFWwindow* __window;
+		HWND hWnd;
+
+		/////////////////////////////////////////
+		// Private Callback Functions
+
+		void error_callback (int error, const char* description);
 
 	/////////////////////////////////////////////////////////////
 	protected:

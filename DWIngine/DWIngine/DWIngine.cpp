@@ -27,7 +27,7 @@ DWI::DWIngine::DWIngine( void )
 	__app = NULL;
 	__clock = HardwareClock::singleton();
 	__logger = LogManager::singleton();
-	__logger->outputLevel( LogLevel::ALL );
+	__logger->outputLevel( LogLevel::DWI_ALL );
 	__logger->filename( "DWI.log" );
 	__isStopping = false;
 	__renderer = new OpenGL33Renderer( this );
@@ -161,22 +161,22 @@ void DWI::DWIngine::stop( void )
 
 void DWI::DWIngine::trace( const string& message )
 {
-	__logger->log( LogLevel::TRACE, message );
+	__logger->log( LogLevel::DWI_TRACE, message );
 }
 
 void DWI::DWIngine::logError( const string& message )
 {
-	__logger->log( LogLevel::ERROR, message );
+	__logger->log( LogLevel::DWI_ERROR, message );
 }
 
 void DWI::DWIngine::logInfo( const string& message )
 {
-	__logger->log( LogLevel::INFO, message );
+	__logger->log( LogLevel::DWI_INFO, message );
 }
 
 void DWI::DWIngine::logWarning( const string& message )
 {
-	__logger->log( LogLevel::WARN, message );
+	__logger->log( LogLevel::DWI_WARN, message );
 }
 
 

@@ -8,6 +8,16 @@
 using namespace glm;
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private
+
+/////////////////////////////////////////////////////////////////
+// Private Callback Functions
+
+void DWI::OpenGL33Renderer::error_callback(int error, const char* description)
+{
+	LogManager::singleton()->logError(description);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Protected
@@ -87,25 +97,34 @@ void DWI::OpenGL33Renderer::renderPrimitive( Primitive& primative )
 
 DWI::OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( engine )
 {
+
 	if( !glfwInit() )
 	{
 		LogManager::singleton()->logError( "ObjectCouldNotBeCreatedException >> Failed to initalize GLFW.\n" );
 		throw new ObjectCouldNotBeCreatedException( "Failed to initialize GLFW.", this );
 	}
+
+	glfwSetErrorCallback
 	
-	glfwOpenWindowHint( GLFW_FSAA_SAMPLES, 4 );
-	glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR, 3 );
-	glfwOpenWindowHint( GLFW_OPENGL_VERSION_MINOR, 3 );
-	glfwOpenWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
+	__window = glfwCreateWindow(__screenWidth, __screenHeight, "Temp", NULL, NULL);
+
+	//glfwOpenWindowHint( GLFW_FSAA_SAMPLES, 4 );
+	//glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR, 3 );
+	//glfwOpenWindowHint( GLFW_OPENGL_VERSION_MINOR, 3 );
+	//glfwOpenWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
 	// Open a window and create its OpenGL context
-	if ( !glfwOpenWindow( __screenWidth, __screenHeight, 0, 0, 0, 0, 32, 0, GLFW_WINDOW ) )
+	if ( !__window)
 	{
 		glfwTerminate();
 		LogManager::singleton()->logError( "ObjectCouldNotBeCreatedException >> Failed to open GLFW window. If you have an Intel GPU, they are not 4.2 compatible. Update your drivers or use an older version of OpenGL.\n" );
 		throw new ObjectCouldNotBeCreatedException( "Failed to open GLFW window. If you have an Intel GPU, they are not 4.2 compatible. Update your drivers or use an older version of OpenGL.", this );
 	}
 
+	glfwMakeContextCurrent(__window);
+
+	hWnd = glfwGetWin32Window(__window);
+	
 	// Initialize GLEW
 	glewExperimental = true;
 	if ( glewInit() != GLEW_OK )
@@ -113,10 +132,7 @@ DWI::OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRende
 		LogManager::singleton()->logError( "ObjectCouldNotBeCreatedException >> Failed to initialize GLEW.\n" );
 		throw new ObjectCouldNotBeCreatedException( "Failed to initialize GLEW.", this );
 	}
-
-	glfwSetWindowTitle( "Temp" );
-
-	glfwEnable( GLFW_STICKY_KEYS );
+	//glfwEnable( GLFW_STICKY_KEYS );
 
 	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
@@ -281,7 +297,8 @@ void DWI::OpenGL33Renderer::renderScene(void)
 	//glDisableVertexAttribArray( 0 );
 	//glDisableVertexAttribArray( 1 );
 
-	//glfwSwapBuffers();
+	glfwSwapBuffers(__window);
+
 }
 
 void DWI::OpenGL33Renderer::resize( const unsigned int width, const unsigned int height )

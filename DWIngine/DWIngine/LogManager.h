@@ -13,12 +13,12 @@ namespace DWI
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	enum LogLevel
 	{
-		NONE = 0,
-		TRACE,
-		ERROR,
-		WARN,
-		INFO,
-		ALL
+		DWI_NONE = 0,
+		DWI_TRACE,
+		DWI_ERROR,
+		DWI_WARN,
+		DWI_INFO,
+		DWI_ALL
 	};
 
 
