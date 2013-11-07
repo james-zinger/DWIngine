@@ -1,7 +1,7 @@
 #include "DWIngine.h"
 #include "App.h"
 #include "HardwareClock.h"
-#include "LogManager.h"
+#include "Log.h"
 #include "OpenGL33Renderer.h"
 
 #ifndef NULL
@@ -26,7 +26,7 @@ DWI::DWIngine::DWIngine( void )
 {
 	__app = NULL;
 	__clock = HardwareClock::singleton();
-	__logger = LogManager::singleton();
+	__logger = Log::singleton();
 	__logger->outputLevel( LogLevel::DWI_ALL );
 	__logger->filename( "DWI.log" );
 	__isStopping = false;
@@ -37,7 +37,7 @@ DWI::DWIngine::~DWIngine( void )
 {
 	delete __app;
 	delete __renderer;
-	LogManager::destroySingleton();
+	Log::destroySingleton();
 	HardwareClock::destroySingleton();
 
 }

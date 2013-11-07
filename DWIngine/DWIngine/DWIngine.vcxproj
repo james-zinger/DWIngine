@@ -53,7 +53,7 @@
       </SDLCheck>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
-      <AdditionalIncludeDirectories>$(SolutionDir)\external\glew-1.9.0\include;$(SolutionDir)\external\glfw-3.0.3\include;$(SolutionDir)\include;$(SolutionDir)\external\glm-0.9.4.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\external\glew-1.9.0\include;$(SolutionDir)\external\glfw-2.7.6\include;$(SolutionDir)\include;$(SolutionDir)\external\glm-0.9.4.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -71,7 +71,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalDependencies>OIS_static_d.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalDependencies>OIS_static_d.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -102,7 +102,7 @@
     <ClInclude Include="HardwareClock.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="LogManager.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshData.h" />
@@ -111,7 +111,6 @@
     <ClInclude Include="ObjectCouldNotBeCreatedException.h" />
     <ClInclude Include="objloader.hpp" />
     <ClInclude Include="OpenGL33Renderer.h" />
-    <ClInclude Include="Primitive.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="shader.hpp" />
@@ -129,7 +128,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareClock.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="LogManager.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshData.cpp" />
@@ -138,7 +137,6 @@
     <ClCompile Include="ObjectCouldNotBeCreatedException.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="OpenGL33Renderer.cpp" />
-    <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="shader.cpp" />

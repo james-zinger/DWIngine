@@ -6,14 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "GL\glew.h"
-#include "GLFW\glfw3.h"
-#include "GLFW\glfw3native.h"
+#include "GL\glfw.h"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include "DWIngine.h"
-#include "LogManager.h"
+#include "Log.h"
 #include "shader.hpp"
-#include "glm\gtc\quaternion.hpp"
+//#include "glm\gtc\quaternion.hpp"
 
 using namespace glm;
 
@@ -21,6 +20,9 @@ using namespace glm;
 
 namespace DWI
 {
+
+	extern void error_callback (int error, const char* description);
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	class OpenGL33Renderer : public AbstractRenderer
 	{
@@ -42,13 +44,12 @@ namespace DWI
 		mat4	__model;
 		mat4	__mvp;
 
-		GLFWwindow* __window;
-		HWND hWnd;
+		
 
 		/////////////////////////////////////////
 		// Private Callback Functions
-
-		void error_callback (int error, const char* description);
+		
+	
 
 	/////////////////////////////////////////////////////////////
 	protected:
@@ -74,7 +75,10 @@ namespace DWI
 
 		virtual void renderScene( void );
 
-
+		/////////////////////////////////////////
+		// Public Callback functions
+		
+		
 		/////////////////////////////////////////
 		// Resize
 

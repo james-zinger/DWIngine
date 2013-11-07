@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <string.h>
-#include "LogManager.h"
+#include "Log.h"
 #include <GL/glew.h>
 #include "shader.hpp"
 
@@ -29,7 +29,7 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 		VertexShaderStream.close();
 	}else{
 		string s = vertex_file_path;
-		LogManager::singleton()->logError("Impossible to open " + s + ". Are you in the right directory ? Don't forget to read the FAQ !\n");
+		Log::singleton()->logError("Impossible to open " + s + ". Are you in the right directory ? Don't forget to read the FAQ !\n");
 		return 0;
 	}
 

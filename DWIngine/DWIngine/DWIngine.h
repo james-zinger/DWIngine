@@ -12,7 +12,7 @@ namespace DWI
 	// Forward includes
 	class App;
 	class HardwareClock;
-	class LogManager;
+	class Log;
 	class OpenGL33Renderer;
 
 
@@ -35,7 +35,7 @@ namespace DWI
 		App*				__app;
 		HardwareClock*		__clock;
 		bool				__isStopping;
-		LogManager*			__logger;
+		Log*			__logger;
 		OpenGL33Renderer*	__renderer;
 
 

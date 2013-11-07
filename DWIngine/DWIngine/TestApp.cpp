@@ -1,6 +1,6 @@
 #include "DWIngine.h"
 #include "TestApp.h"
-#include "Primitive.h"
+//#include "Primitive.h"
 
 #ifndef NULL
 #define NULL 0
@@ -49,7 +49,7 @@ void TestApp::onStart( void )
 
 void TestApp::onPreRender( void )
 {
-	engine()->trace( "PreRender" );
+	//engine()->trace( "PreRender" );
 }
 
 void TestApp::onRender( void )
@@ -63,12 +63,12 @@ void TestApp::onRender( void )
 	//__sstream << "Render @ " << engine()->time() << " seconds  ::  Frame rate: " << engine()->fps() << "FPS";
 	//engine()->trace( __sstream.str() );
 
-	engine()->trace( "Render" );
+	//engine()->trace( "Render" );
 }
 
 void TestApp::onPostRender( void )
 {
-	engine()->trace( "PostRender" );
+	//engine()->trace( "PostRender" );
 }
 
 void TestApp::onStop( void )
