@@ -1,6 +1,6 @@
 #include "AbstractRenderer.h"
 
-
+using DWI::AbstractRenderer;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public
@@ -8,14 +8,31 @@
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::AbstractRenderer::AbstractRenderer( DWI::DWIngine* engine ) : __engine( engine )
+AbstractRenderer::AbstractRenderer( DWI::DWIngine* engine ) : __engine( engine )
 {
 
 }
 
-DWI::AbstractRenderer::~AbstractRenderer( void )
+AbstractRenderer::~AbstractRenderer( void )
 {
 	// No resources to release
+}
+////////////////////////////////////////////
+// Public Common Functions
+// Register Functions
+void AbstractRenderer::registerModel( DWI::Model* model )
+{
+	__models[model->getID()] = model;
+}
+
+void AbstractRenderer::deregisterModel( int key )
+{
+	__models.erase( key );
+}
+
+void AbstractRenderer::deregisterModel( DWI::Model* model )
+{
+	__models.erase( model->getID() );
 }
 
 

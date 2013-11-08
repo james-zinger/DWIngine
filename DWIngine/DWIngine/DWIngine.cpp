@@ -2,8 +2,9 @@
 #include "App.h"
 #include "HardwareClock.h"
 #include "Log.h"
+#include "AbstractRenderer.h"
 #include "OpenGL33Renderer.h"
-
+#include "Input.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -28,9 +29,9 @@ DWI::DWIngine::DWIngine( void )
 	__clock = HardwareClock::singleton();
 	__logger = Log::singleton();
 	__logger->outputLevel( LogLevel::DWI_ALL );
-	__logger->filename( "DWI.log" );
 	__isStopping = false;
 	__renderer = new OpenGL33Renderer( this );
+	__input = Input::singleton();
 }
 
 DWI::DWIngine::~DWIngine( void )
@@ -39,6 +40,7 @@ DWI::DWIngine::~DWIngine( void )
 	delete __renderer;
 	Log::destroySingleton();
 	HardwareClock::destroySingleton();
+	Input::destroySingleton();
 
 }
 
@@ -78,6 +80,7 @@ void DWI::DWIngine::eventStart( void )
 
 void DWI::DWIngine::eventPreRender( void )
 {
+	Input::singleton()->Update();
 	// Perform end-user app behaviour
 	__app->onPreRender();
 }
@@ -96,6 +99,7 @@ void DWI::DWIngine::eventRender( void )
 
 void DWI::DWIngine::eventPostRender( void )
 {
+	
 	// Perform end-user app behaviour
 	__app->onPostRender();
 }

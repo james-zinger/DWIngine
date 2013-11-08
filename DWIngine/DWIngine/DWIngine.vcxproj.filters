@@ -105,6 +105,12 @@
     <ClInclude Include="Log.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\texture.hpp">
+      <Filter>opengl-tutorials-org</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shader.cpp">
@@ -178,6 +184,12 @@
     </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\texture.cpp">
+      <Filter>opengl-tutorials-org</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

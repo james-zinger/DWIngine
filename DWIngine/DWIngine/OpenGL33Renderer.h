@@ -5,17 +5,23 @@
 #include "AbstractRenderer.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
+#include <map>
+#include "Input.h"
 #include "GL\glew.h"
 #include "GL\glfw.h"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include "DWIngine.h"
 #include "Log.h"
+#include "Model.h"
+#include "Camera.h"
 #include "shader.hpp"
+
 //#include "glm\gtc\quaternion.hpp"
 
 using namespace glm;
-
+using std::map;
 
 
 namespace DWI
@@ -23,6 +29,7 @@ namespace DWI
 
 	extern void error_callback (int error, const char* description);
 
+	extern void key_callback (int key, int action);
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	class OpenGL33Renderer : public AbstractRenderer
 	{
@@ -33,32 +40,19 @@ namespace DWI
 		/////////////////////////////////////////
 		// Private member variables
 
-		GLuint	__programID;
-		GLuint	__vertexArrayID;
-		GLuint	__vertexbuffer;
-		GLuint	__matrixID;
-		GLuint	__colorbuffer;
-
-		mat4	__projection;
-		mat4	__view;
-		mat4	__model;
 		mat4	__mvp;
 
+		Camera	__cam;
 		
-
 		/////////////////////////////////////////
 		// Private Callback Functions
 		
-	
-
-	/////////////////////////////////////////////////////////////
-	protected:
-
+		
 		/////////////////////////////////////////
-		// Protected render functions
+		// Private Helper Functions
 
-		virtual void renderMesh( Mesh& model );
-
+		bool glLogError(GLenum error);
+		
 
 	/////////////////////////////////////////////////////////////
 	public:
@@ -69,10 +63,9 @@ namespace DWI
 		OpenGL33Renderer( DWIngine* engine );
 		virtual ~OpenGL33Renderer( void );
 
-
 		/////////////////////////////////////////
 		// Public render functions
-
+		
 		virtual void renderScene( void );
 
 		/////////////////////////////////////////

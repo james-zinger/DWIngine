@@ -13,8 +13,9 @@ namespace DWI
 	class App;
 	class HardwareClock;
 	class Log;
+	class AbstractRenderer;
 	class OpenGL33Renderer;
-
+	class Input;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	class DWIngine
@@ -35,9 +36,9 @@ namespace DWI
 		App*				__app;
 		HardwareClock*		__clock;
 		bool				__isStopping;
-		Log*			__logger;
-		OpenGL33Renderer*	__renderer;
-
+		Log*				__logger;
+		AbstractRenderer*	__renderer;
+		Input*				__input;
 
 		/////////////////////////////////////////////
 		// ctor and dtor
