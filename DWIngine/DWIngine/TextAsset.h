@@ -1,0 +1,54 @@
+#ifndef DWI_TEXTASSET
+#define DWI_TEXTASSET
+
+#include "DWMath.h"
+#include "AbstractAsset.h"
+#include <string>
+
+using std::string;
+
+
+
+
+namespace DWI
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	class TextAsset : public AbstractAsset
+	{
+
+	/////////////////////////////////////////////////////////////
+	private:
+
+		/////////////////////////////////////////
+		// Private member variables
+
+		string __text;
+
+
+
+	/////////////////////////////////////////////////////////////
+	public:
+
+		/////////////////////////////////////////
+		// ctor and dtor
+
+		TextAsset( const string uniqueName, const string text );
+		TextAsset( const string uniqueName );
+		~TextAsset( void );
+
+
+		/////////////////////////////////////////
+		// Getters
+
+		string text( void );
+
+
+		/////////////////////////////////////////
+		// Setters
+
+		void text( const string value );
+
+	};
+}
+
+#endif // DWI_TEXTASSET

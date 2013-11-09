@@ -1,0 +1,32 @@
+#include "AbstractAsset.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Public
+
+/////////////////////////////////////////////////////////////
+// ctor and dtor
+
+DWI::AbstractAsset::AbstractAsset( const string uniqueName ) : __uniqueName( uniqueName )
+{
+		
+}
+
+DWI::AbstractAsset::~AbstractAsset( void )
+{
+
+}
+
+
+/////////////////////////////////////////////////////////////
+// Getters
+
+string DWI::AbstractAsset::uniqueName( void )
+{
+	return __uniqueName;
+}

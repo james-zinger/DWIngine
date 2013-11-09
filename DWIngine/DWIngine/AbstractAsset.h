@@ -1,0 +1,46 @@
+#ifndef DWI_ABSTRACTASSET
+#define DWI_ABSTRACTASSET
+
+#include <string>
+
+using std::string;
+
+
+
+namespace DWI
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	class AbstractAsset
+	{
+
+	/////////////////////////////////////////////////////////////
+	private:
+
+		/////////////////////////////////////////
+		// Private member variables
+
+		const string __uniqueName;
+
+
+	/////////////////////////////////////////////////////////////
+	public:
+
+		/////////////////////////////////////////
+		// ctor and dtor
+
+		AbstractAsset( const string uniqueName );
+		virtual ~AbstractAsset( void );
+
+
+		/////////////////////////////////////////
+		// Getters
+
+		/*
+		* Returns the unique string used to identify this material in the material resources.
+		*/
+		string uniqueName( void );
+
+	};
+}
+
+#endif // DWI_ABSTRACTASSET

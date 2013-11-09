@@ -11,7 +11,7 @@ namespace DWI
 {
 	// Forward includes
 	class App;
-	class HardwareClock;
+	class Time;
 	class Log;
 	class AbstractRenderer;
 	class OpenGL33Renderer;
@@ -34,11 +34,11 @@ namespace DWI
 		// Private member variables
 
 		App*				__app;
-		HardwareClock*		__clock;
+		Input*				__input;
 		bool				__isStopping;
 		Log*				__logger;
 		AbstractRenderer*	__renderer;
-		Input*				__input;
+		Time*				__time;
 
 		/////////////////////////////////////////////
 		// ctor and dtor
@@ -151,7 +151,7 @@ namespace DWI
 		* Get the number of seconds since the scene was last rendered.
 		* @returns A double containing the number of seconds since the last render event.
 		*/
-		double dt( void );
+		double dtSec( void );
 
 		/**
 		* Get the number of milliseconds since the scene was last rendered.
@@ -169,7 +169,7 @@ namespace DWI
 		* Get the number of seconds that the app has been running for.
 		* @returns A double containing the number of seconds for which the app has been running.
 		*/
-		double time( void );
+		double timeSec( void );
 
 		/**
 		* Get the number of milliseconds that the app has been running for.

@@ -1,6 +1,6 @@
 #include "DWIngine.h"
 #include "App.h"
-#include "HardwareClock.h"
+#include "Time.h"
 #include "Log.h"
 #include "AbstractRenderer.h"
 #include "OpenGL33Renderer.h"
@@ -26,7 +26,7 @@ DWI::DWIngine* DWI::DWIngine::__singleton = NULL;
 DWI::DWIngine::DWIngine( void )
 {
 	__app = NULL;
-	__clock = HardwareClock::singleton();
+	__time = Time::singleton();
 	__logger = Log::singleton();
 	__logger->outputLevel( LogLevel::DWI_ALL );
 	__isStopping = false;
@@ -39,7 +39,7 @@ DWI::DWIngine::~DWIngine( void )
 	delete __app;
 	delete __renderer;
 	Log::destroySingleton();
-	HardwareClock::destroySingleton();
+	Time::destroySingleton();
 	Input::destroySingleton();
 
 }
@@ -88,7 +88,7 @@ void DWI::DWIngine::eventPreRender( void )
 void DWI::DWIngine::eventRender( void )
 {
 	// Refresh the game clock
-	__clock->refresh( false );
+	__time->refresh( false );
 
 	// Call render scene
 	__renderer->renderScene();
@@ -187,29 +187,29 @@ void DWI::DWIngine::logWarning( const string& message )
 /////////////////////////////////////////////////////////////////
 // Timing
 
-double DWI::DWIngine::dt( void )
+double DWI::DWIngine::dtSec( void )
 {
-	return __clock->dt();
+	return __time->dt();
 }
 
 double DWI::DWIngine::dtMS( void )
 {
-	return __clock->dtMS();
+	return __time->dtMS();
 }
 
 double DWI::DWIngine::fps( void )
 {
-	return 1.0 / dt();
+	return 1.0 / dtSec();
 }
 
-double DWI::DWIngine::time( void )
+double DWI::DWIngine::timeSec( void )
 {
-	return __clock->currentAppTime();
+	return __time->currentAppTime();
 }
 
 double DWI::DWIngine::timeMS( void )
 {
-	return __clock->currentAppTimeMS();
+	return __time->currentAppTimeMS();
 }
 
 

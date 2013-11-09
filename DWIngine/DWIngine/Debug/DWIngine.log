@@ -1,38 +1,42 @@
-﻿Build started 11/7/2013 7:26:22 PM.
-     1>Project "C:\Users\James\Git\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" on node 2 (Build target(s)).
+﻿Build started 11/8/2013 10:06:22 PM.
+     1>Project "C:\Development\_GitHub\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\James\Git\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Users\James\Git\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Users\James\Git\DWIngine\DWIngine\\include /I"C:\Users\James\Git\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt objloader.cpp
-         objloader.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Development\_GitHub\DWIngine\DWIngine\\include /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt DWIngine.cpp OpenGL33Renderer.cpp
+         DWIngine.cpp
+         OpenGL33Renderer.cpp
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Users\James\Git\DWIngine\DWIngine\Debug\DWIngine.lib" /LIBPATH:C:\Users\James\Git\DWIngine\DWIngine\\lib /NOLOGO Debug\texture.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Development\_GitHub\DWIngine\DWIngine\Debug\DWIngine.lib" /LIBPATH:C:\Development\_GitHub\DWIngine\DWIngine\\lib /NOLOGO Debug\texture.obj
          Debug\AbstractRenderer.obj
          Debug\App.obj
          Debug\Camera.obj
          Debug\Component.obj
          Debug\ComponentManager.obj
          Debug\DWIngine.obj
-         Debug\DWResource.obj
+         Debug\FileCouldNotBeOpenedException.obj
+         Debug\FragmentShaderAsset.obj
+         Debug\AbstractAsset.obj
          Debug\GameObject.obj
-         Debug\HardwareClock.obj
+         Debug\Time.obj
          Debug\Input.obj
          Debug\Log.obj
-         Debug\Material.obj
+         Debug\MaterialAsset.obj
          Debug\Mesh.obj
-         Debug\MeshData.obj
+         Debug\MeshAsset.obj
          Debug\MeshManager.obj
          Debug\Model.obj
          Debug\ObjectCouldNotBeCreatedException.obj
          Debug\objloader.obj
          Debug\OpenGL33Renderer.obj
-         Debug\ResourceManager.obj
+         Debug\Resources.obj
          Debug\Scene.obj
          Debug\shader.obj
-         Debug\TextData.obj
-         Debug\TextureData.obj
+         Debug\TextAsset.obj
+         Debug\TextureAsset.obj
          Debug\Transform.obj
-         DWIngine.vcxproj -> C:\Users\James\Git\DWIngine\DWIngine\Debug\DWIngine.lib
-     1>Done Building Project "C:\Users\James\Git\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" (Build target(s)).
+         Debug\VertexShaderAsset.obj
+         DWIngine.vcxproj -> C:\Development\_GitHub\DWIngine\DWIngine\Debug\DWIngine.lib
+     1>Done Building Project "C:\Development\_GitHub\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.57
+Time Elapsed 00:00:01.70
