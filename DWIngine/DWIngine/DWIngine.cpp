@@ -32,6 +32,7 @@ DWI::DWIngine::DWIngine( void )
 	__isStopping = false;
 	__renderer = new OpenGL33Renderer( this );
 	__input = Input::singleton();
+
 }
 
 DWI::DWIngine::~DWIngine( void )
@@ -99,7 +100,7 @@ void DWI::DWIngine::eventRender( void )
 
 void DWI::DWIngine::eventPostRender( void )
 {
-	
+
 	// Perform end-user app behaviour
 	__app->onPostRender();
 }
@@ -224,6 +225,11 @@ DWI::App* DWI::DWIngine::app( void )
 bool DWI::DWIngine::isStopping( void )
 {
 	return __isStopping;
+}
+
+DWI::AbstractRenderer* DWI::DWIngine::renderer( void )
+{
+	return __renderer;
 }
 
 

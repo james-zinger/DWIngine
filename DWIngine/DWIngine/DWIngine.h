@@ -197,7 +197,7 @@ namespace DWI
 		* Get a pointer to the AbstractRenderer used by the game engine application.
 		* @returns The AbstractRenderer used by the game engine application to render content.
 		*/
-		//AbstractRenderer* renderer( void );
+		AbstractRenderer* renderer( void );
 
 
 		/////////////////////////////////////////////
@@ -207,6 +207,9 @@ namespace DWI
 		* Sets the current app running in the game engine application and hooks it to the engine.
 		*/
 		void app( App* value );
+
+
+		
 	};
 }
 
