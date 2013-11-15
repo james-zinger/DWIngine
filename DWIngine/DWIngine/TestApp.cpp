@@ -31,6 +31,7 @@ TestApp::~TestApp( void )
 
 void TestApp::onStart( void )
 {
+
 	//engine()->trace( "Starting up..." );
 	//vector<glm::vec3> verts = vector<glm::vec3>();
 	//verts.assign(1,glm::vec3(0,0,0));
@@ -58,7 +59,7 @@ void TestApp::onRender( void )
 	{
 		engine()->stop();
 	}
-	
+
 	//__sstream.str( string() );
 	//__sstream << "Render @ " << engine()->time() << " seconds  ::  Frame rate: " << engine()->fps() << "FPS";
 	//engine()->trace( __sstream.str() );

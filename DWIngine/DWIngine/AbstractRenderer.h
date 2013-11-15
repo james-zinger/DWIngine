@@ -14,7 +14,7 @@ namespace DWI
 	class AbstractRenderer
 	{
 
-	////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////
 	protected:
 
 		//////////////////////////////////////////
@@ -25,8 +25,8 @@ namespace DWI
 		unsigned int	__screenWidth;
 		map<int, Model*>	__models;
 
-		
-	/////////////////////////////////////////////////////////////
+
+		/////////////////////////////////////////////////////////////
 	public:
 
 		/////////////////////////////////////////
@@ -40,14 +40,13 @@ namespace DWI
 		// Public abstract functions
 
 		virtual void renderScene( void ) = 0;
-		virtual void resize( const unsigned int width, const unsigned int height ) = 0;
 		virtual void registerModel( Model* m );
 		virtual void deregisterModel( Model* m );
 		virtual void deregisterModel( int key );
 
 		/////////////////////////////////////////
 		// Getters
-	
+
 		/*
 		* Return the engine to which this app is currently attached.
 		*/
@@ -62,6 +61,8 @@ namespace DWI
 		* Return the screen width to which the renderer is displaying.
 		*/
 		unsigned int screenWidth( void );
+
+		void setScreenDimensions( int width, int height );
 	};
 }
 

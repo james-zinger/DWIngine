@@ -13,3 +13,5 @@
 *.exe.manifest
 *.pidb
 *.log
+
+DWIngine/Debug/TestApp.ilk
