@@ -208,8 +208,12 @@ namespace DWI
 		*/
 		void app( App* value );
 
-
-		
+		////////////////////////////////////////////
+		// Helper Methods
+		/**
+		* Checks the engine singleton if it exists
+		*/
+		static bool isSingletonNull( void );
 	};
 }
 

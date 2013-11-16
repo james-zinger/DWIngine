@@ -59,6 +59,7 @@ namespace DWI
 
 		bool glLogError( GLenum error );
 
+		
 
 		/////////////////////////////////////////////////////////////
 	public:
@@ -74,10 +75,13 @@ namespace DWI
 
 		virtual void renderScene( void );
 
+		
 		/////////////////////////////////////////
 		// Getters
 
 		virtual Camera* getCamera( void );
+
+
 
 	};
 }

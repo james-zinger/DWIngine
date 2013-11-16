@@ -2,10 +2,12 @@
 #define DWI_CAMERA
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
+
 using glm::vec3;
 using glm::mat4;
 using glm::perspective;
 using glm::lookAt;
+
 namespace DWI
 {
 	class Camera

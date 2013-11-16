@@ -34,15 +34,25 @@ void DWI::key_callback( int key, int action )
 		ss << "Released";
 	}
 
-	Log::LogInfo( ss.str() );
+	Log::LogTrace( ss.str() );
 }
 
 void DWI::resize_callback( int width, int height )
 {
-	OpenGL33Renderer* renderer = (OpenGL33Renderer*)( DWI::DWIngine::singleton()->renderer());
-	renderer->getCamera()->setAspectRatio( width / height );
+	if ( DWI::DWIngine::isSingletonNull() )
+	{
+		return;
+	}
+
+	stringstream ss;
+	ss.clear();
+	ss.str( "" );
+	ss << "Resize Callback Size: ( " << width << ", " << height << " )";
+	Log::LogInfo( ss.str() );
+	OpenGL33Renderer* renderer = (OpenGL33Renderer*)DWI::DWIngine::singleton()->renderer();
+	renderer->getCamera()->setAspectRatio( (float)width / (float)height );
 	renderer->setScreenDimensions( width, height );
-	
+	glViewport( 0, 0, width, height );
 }
 
 int DWI::windowclose_callback( void )
@@ -53,22 +63,48 @@ int DWI::windowclose_callback( void )
 
 void DWI::windowrefresh_callback( void )
 {
-
+	Log::LogTrace( "Window Refreshed" );
 }
 
+/*
+ * Left mouse button = 0
+ * Right mouse button = 1
+ * 
+ */
 void DWI::mousebutton_callback( int button, int action )
 {
+	stringstream ss;
+	ss << "Mouse button action: " << button << " -> ";
 
+	if ( action == GLFW_PRESS )
+	{
+		ss << "Pressed";
+		Input::PressMouseButton( button );
+	}
+	else
+	{
+		ss << "Released";
+		Input::ReleaseMouseButton( button );
+	}
+
+	Log::LogTrace( ss.str() );
 }
 
+/**
+ * Mouse Position on the windows pixel coords
+ */
 void DWI::mousepos_callback( int x, int y )
 {
-
+	Input::UpdateMousePosition( vec2( x, y ) );
 }
 
+/*
+ * Each roll up increment the mouse wheel index by 1 and rolls
+ 8 down decrement the index by 1
+ */
 void DWI::mousewheel_callback( int pos )
 {
-
+	Input::UpdateMouseWheelIndex( pos );
 }
 
 bool OpenGL33Renderer::glLogError( GLenum error )
@@ -108,6 +144,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 
 	__screenHeight = 400;
 	__screenWidth = 600;
+	glViewport( 0, 0, __screenWidth, __screenHeight );
 
 	glfwOpenWindowHint( GLFW_FSAA_SAMPLES, 4 );
 	glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR, 3 );
@@ -153,7 +190,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 					vec3( 0, 0, 0 ),
 					vec3( 0, 1, 0 ),
 					45.0f,
-					4.0f / 3.0f,
+					(float)__screenWidth / (float)__screenHeight,
 					0.1f,
 					1000.0f
 					);
@@ -177,6 +214,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 	glfwSetMouseButtonCallback( mousebutton_callback );
 	glfwSetMousePosCallback( mousepos_callback );
 	glfwSetMouseWheelCallback( mousewheel_callback );
+	
 }
 
 OpenGL33Renderer::~OpenGL33Renderer( void )
