@@ -106,6 +106,11 @@ namespace DWI
 		*/
 		static void destroySingleton( void );
 
+		/**
+		* Returns whether or not the singleton pointer is null.
+		*/
+		static bool isSingletonNull( void );
+
 
 		/////////////////////////////////////////////
 		// Start the engine

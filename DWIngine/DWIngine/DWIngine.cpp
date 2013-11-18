@@ -142,6 +142,11 @@ void DWI::DWIngine::destroySingleton( void )
 	}
 }
 
+bool DWI::DWIngine::isSingletonNull( void )
+{
+	return __singleton == NULL;
+}
+
 
 /////////////////////////////////////////////////////////////////
 // Start and stop the engine
@@ -249,12 +254,4 @@ void DWI::DWIngine::app( DWI::App* value )
 {
 	__app = value;
 	__app->engine( this );
-}
-
-////////////////////////////////////////////////////////////////
-// Helper Methods
-
-bool DWI::DWIngine::isSingletonNull( void )
-{
-	return __singleton == NULL;
 }
