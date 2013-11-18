@@ -27,14 +27,22 @@ using std::map;
 namespace DWI
 {
 
-	extern void error_callback (int error, const char* description);
+	/////////////////////////////////////////////
+	// External callback functions
+	extern void error_callback( int error, const char* description );
+	extern void key_callback( int key, int action );
+	extern void resize_callback( int w, int h );
+	extern int windowclose_callback( void );
+	extern void windowrefresh_callback( void );
+	extern void mousebutton_callback( int button, int action );
+	extern void mousepos_callback( int x, int y );
+	extern void mousewheel_callback( int pos );
 
-	extern void key_callback (int key, int action);
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	class OpenGL33Renderer : public AbstractRenderer
 	{
 
-	/////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
 	private:
 
 		/////////////////////////////////////////
@@ -43,18 +51,17 @@ namespace DWI
 		mat4	__mvp;
 
 		Camera	__cam;
-		
-		/////////////////////////////////////////
-		// Private Callback Functions
-		
-		
+
+
+
 		/////////////////////////////////////////
 		// Private Helper Functions
 
-		bool glLogError(GLenum error);
+		bool glLogError( GLenum error );
+
 		
 
-	/////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
 	public:
 
 		/////////////////////////////////////////
@@ -65,17 +72,16 @@ namespace DWI
 
 		/////////////////////////////////////////
 		// Public render functions
-		
+
 		virtual void renderScene( void );
 
-		/////////////////////////////////////////
-		// Public Callback functions
-		
 		
 		/////////////////////////////////////////
-		// Resize
+		// Getters
 
-		virtual void resize( const unsigned int width, const unsigned int height );
+		virtual Camera* getCamera( void );
+
+
 
 	};
 }

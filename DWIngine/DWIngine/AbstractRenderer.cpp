@@ -53,3 +53,10 @@ unsigned int DWI::AbstractRenderer::screenWidth( void )
 {
 	return __screenWidth;
 }
+
+
+void DWI::AbstractRenderer::setScreenDimensions( int width, int height )
+{
+	__screenHeight = height;
+	__screenWidth = width;
+}

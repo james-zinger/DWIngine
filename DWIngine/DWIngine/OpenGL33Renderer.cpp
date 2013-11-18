@@ -13,43 +13,113 @@ using std::iterator;
 /////////////////////////////////////////////////////////////////
 // Private Callback Functions
 
-void DWI::error_callback(int error, const char* description)
+void DWI::error_callback( int error, const char* description )
 {
-	printf(description);
+	printf( description );
 }
 
-void DWI::key_callback(int key, int action)
+void DWI::key_callback( int key, int action )
 {
 	std::stringstream ss;
 	ss << "Key Action: " << key << " -> ";
-	
-	if (action == GLFW_PRESS)
+
+	if ( action == GLFW_PRESS )
 	{
 		ss << "Pressed";
-		Input::PressKey(key);
+		Input::PressKey( key );
 	}
-	else if (action == GLFW_RELEASE)
+	else if ( action == GLFW_RELEASE )
 	{
-		Input::ReleaseKey(key);
+		Input::ReleaseKey( key );
 		ss << "Released";
 	}
-	
-	Log::LogInfo(ss.str());
+
+	Log::LogTrace( ss.str() );
 }
 
-bool OpenGL33Renderer::glLogError(GLenum error)
+void DWI::resize_callback( int width, int height )
+{
+	if ( DWI::DWIngine::isSingletonNull() )
+	{
+		return;
+	}
+
+	stringstream ss;
+	ss.clear();
+	ss.str( "" );
+	ss << "Resize Callback Size: ( " << width << ", " << height << " )";
+	Log::LogInfo( ss.str() );
+	OpenGL33Renderer* renderer = (OpenGL33Renderer*)DWI::DWIngine::singleton()->renderer();
+	renderer->getCamera()->setAspectRatio( (float)width / (float)height );
+	renderer->setScreenDimensions( width, height );
+	glViewport( 0, 0, width, height );
+}
+
+int DWI::windowclose_callback( void )
+{
+	DWI::DWIngine::singleton()->stop();
+	return GL_FALSE;
+}
+
+void DWI::windowrefresh_callback( void )
+{
+	Log::LogTrace( "Window Refreshed" );
+}
+
+/*
+ * Left mouse button = 0
+ * Right mouse button = 1
+ * 
+ */
+void DWI::mousebutton_callback( int button, int action )
+{
+	stringstream ss;
+	ss << "Mouse button action: " << button << " -> ";
+
+	if ( action == GLFW_PRESS )
+	{
+		ss << "Pressed";
+		Input::PressMouseButton( button );
+	}
+	else
+	{
+		ss << "Released";
+		Input::ReleaseMouseButton( button );
+	}
+
+	Log::LogTrace( ss.str() );
+}
+
+/**
+ * Mouse Position on the windows pixel coords
+ */
+void DWI::mousepos_callback( int x, int y )
+{
+	Input::UpdateMousePosition( vec2( x, y ) );
+}
+
+/*
+ * Each roll up increment the mouse wheel index by 1 and rolls
+ 8 down decrement the index by 1
+ */
+void DWI::mousewheel_callback( int pos )
+{
+	Input::UpdateMouseWheelIndex( pos );
+}
+
+bool OpenGL33Renderer::glLogError( GLenum error )
 {
 	bool result = false;
-	while (error != GL_NO_ERROR)
+	while ( error != GL_NO_ERROR )
 	{
-		if (error != GL_INVALID_OPERATION)
+		if ( error != GL_INVALID_OPERATION )
 		{
-			string s = (char*)gluErrorString(error);
-			Log::LogError(s);
+			string s = (char*)gluErrorString( error );
+			Log::LogError( s );
 			error = glGetError();
 			result = true;
 		}
-		
+
 	}
 	return result;
 }
@@ -63,17 +133,18 @@ bool OpenGL33Renderer::glLogError(GLenum error)
 OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( engine )
 {
 
-	
-	if( !glfwInit() )
+
+	if ( !glfwInit() )
 	{
 		Log::singleton()->logError( "ObjectCouldNotBeCreatedException >> Failed to initalize GLFW.\n" );
 		throw new ObjectCouldNotBeCreatedException( "Failed to initialize GLFW.", this );
 	}
 
-	
-	
+
+
 	__screenHeight = 400;
 	__screenWidth = 600;
+	glViewport( 0, 0, __screenWidth, __screenHeight );
 
 	glfwOpenWindowHint( GLFW_FSAA_SAMPLES, 4 );
 	glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR, 3 );
@@ -82,7 +153,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 
 
 	// Open a window and create its OpenGL context
-	if ( !glfwOpenWindow(__screenWidth, __screenHeight, 0, 0, 0, 0, 32 ,0, GLFW_WINDOW ) )
+	if ( !glfwOpenWindow( __screenWidth, __screenHeight, 0, 0, 0, 0, 32, 0, GLFW_WINDOW ) )
 	{
 		glfwTerminate();
 		Log::singleton()->logError( "ObjectCouldNotBeCreatedException >> Failed to open GLFW window. If you have an Intel GPU, they are not 4.2 compatible. Update your drivers or use an older version of OpenGL.\n" );
@@ -93,49 +164,57 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 	glewExperimental = true; // Needed for core profile
 
 
-	if (glewInit() != GLEW_OK) {
+	if ( glewInit() != GLEW_OK )
+	{
 		Log::singleton()->logError( "ObjectCouldNotBeCreatedException >> Failed to Initalize GLEW.\n" );
 		throw new ObjectCouldNotBeCreatedException( "Failed to Initalize GLEW.", this );
 	}
 	GLenum error = glGetError();
-	if (error =! GL_INVALID_ENUM)
+	if ( error = !GL_INVALID_ENUM )
 	{
-		glLogError(error);
+		glLogError( error );
 	}
 
-	glfwSetWindowTitle("DWIngine");
+	glfwSetWindowTitle( "DWIngine" );
 
 	glfwEnable( GLFW_STICKY_KEYS );
 
 	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
 	// Enable depth test
-	glEnable(GL_DEPTH_TEST);
+	glEnable( GL_DEPTH_TEST );
 	// Accept fragment if it closer to the camera than the former one
-	glDepthFunc(GL_LESS); 
+	glDepthFunc( GL_LESS );
 
-	__cam = Camera( vec3(0,0,-10),
-				vec3(0,0,0),
-				vec3(0,1,0),
-				45.0f,
-				4.0f/3.0f,
-				0.1f,
-				1000.0f
-			);
-	
+	__cam = Camera( vec3( 0, 0, -10 ),
+					vec3( 0, 0, 0 ),
+					vec3( 0, 1, 0 ),
+					45.0f,
+					(float)__screenWidth / (float)__screenHeight,
+					0.1f,
+					1000.0f
+					);
+
 	// Cull triangles which normal is not towards the camera
-	glEnable(GL_CULL_FACE);
-	
+	glEnable( GL_CULL_FACE );
+
 	vector<vec3> Verts;
 	vector<vec2> UVs;
 	vector<vec3> Normals;
 
-	loadOBJ("M16_Model.obj", Verts, UVs, Normals); 
+	loadOBJ( "M16_Model.obj", Verts, UVs, Normals );
+
+	registerModel( new Model( __models.size(), "StandardShading.vertexshader", "StandardShading.fragmentshader", "M16.bmp", Verts, UVs, Normals ) );
+
+	//Setting Callbacks
+	glfwSetKeyCallback( key_callback );
+	glfwSetWindowSizeCallback( resize_callback );
+	glfwSetWindowCloseCallback( windowclose_callback );
+	glfwSetWindowRefreshCallback( windowrefresh_callback );
+	glfwSetMouseButtonCallback( mousebutton_callback );
+	glfwSetMousePosCallback( mousepos_callback );
+	glfwSetMouseWheelCallback( mousewheel_callback );
 	
-	registerModel(new Model(__models.size(), "StandardShading.vertexshader", "StandardShading.fragmentshader", "M16.bmp", Verts, UVs, Normals) ); 
-
-	glfwSetKeyCallback(DWI::key_callback);
-
 }
 
 OpenGL33Renderer::~OpenGL33Renderer( void )
@@ -147,41 +226,45 @@ OpenGL33Renderer::~OpenGL33Renderer( void )
 /////////////////////////////////////////////////////////////////
 // Public functions
 
+DWI::Camera* OpenGL33Renderer::getCamera( void )
+{
+	return &__cam;
+}
 
-void OpenGL33Renderer::renderScene(void)
+void OpenGL33Renderer::renderScene( void )
 {
 	__cam.Update();
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	if(__models.size() > 0)
+	if ( __models.size() > 0 )
 	{
 		int count = 0;
-		for (map<int, Model*>::iterator it = __models.begin(); it != __models.end(); it++)
+		for ( map<int, Model*>::iterator it = __models.begin(); it != __models.end(); it++ )
 		{
 
 			Model* m = it->second;
-			mat4 modelMat = mat4(1.0f);
+			mat4 modelMat = mat4( 1.0f );
 
 			mat4 mvp = __cam.getProj() * __cam.getView() * modelMat;
 
-			glBindVertexArray(m->VertexArrayObjectID);
+			glBindVertexArray( m->VertexArrayObjectID );
 
-			glUseProgram(m->ShaderProgramID);
+			glUseProgram( m->ShaderProgramID );
 
-			glUniformMatrix4fv(m->ShaderMatrixID, 1, GL_FALSE, &mvp[0][0]);
-			glUniformMatrix4fv(m->ShaderModelID, 1, GL_FALSE, &modelMat[0][0]);
-			glUniformMatrix4fv(m->ShaderViewID, 1, GL_FALSE, &(__cam.getView())[0][0]);
+			glUniformMatrix4fv( m->ShaderMatrixID, 1, GL_FALSE, &mvp[ 0 ][ 0 ] );
+			glUniformMatrix4fv( m->ShaderModelID, 1, GL_FALSE, &modelMat[ 0 ][ 0 ] );
+			glUniformMatrix4fv( m->ShaderViewID, 1, GL_FALSE, &( __cam.getView() )[ 0 ][ 0 ] );
 
-			vec3 lightPos = vec3(0,2,-2);
-			glUniform3f(m->ShaderLightPos, lightPos.x, lightPos.y, lightPos.z);
+			vec3 lightPos = vec3( 0, 2, -2 );
+			glUniform3f( m->ShaderLightPos, lightPos.x, lightPos.y, lightPos.z );
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m->Texture);
-			glUniform1i(m->TextureID, 0);
+			glActiveTexture( GL_TEXTURE0 );
+			glBindTexture( GL_TEXTURE_2D, m->Texture );
+			glUniform1i( m->TextureID, 0 );
 
-			glEnableVertexAttribArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, m->VertexBuffer);
+			glEnableVertexAttribArray( 0 );
+			glBindBuffer( GL_ARRAY_BUFFER, m->VertexBuffer );
 			glVertexAttribPointer(
 				0,
 				3,
@@ -189,10 +272,10 @@ void OpenGL33Renderer::renderScene(void)
 				GL_FALSE,
 				0,
 				(void*)0
-			);
+				);
 
-			glEnableVertexAttribArray(1);
-			glBindBuffer(GL_ARRAY_BUFFER, m->UVBuffer);
+			glEnableVertexAttribArray( 1 );
+			glBindBuffer( GL_ARRAY_BUFFER, m->UVBuffer );
 			glVertexAttribPointer(
 				1,
 				2,
@@ -200,10 +283,10 @@ void OpenGL33Renderer::renderScene(void)
 				GL_FALSE,
 				0,
 				(void*)0
-			);
+				);
 
-			glEnableVertexAttribArray(2);
-			glBindBuffer(GL_ARRAY_BUFFER, m->NormalBuffer);
+			glEnableVertexAttribArray( 2 );
+			glBindBuffer( GL_ARRAY_BUFFER, m->NormalBuffer );
 			glVertexAttribPointer(
 				2,
 				3,
@@ -211,28 +294,23 @@ void OpenGL33Renderer::renderScene(void)
 				GL_FALSE,
 				0,
 				(void*)0
-			);
+				);
 
-			glDrawArrays(GL_TRIANGLES, 0, m->Verts.size());
+			glDrawArrays( GL_TRIANGLES, 0, m->Verts.size() );
 
-			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
-			glDisableVertexAttribArray(2);
+			glDisableVertexAttribArray( 0 );
+			glDisableVertexAttribArray( 1 );
+			glDisableVertexAttribArray( 2 );
 			count++;
 		}
 	}
-	
-	glfwSwapBuffers();
-	glLogError(glGetError());
 
-	if(glfwGetKey( GLFW_KEY_F10) == GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) )
+	glfwSwapBuffers();
+	glLogError( glGetError() );
+
+	if ( glfwGetKey( GLFW_KEY_F10 ) == GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) )
 	{
 		__engine->singleton()->stop();
 	}
 
-}
-
-void OpenGL33Renderer::resize( const unsigned int width, const unsigned int height )
-{
-	// TODO
 }

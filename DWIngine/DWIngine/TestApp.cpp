@@ -49,7 +49,7 @@ void TestApp::onRender( void )
 	{
 		engine()->stop();
 	}
-	
+
 	__sstream.str( string() );
 	__sstream << "Render @ " << engine()->timeSec() << " seconds  ::  Frame rate: " << engine()->fps() << "FPS";
 	engine()->trace( __sstream.str() );

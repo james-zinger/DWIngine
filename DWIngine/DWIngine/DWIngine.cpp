@@ -104,7 +104,7 @@ void DWI::DWIngine::eventRender( void )
 
 void DWI::DWIngine::eventPostRender( void )
 {
-	
+
 	// Perform end-user app behaviour
 	__app->onPostRender();
 }
@@ -249,4 +249,12 @@ void DWI::DWIngine::app( DWI::App* value )
 {
 	__app = value;
 	__app->engine( this );
+}
+
+////////////////////////////////////////////////////////////////
+// Helper Methods
+
+bool DWI::DWIngine::isSingletonNull( void )
+{
+	return __singleton == NULL;
 }
