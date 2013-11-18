@@ -1,10 +1,12 @@
 #include "DWIngine.h"
+#include "Resources.h"
 #include "App.h"
 #include "Time.h"
 #include "Log.h"
 #include "AbstractRenderer.h"
 #include "OpenGL33Renderer.h"
 #include "Input.h"
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -25,23 +27,26 @@ DWI::DWIngine* DWI::DWIngine::__singleton = NULL;
 
 DWI::DWIngine::DWIngine( void )
 {
-	__app = NULL;
-	__time = Time::singleton();
-	__logger = Log::singleton();
-	__logger->outputLevel( LogLevel::DWI_ALL );
 	__isStopping = false;
+	__log = Log::singleton();
+	__log->filename( "DWI.log" );
+	__log->outputLevel( LogLevel::DWI_ALL );
+	__resources = Resources::singleton();
+	__app = NULL;
 	__renderer = new OpenGL33Renderer( this );
 	__input = Input::singleton();
+	__time = Time::singleton();
 }
 
 DWI::DWIngine::~DWIngine( void )
 {
-	delete __app;
-	delete __renderer;
-	Log::destroySingleton();
+	// Destroy in reverse order
 	Time::destroySingleton();
 	Input::destroySingleton();
-
+	delete __renderer;
+	delete __app;
+	Resources::destroySingleton();
+	Log::destroySingleton();
 }
 
 
@@ -165,22 +170,22 @@ void DWI::DWIngine::stop( void )
 
 void DWI::DWIngine::trace( const string& message )
 {
-	__logger->log( LogLevel::DWI_TRACE, message );
+	__log->log( LogLevel::DWI_TRACE, message );
 }
 
 void DWI::DWIngine::logError( const string& message )
 {
-	__logger->log( LogLevel::DWI_ERROR, message );
+	__log->log( LogLevel::DWI_ERROR, message );
 }
 
 void DWI::DWIngine::logInfo( const string& message )
 {
-	__logger->log( LogLevel::DWI_INFO, message );
+	__log->log( LogLevel::DWI_INFO, message );
 }
 
 void DWI::DWIngine::logWarning( const string& message )
 {
-	__logger->log( LogLevel::DWI_WARN, message );
+	__log->log( LogLevel::DWI_WARN, message );
 }
 
 
@@ -224,6 +229,16 @@ DWI::App* DWI::DWIngine::app( void )
 bool DWI::DWIngine::isStopping( void )
 {
 	return __isStopping;
+}
+
+DWI::AbstractRenderer* DWI::DWIngine::renderer( void )
+{
+	return __renderer;
+}
+
+DWI::Resources* DWI::DWIngine::resources( void )
+{
+	return __resources;
 }
 
 

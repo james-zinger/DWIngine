@@ -75,7 +75,7 @@ void DWI::Resources::destroySingleton( void )
 /////////////////////////////////////////////////////////////////
 // Static Helpers
 
-void DWI::Resources::loadMeshFromObjFile( const string filepath, MeshAsset* out )
+void DWI::Resources::loadMeshFromObjFile( string filepath, MeshAsset* out )
 {
 	vector<unsigned int> vertexIndices, uvIndices, normalIndices;
 	vector<Vector3> temp_vertices; 
@@ -181,7 +181,7 @@ void DWI::Resources::loadMeshFromObjFile( const string filepath, MeshAsset* out 
 	}
 }
 
-void DWI::Resources::loadFragmentShaderFromFile( const string filepath, FragmentShaderAsset* out )
+void DWI::Resources::loadFragmentShaderFromFile( string filepath, FragmentShaderAsset* out )
 {
 	try
 	{
@@ -198,12 +198,12 @@ void DWI::Resources::loadFragmentShaderFromFile( const string filepath, Fragment
 	}
 }
 
-void DWI::Resources::loadMaterialFromFile( const string filepath, MaterialAsset* out )
+void DWI::Resources::loadMaterialFromFile( string filepath, MaterialAsset* out )
 {
 	// Not yet implemented
 }
 
-void DWI::Resources::loadTextFromFile( const string filepath, TextAsset* out )
+void DWI::Resources::loadTextFromFile( string filepath, TextAsset* out )
 {
 	try
 	{
@@ -220,7 +220,7 @@ void DWI::Resources::loadTextFromFile( const string filepath, TextAsset* out )
 	}
 }
 
-void DWI::Resources::loadTextureFromBmpFile( const string filepath, TextureAsset* out )
+void DWI::Resources::loadTextureFromBmpFile( string filepath, TextureAsset* out )
 {
 	// Data read from the header of the BMP file
 	unsigned char header[54];
@@ -287,12 +287,12 @@ void DWI::Resources::loadTextureFromBmpFile( const string filepath, TextureAsset
 	out->imageData( data );
 }
 
-void DWI::Resources::loadTextureFromTgaFile( const string filepath, TextureAsset* out )
+void DWI::Resources::loadTextureFromTgaFile( string filepath, TextureAsset* out )
 {
 	// Not yet implemented
 }
 
-void DWI::Resources::loadVertexShaderFromFile( const string filepath, VertexShaderAsset* out )
+void DWI::Resources::loadVertexShaderFromFile( string filepath, VertexShaderAsset* out )
 {
 	try
 	{
@@ -309,7 +309,7 @@ void DWI::Resources::loadVertexShaderFromFile( const string filepath, VertexShad
 	}
 }
 
-void DWI::Resources::readPlainTextFile( const string filepath, string* out )
+void DWI::Resources::readPlainTextFile( string filepath, string* out )
 {
 	stringstream sstream;
 	ifstream fileStream( filepath, std::ios::in );
@@ -329,31 +329,31 @@ void DWI::Resources::readPlainTextFile( const string filepath, string* out )
 /////////////////////////////////////////////////////////////////
 // Fragment Shaders
 
-bool DWI::Resources::addFragmentShader( const string uniqueName, FragmentShaderAsset* fragmentShaderAsset )
+bool DWI::Resources::addFragmentShader( string uniqueName, FragmentShaderAsset* fragmentShaderAsset )
 {
-	pair<unordered_map<string, FragmentShaderAsset>::iterator, bool> result = 
-		__fragmentShaders.emplace( uniqueName, *fragmentShaderAsset );
+	pair<unordered_map<string, FragmentShaderAsset*>::iterator, bool> result = 
+		__fragmentShaders.emplace( uniqueName, fragmentShaderAsset );
 	return result.second;
 }
 
-bool DWI::Resources::addFragmentShaderFromString( const string uniqueName, const string fragmentShaderString )
+bool DWI::Resources::addFragmentShaderFromString( string uniqueName, string fragmentShaderString )
 {
 	FragmentShaderAsset* asset = new FragmentShaderAsset( uniqueName, fragmentShaderString );
 	return addFragmentShader( uniqueName, asset );
 }
 
-bool DWI::Resources::addFragmentShaderFromFile( const string uniqueName, const string fragmentShaderFilepath )
+bool DWI::Resources::addFragmentShaderFromFile( string uniqueName, string fragmentShaderFilepath )
 {
 	FragmentShaderAsset* asset = new FragmentShaderAsset( uniqueName );
 	Resources::loadFragmentShaderFromFile( fragmentShaderFilepath, asset );
 	return addFragmentShader( uniqueName, asset );
 }
 
-DWI::FragmentShaderAsset* DWI::Resources::getFragmentShader( const string uniqueName )
+DWI::FragmentShaderAsset* DWI::Resources::getFragmentShader( string uniqueName )
 {
 	try
 	{
-		return &__fragmentShaders.at( uniqueName );
+		return __fragmentShaders.at( uniqueName );
 	}
 	catch ( const std::out_of_range& e )
 	{
@@ -361,12 +361,12 @@ DWI::FragmentShaderAsset* DWI::Resources::getFragmentShader( const string unique
 	}
 }
 
-unordered_map<string, DWI::FragmentShaderAsset>::iterator DWI::Resources::getFragmentShaderIterator()
+DWI::FragmentShaderRegistry::iterator DWI::Resources::getFragmentShaderIterator()
 {
 	return __fragmentShaders.begin();
 }
 
-void DWI::Resources::removeFragmentShader( const string uniqueName )
+void DWI::Resources::removeFragmentShader( string uniqueName )
 {
 	__fragmentShaders.erase( uniqueName );
 }
@@ -375,24 +375,24 @@ void DWI::Resources::removeFragmentShader( const string uniqueName )
 /////////////////////////////////////////////////////////////////
 // Materials
 
-bool DWI::Resources::addMaterial( const string uniqueName, MaterialAsset* materialAsset )
+bool DWI::Resources::addMaterial( string uniqueName, MaterialAsset* materialAsset )
 {
-	pair<unordered_map<string, MaterialAsset>::iterator, bool> result = 
-		__materials.emplace( uniqueName, *materialAsset );
+	pair<unordered_map<string, MaterialAsset*>::iterator, bool> result = 
+		__materials.emplace( uniqueName, materialAsset );
 	return result.second;
 }
 
-bool DWI::Resources::addMaterialFromFile( const string uniqueName, const string materialFilepath )
+bool DWI::Resources::addMaterialFromFile( string uniqueName, string materialFilepath )
 {
 	// Not yet implemented
 	return false;
 }
 
-DWI::MaterialAsset* DWI::Resources::getMaterial( const string uniqueName )
+DWI::MaterialAsset* DWI::Resources::getMaterial( string uniqueName )
 {
 	try
 	{
-		return &__materials.at( uniqueName );
+		return __materials.at( uniqueName );
 	}
 	catch ( const std::out_of_range& e )
 	{
@@ -400,12 +400,12 @@ DWI::MaterialAsset* DWI::Resources::getMaterial( const string uniqueName )
 	}
 }
 
-unordered_map<string, DWI::MaterialAsset>::iterator DWI::Resources::getMaterialIterator()
+DWI::MaterialRegistry::iterator DWI::Resources::getMaterialIterator()
 {
 	return __materials.begin();
 }
 
-void DWI::Resources::removeMaterial( const string uniqueName )
+void DWI::Resources::removeMaterial( string uniqueName )
 {
 	__materials.erase( uniqueName );
 }
@@ -414,25 +414,32 @@ void DWI::Resources::removeMaterial( const string uniqueName )
 /////////////////////////////////////////////////////////////////
 // Meshes
 
-bool DWI::Resources::addMesh( const string uniqueName, MeshAsset* meshAsset )
+bool DWI::Resources::addMesh( string uniqueName, MeshAsset* meshAsset )
 {
-	pair<unordered_map<string, MeshAsset>::iterator, bool> result = 
-		__meshes.emplace( uniqueName, *meshAsset );
+	//__meshes[ uniqueName ] = meshAsset;
+	//return true;
+
+	//pair<MeshRegistry::iterator, bool> result = 
+	//	__meshes.insert( MeshRegistry::value_type( uniqueName, *meshAsset ) );
+	//return result.second;
+
+	pair<unordered_map<string, MeshAsset*>::iterator, bool> result = 
+		__meshes.emplace( uniqueName, meshAsset );
 	return result.second;
 }
 
-bool DWI::Resources::addMeshFromObjFile( const string uniqueName, const string meshFilepath )
+bool DWI::Resources::addMeshFromObjFile( string uniqueName, string meshFilepath )
 {
 	MeshAsset* asset = new MeshAsset( uniqueName );
 	Resources::loadMeshFromObjFile( meshFilepath, asset );
 	return addMesh( uniqueName, asset );
 }
 
-DWI::MeshAsset* DWI::Resources::getMesh( const string uniqueName )
+DWI::MeshAsset* DWI::Resources::getMesh( string uniqueName )
 {
 	try
 	{
-		return &__meshes.at( uniqueName );
+		return __meshes.at( uniqueName );
 	}
 	catch ( const std::out_of_range& e )
 	{
@@ -440,12 +447,12 @@ DWI::MeshAsset* DWI::Resources::getMesh( const string uniqueName )
 	}
 }
 
-unordered_map<string, DWI::MeshAsset>::iterator DWI::Resources::getMeshIterator()
+DWI::MeshRegistry::iterator DWI::Resources::getMeshIterator()
 {
 	return __meshes.begin();
 }
 
-void DWI::Resources::removeMesh( const string uniqueName )
+void DWI::Resources::removeMesh( string uniqueName )
 {
 	__meshes.erase( uniqueName );
 }
@@ -454,31 +461,31 @@ void DWI::Resources::removeMesh( const string uniqueName )
 /////////////////////////////////////////////////////////////////
 // Text
 
-bool DWI::Resources::addText( const string uniqueName, TextAsset* textAsset )
+bool DWI::Resources::addText( string uniqueName, TextAsset* textAsset )
 {
-	pair<unordered_map<string, TextAsset>::iterator, bool> result = 
-		__text.emplace( uniqueName, *textAsset );
+	pair<unordered_map<string, TextAsset*>::iterator, bool> result = 
+		__text.emplace( uniqueName, textAsset );
 	return result.second;
 }
 
-bool DWI::Resources::addTextFromString( const string uniqueName, const string textString )
+bool DWI::Resources::addTextFromString( string uniqueName, string textString )
 {
 	TextAsset* asset = new TextAsset( uniqueName, textString );
 	return addText( uniqueName, asset );
 }
 
-bool DWI::Resources::addTextFromFile( const string uniqueName, const string textFilepath )
+bool DWI::Resources::addTextFromFile( string uniqueName, string textFilepath )
 {
 	TextAsset* asset = new TextAsset( uniqueName );
 	Resources::loadTextFromFile( textFilepath, asset );
 	return addText( uniqueName, asset );
 }
 
-DWI::TextAsset* DWI::Resources::getText( const string uniqueName )
+DWI::TextAsset* DWI::Resources::getText( string uniqueName )
 {
 	try
 	{
-		return &__text.at( uniqueName );
+		return __text.at( uniqueName );
 	}
 	catch ( const std::out_of_range& e )
 	{
@@ -486,12 +493,12 @@ DWI::TextAsset* DWI::Resources::getText( const string uniqueName )
 	}
 }
 
-unordered_map<string, DWI::TextAsset>::iterator DWI::Resources::getTextIterator()
+DWI::TextRegistry::iterator DWI::Resources::getTextIterator()
 {
 	return __text.begin();
 }
 
-void DWI::Resources::removeText( const string uniqueName )
+void DWI::Resources::removeText( string uniqueName )
 {
 	__text.erase( uniqueName );
 }
@@ -500,31 +507,31 @@ void DWI::Resources::removeText( const string uniqueName )
 /////////////////////////////////////////////////////////////////
 // Textures
 
-bool DWI::Resources::addTexture( const string uniqueName, TextureAsset* textureAsset )
+bool DWI::Resources::addTexture( string uniqueName, TextureAsset* textureAsset )
 {
-	pair<unordered_map<string, TextureAsset>::iterator, bool> result = 
-		__textures.emplace( uniqueName, *textureAsset );
+	pair<unordered_map<string, TextureAsset*>::iterator, bool> result = 
+		__textures.emplace( uniqueName, textureAsset );
 	return result.second;
 }
 
-bool DWI::Resources::addTextureFromBmpFile( const string uniqueName, const string textureFilepath )
+bool DWI::Resources::addTextureFromBmpFile( string uniqueName, string textureFilepath )
 {
 	TextureAsset* asset = new TextureAsset( uniqueName );
 	Resources::loadTextureFromBmpFile( textureFilepath, asset );
 	return addTexture( uniqueName, asset );
 }
 
-bool DWI::Resources::addTextureFromTgaFile( const string uniqueName, const string textureFilepath )
+bool DWI::Resources::addTextureFromTgaFile( string uniqueName, string textureFilepath )
 {
 	// Not yet implemented
 	return false;
 }
 
-DWI::TextureAsset* DWI::Resources::getTexture( const string uniqueName )
+DWI::TextureAsset* DWI::Resources::getTexture( string uniqueName )
 {
 	try
 	{
-		return &__textures.at( uniqueName );
+		return __textures.at( uniqueName );
 	}
 	catch ( const std::out_of_range& e )
 	{
@@ -532,12 +539,12 @@ DWI::TextureAsset* DWI::Resources::getTexture( const string uniqueName )
 	}
 }
 
-unordered_map<string, DWI::TextureAsset>::iterator DWI::Resources::getTextureIterator()
+DWI::TextureRegistry::iterator DWI::Resources::getTextureIterator()
 {
 	return __textures.begin();
 }
 
-void DWI::Resources::removeTexture( const string uniqueName )
+void DWI::Resources::removeTexture( string uniqueName )
 {
 	__textures.erase( uniqueName );
 }
@@ -546,31 +553,31 @@ void DWI::Resources::removeTexture( const string uniqueName )
 /////////////////////////////////////////////////////////////////
 // Vertex Shaders
 
-bool DWI::Resources::addVertexShader( const string uniqueName, VertexShaderAsset* vertexShaderAsset )
+bool DWI::Resources::addVertexShader( string uniqueName, VertexShaderAsset* vertexShaderAsset )
 {
-	pair<unordered_map<string, VertexShaderAsset>::iterator, bool> result = 
-		__vertexShaders.emplace( uniqueName, *vertexShaderAsset );
+	pair<unordered_map<string, VertexShaderAsset*>::iterator, bool> result = 
+		__vertexShaders.emplace( uniqueName, vertexShaderAsset );
 	return result.second;
 }
 
-bool DWI::Resources::addVertexShaderFromString( const string uniqueName, const string vertexShaderString )
+bool DWI::Resources::addVertexShaderFromString( string uniqueName, string vertexShaderString )
 {
 	VertexShaderAsset* asset = new VertexShaderAsset( uniqueName, vertexShaderString );
 	return addVertexShader( uniqueName, asset );
 }
 
-bool DWI::Resources::addVertexShaderFromFile( const string uniqueName, const string vertexShaderFilepath )
+bool DWI::Resources::addVertexShaderFromFile( string uniqueName, string vertexShaderFilepath )
 {
 	VertexShaderAsset* asset = new VertexShaderAsset( uniqueName );
 	Resources::loadVertexShaderFromFile( vertexShaderFilepath, asset );
 	return addVertexShader( uniqueName, asset );
 }
 
-DWI::VertexShaderAsset* DWI::Resources::getVertexShader( const string uniqueName )
+DWI::VertexShaderAsset* DWI::Resources::getVertexShader( string uniqueName )
 {
 	try
 	{
-		return &__vertexShaders.at( uniqueName );
+		return __vertexShaders.at( uniqueName );
 	}
 	catch ( const std::out_of_range& e )
 	{
@@ -578,12 +585,12 @@ DWI::VertexShaderAsset* DWI::Resources::getVertexShader( const string uniqueName
 	}
 }
 
-unordered_map<string, DWI::VertexShaderAsset>::iterator DWI::Resources::getVertexShaderIterator()
+DWI::VertexShaderRegistry::iterator DWI::Resources::getVertexShaderIterator()
 {
 	return __vertexShaders.begin();
 }
 
-void DWI::Resources::removeVertexShader( const string uniqueName )
+void DWI::Resources::removeVertexShader( string uniqueName )
 {
 	__vertexShaders.erase( uniqueName );
 }

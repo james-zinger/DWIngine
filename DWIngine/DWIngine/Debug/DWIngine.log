@@ -1,9 +1,14 @@
-﻿Build started 11/8/2013 10:06:22 PM.
+﻿Build started 11/18/2013 2:10:14 PM.
      1>Project "C:\Development\_GitHub\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Development\_GitHub\DWIngine\DWIngine\\include /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt DWIngine.cpp OpenGL33Renderer.cpp
-         DWIngine.cpp
-         OpenGL33Renderer.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Development\_GitHub\DWIngine\DWIngine\\include /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Resources.cpp
+         Resources.cpp
+     1>Resources.cpp(358): warning C4101: 'e' : unreferenced local variable
+     1>Resources.cpp(397): warning C4101: 'e' : unreferenced local variable
+     1>Resources.cpp(444): warning C4101: 'e' : unreferenced local variable
+     1>Resources.cpp(490): warning C4101: 'e' : unreferenced local variable
+     1>Resources.cpp(536): warning C4101: 'e' : unreferenced local variable
+     1>Resources.cpp(582): warning C4101: 'e' : unreferenced local variable
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Development\_GitHub\DWIngine\DWIngine\Debug\DWIngine.lib" /LIBPATH:C:\Development\_GitHub\DWIngine\DWIngine\\lib /NOLOGO Debug\texture.obj
          Debug\AbstractRenderer.obj
@@ -39,4 +44,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.70
+Time Elapsed 00:00:02.52

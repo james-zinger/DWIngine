@@ -10,12 +10,13 @@ using std::string;
 namespace DWI
 {
 	// Forward includes
-	class App;
-	class Time;
-	class Log;
 	class AbstractRenderer;
-	class OpenGL33Renderer;
+	class App;
 	class Input;
+	class Log;
+	class Resources;
+	class Time;
+	
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	class DWIngine
@@ -36,8 +37,9 @@ namespace DWI
 		App*				__app;
 		Input*				__input;
 		bool				__isStopping;
-		Log*				__logger;
+		Log*				__log;
 		AbstractRenderer*	__renderer;
+		Resources*			__resources;
 		Time*				__time;
 
 		/////////////////////////////////////////////
@@ -197,7 +199,13 @@ namespace DWI
 		* Get a pointer to the AbstractRenderer used by the game engine application.
 		* @returns The AbstractRenderer used by the game engine application to render content.
 		*/
-		//AbstractRenderer* renderer( void );
+		AbstractRenderer* renderer( void );
+
+		/**
+		* Get a pointer to the Resources used by the game engine application.
+		* @returns The Resources used by the game engine application to render content.
+		*/
+		Resources* resources( void );
 
 
 		/////////////////////////////////////////////

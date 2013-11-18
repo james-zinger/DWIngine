@@ -1,4 +1,5 @@
 #include "DWIngine.h"
+#include "Resources.h"
 #include "TestApp.h"
 //#include "Primitive.h"
 
@@ -17,7 +18,7 @@
 TestApp::TestApp( void )
 {
 	__numberOfRenders = 0;
-	__maxNumberOfRenders = 100000;
+	__maxNumberOfRenders = 10000;
 }
 
 TestApp::~TestApp( void )
@@ -31,25 +32,15 @@ TestApp::~TestApp( void )
 
 void TestApp::onStart( void )
 {
-	//engine()->trace( "Starting up..." );
-	//vector<glm::vec3> verts = vector<glm::vec3>();
-	//verts.assign(1,glm::vec3(0,0,0));
-	//verts.push_back(glm::vec3(0.5,0,0));
-	//verts.push_back(glm::vec3(0,0.5,0));
-	//
-	//vector<glm::vec3> normals = vector<glm::vec3>();
-	//normals.push_back(glm::vec3(0,0,1));
-	//normals.push_back(glm::vec3(0,0,1));
-	//normals.push_back(glm::vec3(0,0,1));
-	//
-	//Primitive* p = new Primitive(PrimitiveType::Tri, 0,0,0, 0,0,1);
+	// Try to load an .OBJ file as a test
+	engine()->resources()->addMeshFromObjFile( "M-16", "M16_model.obj" );
 
-	engine()->trace( "Starting" );
+	engine()->trace( "Starting up..." );
 }
 
 void TestApp::onPreRender( void )
 {
-	//engine()->trace( "PreRender" );
+	engine()->trace( "PreRender" );
 }
 
 void TestApp::onRender( void )
@@ -59,16 +50,16 @@ void TestApp::onRender( void )
 		engine()->stop();
 	}
 	
-	//__sstream.str( string() );
-	//__sstream << "Render @ " << engine()->time() << " seconds  ::  Frame rate: " << engine()->fps() << "FPS";
-	//engine()->trace( __sstream.str() );
+	__sstream.str( string() );
+	__sstream << "Render @ " << engine()->timeSec() << " seconds  ::  Frame rate: " << engine()->fps() << "FPS";
+	engine()->trace( __sstream.str() );
 
-	//engine()->trace( "Render" );
+	engine()->trace( "Render" );
 }
 
 void TestApp::onPostRender( void )
 {
-	//engine()->trace( "PostRender" );
+	engine()->trace( "PostRender" );
 }
 
 void TestApp::onStop( void )
