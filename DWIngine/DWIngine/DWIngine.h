@@ -16,6 +16,7 @@ namespace DWI
 	class AbstractRenderer;
 	class OpenGL33Renderer;
 	class Input;
+	class Scene;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	class DWIngine
@@ -39,6 +40,7 @@ namespace DWI
 		Log*				__logger;
 		AbstractRenderer*	__renderer;
 		Input*				__input;
+		Scene*				__currentScene;
 
 		/////////////////////////////////////////////
 		// ctor and dtor

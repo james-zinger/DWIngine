@@ -5,6 +5,7 @@
 #include "AbstractRenderer.h"
 #include "OpenGL33Renderer.h"
 #include "Input.h"
+#include "Scene.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -32,6 +33,7 @@ DWI::DWIngine::DWIngine( void )
 	__isStopping = false;
 	__renderer = new OpenGL33Renderer( this );
 	__input = Input::singleton();
+	__currentScene = new Scene();
 
 }
 

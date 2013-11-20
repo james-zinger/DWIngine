@@ -1,10 +1,12 @@
 #ifndef DWI_COMPONENTMANAGER
 #define DWI_COMPONENTMANAGER
 
+#include <unordered_map>
 #include <vector>
 #include "Component.h"
 
-
+using std::vector;
+using std::unordered_map;
 
 namespace DWI
 {
@@ -18,8 +20,8 @@ namespace DWI
 		/////////////////////////////////////////
 		// Protected member variables
 
-		std::vector<Component> __components;
-
+		vector<Component>			__components;
+		unordered_map<int, int>		__idsToIndexMap;
 
 	/////////////////////////////////////////////////////////////
 	public:
@@ -29,6 +31,8 @@ namespace DWI
 
 		ComponentManager( void );
 		virtual ~ComponentManager( void );
+
+
 
 	};
 }

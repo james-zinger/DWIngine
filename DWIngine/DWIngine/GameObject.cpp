@@ -14,7 +14,7 @@
 
 DWI::GameObject::GameObject( void )
 {
-
+	__transform = NULL;
 }
 
 DWI::GameObject::~GameObject( void )

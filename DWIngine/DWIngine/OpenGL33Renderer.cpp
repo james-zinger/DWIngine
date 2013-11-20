@@ -50,7 +50,7 @@ void DWI::resize_callback( int width, int height )
 	ss << "Resize Callback Size: ( " << width << ", " << height << " )";
 	Log::LogInfo( ss.str() );
 	OpenGL33Renderer* renderer = (OpenGL33Renderer*)DWI::DWIngine::singleton()->renderer();
-	renderer->getCamera()->setAspectRatio( (float)width / (float)height );
+	//renderer->getCamera()->setAspectRatio( (float)width / (float)height );
 	renderer->setScreenDimensions( width, height );
 	glViewport( 0, 0, width, height );
 }

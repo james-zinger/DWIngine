@@ -1,7 +1,10 @@
 #ifndef DWI_GAMEOBJECT
 #define DWI_GAMEOBJECT
 
+#include <string>
+#include "Transform.h";
 
+using std::string;
 
 namespace DWI
 {
@@ -15,11 +18,15 @@ namespace DWI
 		GameObject( void );
 		virtual ~GameObject( void );
 
+		Transform* __transform;
+
+		bool isEnabled;
 
 	/////////////////////////////////////////////////////////////
-	//public:
+	public:
 
-
+		string name;
+		
 	};
 }
 

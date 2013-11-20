@@ -10,7 +10,7 @@
 
 DWI::ComponentManager::ComponentManager( void )
 {
-
+	
 }
 
 DWI::ComponentManager::~ComponentManager( void )
