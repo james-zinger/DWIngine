@@ -12,9 +12,16 @@
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::Mesh::Mesh( const unsigned int uniqueID ) : Component( uniqueID )
+DWI::Mesh::Mesh( unsigned int uniqueID, MeshAsset* meshAsset, MaterialAsset* materialAsset ) : Component( uniqueID )
 {
+	__meshAsset = meshAsset;
+	__materialAsset = materialAsset;
+}
 
+DWI::Mesh::Mesh( unsigned int uniqueID ) : Component( uniqueID )
+{
+	__meshAsset = NULL;
+	__materialAsset = NULL;
 }
 
 DWI::Mesh::~Mesh(void)

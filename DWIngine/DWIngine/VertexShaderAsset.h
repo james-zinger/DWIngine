@@ -32,8 +32,8 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		VertexShaderAsset( const string uniqueName, const string vertexShader );
-		VertexShaderAsset( const string uniqueName );
+		VertexShaderAsset( string uniqueName, string vertexShader );
+		VertexShaderAsset( string uniqueName );
 		~VertexShaderAsset( void );
 
 
@@ -46,7 +46,7 @@ namespace DWI
 		/////////////////////////////////////////
 		// Setters
 
-		void sourceCode( const string value );
+		void sourceCode( string value );
 
 	};
 }

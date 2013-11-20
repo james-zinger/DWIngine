@@ -32,8 +32,8 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		TextAsset( const string uniqueName, const string text );
-		TextAsset( const string uniqueName );
+		TextAsset( string uniqueName, string text );
+		TextAsset( string uniqueName );
 		~TextAsset( void );
 
 
@@ -46,7 +46,7 @@ namespace DWI
 		/////////////////////////////////////////
 		// Setters
 
-		void text( const string value );
+		void text( string value );
 
 	};
 }

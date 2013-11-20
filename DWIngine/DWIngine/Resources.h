@@ -182,6 +182,13 @@ namespace DWI
 		bool addMaterial( string uniqueName, MaterialAsset* materialAsset );
 
 		/*
+		* Creates a MaterialAsset from the provided strings and adds it to the material registry, 
+		* identified by the name uniqueName.
+		* @returns Whether or not the new entry was added to the registry.
+		*/
+		bool addMaterialFromString( string uniqueName, string fragmentShaderName, string vertexShaderName, string textureName );
+
+		/*
 		* Creates a MaterialAsset from the file at the provided filepath and adds it to the material 
 		* registry, identified by the name uniqueName.
 		* @returns Whether or not the new entry was added to the registry.

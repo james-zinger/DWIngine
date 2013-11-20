@@ -15,7 +15,7 @@ using std::vector;
 /////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::MeshAsset::MeshAsset( const string uniqueName ) : AbstractAsset( uniqueName )
+DWI::MeshAsset::MeshAsset( string uniqueName ) : AbstractAsset( uniqueName )
 {
 
 }

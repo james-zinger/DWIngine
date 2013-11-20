@@ -31,7 +31,7 @@ namespace DWI
 		/////////////////////////////////////////////
 		// ctor and dtor
 
-		Component( const unsigned int uniqueID );
+		Component( unsigned int uniqueID );
 		virtual ~Component( void );
 
 

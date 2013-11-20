@@ -4,8 +4,10 @@
 #include "DWMath.h"
 #include "AbstractAsset.h"
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
 
 
 
@@ -22,7 +24,9 @@ namespace DWI
 		/////////////////////////////////////////
 		// Private member variables
 
-		unsigned char* __imageData;
+		int						__height;
+		vector<unsigned char>	__imageData;
+		int						__width;
 
 
 
@@ -32,21 +36,23 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		TextureAsset( const string uniqueName, unsigned char* data );
-		TextureAsset( const string uniqueName );
+		TextureAsset( string uniqueName );
 		~TextureAsset( void );
 
 
 		/////////////////////////////////////////
 		// Getters
 
-		unsigned char* imageData( void );
+		int height( void );
+		vector<unsigned char>& imageData( void );
+		int width( void );
 
 
 		/////////////////////////////////////////
 		// Setters
 
-		void imageData( unsigned char* value );
+		void height( int value );
+		void width( int value );
 
 	};
 }

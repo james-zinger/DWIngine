@@ -12,7 +12,7 @@
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::Component::Component( const unsigned int uniqueID ) : __uniqueID( uniqueID )
+DWI::Component::Component( unsigned int uniqueID ) : __uniqueID( uniqueID )
 {
 	__gameObject = NULL;
 }

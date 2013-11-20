@@ -23,10 +23,7 @@ namespace DWI
 		// Private member variables
 
 		string	__fragmentShaderUniqueName;
-		Vector4	__texture1BlendColour;
-		string	__texture1UniqueName;
-		Vector4	__texture2BlendColour;
-		string	__texture2UniqueName;
+		string	__textureUniqueName;
 		string	__vertexShaderUniqueName;
 
 
@@ -37,7 +34,8 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		MaterialAsset( const string uniqueName );
+		MaterialAsset( string uniqueName, string fragmentShaderName, string vertexShaderName, string textureName );
+		MaterialAsset( string uniqueName );
 		~MaterialAsset( void );
 
 
@@ -47,32 +45,17 @@ namespace DWI
 		/*
 		* Returns the unique string used to look up the fragment shader program in the text data resources.
 		*/
-		string& fragmentShaderUniqueName( void );
+		string fragmentShaderUniqueName( void );
 
 		/*
-		* Returns an RGBA-formatted colour to use for texture 1 when texture blending.
+		* Returns the unique string used to look up the texture in the texture data resources.
 		*/
-		Vector4& texture1BlendColour( void );
-
-		/*
-		* Returns the unique string used to look up texture 1 in the texture data resources.
-		*/
-		string& texture1UniqueName( void );
-
-		/*
-		* Returns an RGBA-formatted colour to use for texture 2 when texture blending.
-		*/
-		Vector4& texture2BlendColour( void );
-
-		/*
-		* Returns the unique string used to look up texture 2 in the texture data resources.
-		*/
-		string& texture2UniqueName( void );
+		string textureUniqueName( void );
 
 		/*
 		* Returns the unique string used to look up the vertex shader program in the text data resources.
 		*/
-		string& vertexShaderUniqueName( void );
+		string vertexShaderUniqueName( void );
 
 
 		/////////////////////////////////////////
@@ -81,32 +64,17 @@ namespace DWI
 		/*
 		* Sets the unique string used to look up the fragment shader program in the text data resources.
 		*/
-		void fragmentShaderUniqueName( const string& value );
-
-		/*
-		* Sets the RGBA-formatted colour to use for texture 1 when texture blending.
-		*/
-		void texture1BlendColour( const Vector4& value );
+		void fragmentShaderUniqueName( string value );
 
 		/*
 		* Sets the unique string used to look up texture 1 in the texture data resources.
 		*/
-		void texture1UniqueName( const string& value );
-
-		/*
-		* Sets the RGBA-formatted colour to use for texture 2 when texture blending.
-		*/
-		void texture2BlendColour( const Vector4& value );
-
-		/*
-		* Sets the unique string used to look up texture 2 in the texture data resources.
-		*/
-		void texture2UniqueName( const string& value );
+		void textureUniqueName( string value );
 
 		/*
 		* Sets the unique string used to look up the vertex shader program in the text data resources.
 		*/
-		void vertexShaderUniqueName( const string& value );
+		void vertexShaderUniqueName( string value );
 
 	};
 }

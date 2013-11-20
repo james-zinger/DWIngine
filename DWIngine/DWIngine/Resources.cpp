@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <vector>
 #include "FileCouldNotBeOpenedException.h"
 #include "Log.h"
 #include "Resources.h"
@@ -86,8 +87,7 @@ void DWI::Resources::loadMeshFromObjFile( string filepath, MeshAsset* out )
 	FILE* file = fopen( filepath.c_str(), "r" );
 	if( file == NULL )
 	{
-		//printf( "Impossible to open the file ! Are you in the right path ? See Tutorial 1 for details\n" );
-		throw new FileCouldNotBeOpenedException( "Resources >> .OBJ file header is corrupted!" );
+		throw FileCouldNotBeOpenedException( "Resources >> .OBJ file header is corrupted!" );
 	}
 
 	while( true ) // Yeah, it sucks but I didn't write it and it works so I'm leaving it alone
@@ -132,8 +132,7 @@ void DWI::Resources::loadMeshFromObjFile( string filepath, MeshAsset* out )
 
 			if ( matches != 9 )
 			{
-				//printf("File can't be read by our simple parser :-( Try exporting with other options\n");
-				throw new FileCouldNotBeOpenedException( "Resources >> .OBJ file format is broken! try exporting with different settings." );
+				throw FileCouldNotBeOpenedException( "Resources >> .OBJ file format is broken! try exporting with different settings." );
 			}
 
 			vertexIndices.push_back( vertexIndex[ 0 ] );
@@ -183,19 +182,9 @@ void DWI::Resources::loadMeshFromObjFile( string filepath, MeshAsset* out )
 
 void DWI::Resources::loadFragmentShaderFromFile( string filepath, FragmentShaderAsset* out )
 {
-	try
-	{
-		string fileContents = "";
-		Resources::readPlainTextFile( filepath, &fileContents );
-		out->sourceCode( fileContents );
-	}
-	catch ( FileCouldNotBeOpenedException* e )
-	{
-		stringstream sstream;
-		sstream << "Opening " << filepath << " for read has failed!";
-		Log::LogError( sstream.str() );
-		delete e;
-	}
+	string fileContents = "";
+	Resources::readPlainTextFile( filepath, &fileContents );
+	out->sourceCode( fileContents );
 }
 
 void DWI::Resources::loadMaterialFromFile( string filepath, MaterialAsset* out )
@@ -205,19 +194,9 @@ void DWI::Resources::loadMaterialFromFile( string filepath, MaterialAsset* out )
 
 void DWI::Resources::loadTextFromFile( string filepath, TextAsset* out )
 {
-	try
-	{
-		string fileContents = "";
-		Resources::readPlainTextFile( filepath, &fileContents );
-		out->text( fileContents );
-	}
-	catch ( FileCouldNotBeOpenedException* e )
-	{
-		stringstream sstream;
-		sstream << "Opening " << filepath << " for read has failed!";
-		Log::LogError( sstream.str() );
-		delete e;
-	}
+	string fileContents = "";
+	Resources::readPlainTextFile( filepath, &fileContents );
+	out->text( fileContents );
 }
 
 void DWI::Resources::loadTextureFromBmpFile( string filepath, TextureAsset* out )
@@ -228,16 +207,13 @@ void DWI::Resources::loadTextureFromBmpFile( string filepath, TextureAsset* out 
 	unsigned int imageSize;
 	unsigned int width, height;
 
-	// Actual RGB data
-	unsigned char* data;
-
 	// Open the file
 	FILE* file = fopen( filepath.c_str(), "rb" );
 	if ( !file )
 	{
 		//printf( "%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", filepath );
 		getchar();
-		throw new FileCouldNotBeOpenedException( "Resources >> .BMP file could not be opened!" );
+		throw FileCouldNotBeOpenedException( "Resources >> .BMP file could not be opened!" );
 	}
 
 	// Read the header, i.e. the 54 first bytes
@@ -245,23 +221,23 @@ void DWI::Resources::loadTextureFromBmpFile( string filepath, TextureAsset* out 
 	// If less than 54 bytes are read, problem
 	if ( fread( header, 1, 54, file ) != 54 )
 	{ 
-		throw new FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
+		throw FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
 	}
 
 	// A BMP files always begins with "BM"
 	if ( header[ 0 ] != 'B' || header[ 1 ] != 'M' )
 	{
-		throw new FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
+		throw FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
 	}
 
 	// Make sure this is a 24bpp file
 	if ( *(int*)&( header[ 0x1E ] ) !=  0 )
 	{
-		throw new FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
+		throw FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
 	}
 	if ( *(int*)&( header[ 0x1C ] ) != 24 )
 	{
-		throw new FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
+		throw FileCouldNotBeOpenedException( "Resources >> .BMP file header is corrupted!" );
 	}
 
 	// Read the information about the image
@@ -274,17 +250,26 @@ void DWI::Resources::loadTextureFromBmpFile( string filepath, TextureAsset* out 
 	if ( imageSize == 0 ) imageSize = width * height * 3; // 3 : one byte for each Red, Green and Blue component
 	if ( dataPos == 0 ) dataPos = 54; // The BMP header is done that way
 
-	// Create a buffer
-	data = new unsigned char[ imageSize ];
+	// Create a buffer on the heap
+	unsigned char* buffer = new unsigned char[ imageSize ];
 
 	// Read the actual data from the file into the buffer
-	fread( data, 1, imageSize, file );
+	fread( buffer, 1, imageSize, file );
 
 	// Everything is in memory now, the file wan be closed
 	fclose ( file );
 
-	// Assign the image data to the texture
-	out->imageData( data );
+	// Push the buffer into the texture asset (clear any colour data first)
+	out->width( width );
+	out->height( height );
+	out->imageData().clear();
+	for ( int i = 0; i < imageSize; i++ )
+	{
+		out->imageData().push_back( buffer[ i ] );
+	}
+
+	// Destroy the buffer on the heap
+	delete buffer;
 }
 
 void DWI::Resources::loadTextureFromTgaFile( string filepath, TextureAsset* out )
@@ -294,28 +279,18 @@ void DWI::Resources::loadTextureFromTgaFile( string filepath, TextureAsset* out 
 
 void DWI::Resources::loadVertexShaderFromFile( string filepath, VertexShaderAsset* out )
 {
-	try
-	{
-		string fileContents = "";
-		Resources::readPlainTextFile( filepath, &fileContents );
-		out->sourceCode( fileContents );
-	}
-	catch ( FileCouldNotBeOpenedException* e )
-	{
-		stringstream sstream;
-		sstream << "Opening " << filepath << " for read has failed!";
-		Log::LogError( sstream.str() );
-		delete e;
-	}
+	string fileContents = "";
+	Resources::readPlainTextFile( filepath, &fileContents );
+	out->sourceCode( fileContents );
 }
 
 void DWI::Resources::readPlainTextFile( string filepath, string* out )
 {
 	stringstream sstream;
 	ifstream fileStream( filepath, std::ios::in );
-	if ( fileStream.is_open() )
+	if ( !fileStream.is_open() )
 	{
-		throw new FileCouldNotBeOpenedException( "Resources >> Text file could not be opened!" );
+		throw FileCouldNotBeOpenedException( "Resources >> Text file could not be opened!" );
 	}
 	string line = "";
 	while ( getline( fileStream, line ) )
@@ -323,6 +298,7 @@ void DWI::Resources::readPlainTextFile( string filepath, string* out )
 		sstream << line << "\n";
 	}
 	fileStream.close();
+	*out = sstream.str();
 }
 
 
@@ -344,9 +320,19 @@ bool DWI::Resources::addFragmentShaderFromString( string uniqueName, string frag
 
 bool DWI::Resources::addFragmentShaderFromFile( string uniqueName, string fragmentShaderFilepath )
 {
-	FragmentShaderAsset* asset = new FragmentShaderAsset( uniqueName );
-	Resources::loadFragmentShaderFromFile( fragmentShaderFilepath, asset );
-	return addFragmentShader( uniqueName, asset );
+	try
+	{
+		FragmentShaderAsset* asset = new FragmentShaderAsset( uniqueName );
+		Resources::loadFragmentShaderFromFile( fragmentShaderFilepath, asset );
+		return addFragmentShader( uniqueName, asset );
+	}
+	catch ( const FileCouldNotBeOpenedException& e )
+	{
+		stringstream sstream;
+		sstream << "EXCEPTION!  ::  " << e.what();
+		Log::LogError( sstream.str() );
+		return false;
+	}
 }
 
 DWI::FragmentShaderAsset* DWI::Resources::getFragmentShader( string uniqueName )
@@ -380,6 +366,12 @@ bool DWI::Resources::addMaterial( string uniqueName, MaterialAsset* materialAsse
 	pair<unordered_map<string, MaterialAsset*>::iterator, bool> result = 
 		__materials.emplace( uniqueName, materialAsset );
 	return result.second;
+}
+
+bool DWI::Resources::addMaterialFromString( string uniqueName, string fragmentShaderName, string vertexShaderName, string textureName )
+{
+	MaterialAsset* materialAsset = new MaterialAsset( uniqueName, fragmentShaderName, vertexShaderName, textureName );
+	return addMaterial( uniqueName, materialAsset );
 }
 
 bool DWI::Resources::addMaterialFromFile( string uniqueName, string materialFilepath )
@@ -416,13 +408,6 @@ void DWI::Resources::removeMaterial( string uniqueName )
 
 bool DWI::Resources::addMesh( string uniqueName, MeshAsset* meshAsset )
 {
-	//__meshes[ uniqueName ] = meshAsset;
-	//return true;
-
-	//pair<MeshRegistry::iterator, bool> result = 
-	//	__meshes.insert( MeshRegistry::value_type( uniqueName, *meshAsset ) );
-	//return result.second;
-
 	pair<unordered_map<string, MeshAsset*>::iterator, bool> result = 
 		__meshes.emplace( uniqueName, meshAsset );
 	return result.second;
@@ -430,9 +415,19 @@ bool DWI::Resources::addMesh( string uniqueName, MeshAsset* meshAsset )
 
 bool DWI::Resources::addMeshFromObjFile( string uniqueName, string meshFilepath )
 {
-	MeshAsset* asset = new MeshAsset( uniqueName );
-	Resources::loadMeshFromObjFile( meshFilepath, asset );
-	return addMesh( uniqueName, asset );
+	try
+	{
+		MeshAsset* asset = new MeshAsset( uniqueName );
+		Resources::loadMeshFromObjFile( meshFilepath, asset );
+		return addMesh( uniqueName, asset );
+	}
+	catch ( const FileCouldNotBeOpenedException& e )
+	{
+		stringstream sstream;
+		sstream << "EXCEPTION!  ::  " << e.what();
+		Log::LogError( sstream.str() );
+		return false;
+	}
 }
 
 DWI::MeshAsset* DWI::Resources::getMesh( string uniqueName )
@@ -476,9 +471,19 @@ bool DWI::Resources::addTextFromString( string uniqueName, string textString )
 
 bool DWI::Resources::addTextFromFile( string uniqueName, string textFilepath )
 {
-	TextAsset* asset = new TextAsset( uniqueName );
-	Resources::loadTextFromFile( textFilepath, asset );
-	return addText( uniqueName, asset );
+	try
+	{
+		TextAsset* asset = new TextAsset( uniqueName );
+		Resources::loadTextFromFile( textFilepath, asset );
+		return addText( uniqueName, asset );
+	}
+	catch ( const FileCouldNotBeOpenedException& e )
+	{
+		stringstream sstream;
+		sstream << "EXCEPTION!  ::  " << e.what();
+		Log::LogError( sstream.str() );
+		return false;
+	}
 }
 
 DWI::TextAsset* DWI::Resources::getText( string uniqueName )
@@ -516,9 +521,19 @@ bool DWI::Resources::addTexture( string uniqueName, TextureAsset* textureAsset )
 
 bool DWI::Resources::addTextureFromBmpFile( string uniqueName, string textureFilepath )
 {
-	TextureAsset* asset = new TextureAsset( uniqueName );
-	Resources::loadTextureFromBmpFile( textureFilepath, asset );
-	return addTexture( uniqueName, asset );
+	try
+	{
+		TextureAsset* asset = new TextureAsset( uniqueName );
+		Resources::loadTextureFromBmpFile( textureFilepath, asset );
+		return addTexture( uniqueName, asset );
+	}
+	catch ( const FileCouldNotBeOpenedException& e )
+	{
+		stringstream sstream;
+		sstream << "EXCEPTION!  ::  " << e.what();
+		Log::LogError( sstream.str() );
+		return false;
+	}
 }
 
 bool DWI::Resources::addTextureFromTgaFile( string uniqueName, string textureFilepath )
@@ -568,9 +583,19 @@ bool DWI::Resources::addVertexShaderFromString( string uniqueName, string vertex
 
 bool DWI::Resources::addVertexShaderFromFile( string uniqueName, string vertexShaderFilepath )
 {
-	VertexShaderAsset* asset = new VertexShaderAsset( uniqueName );
-	Resources::loadVertexShaderFromFile( vertexShaderFilepath, asset );
-	return addVertexShader( uniqueName, asset );
+	try
+	{
+		VertexShaderAsset* asset = new VertexShaderAsset( uniqueName );
+		Resources::loadVertexShaderFromFile( vertexShaderFilepath, asset );
+		return addVertexShader( uniqueName, asset );
+	}
+	catch ( const FileCouldNotBeOpenedException& e )
+	{
+		stringstream sstream;
+		sstream << "EXCEPTION!  ::  " << e.what();
+		Log::LogError( sstream.str() );
+		return false;
+	}
 }
 
 DWI::VertexShaderAsset* DWI::Resources::getVertexShader( string uniqueName )

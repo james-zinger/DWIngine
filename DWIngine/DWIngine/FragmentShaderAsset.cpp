@@ -12,12 +12,12 @@
 /////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::FragmentShaderAsset::FragmentShaderAsset( const string uniqueName, const string fragmentShader ) : AbstractAsset( uniqueName )
+DWI::FragmentShaderAsset::FragmentShaderAsset( string uniqueName, string fragmentShader ) : AbstractAsset( uniqueName )
 {
 	__sourceCode = fragmentShader;
 }
 
-DWI::FragmentShaderAsset::FragmentShaderAsset( const string uniqueName ) : AbstractAsset( uniqueName )
+DWI::FragmentShaderAsset::FragmentShaderAsset( string uniqueName ) : AbstractAsset( uniqueName )
 {
 	__sourceCode = "";
 }
@@ -40,7 +40,7 @@ string DWI::FragmentShaderAsset::sourceCode( void )
 /////////////////////////////////////////////////////////////
 // Setters
 
-void DWI::FragmentShaderAsset::sourceCode( const string value )
+void DWI::FragmentShaderAsset::sourceCode( string value )
 {
 	__sourceCode = value;
 }

@@ -12,14 +12,14 @@
 /////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::TextAsset::TextAsset( const string uniqueName, const string text ) : AbstractAsset( uniqueName )
+DWI::TextAsset::TextAsset( string uniqueName, string text ) : AbstractAsset( uniqueName )
 {
 	__text = text;
 }
 
-DWI::TextAsset::TextAsset( const string uniqueName ) : AbstractAsset( uniqueName )
+DWI::TextAsset::TextAsset( string uniqueName ) : AbstractAsset( uniqueName )
 {
-	
+	__text = "";
 }
 
 DWI::TextAsset::~TextAsset( void )

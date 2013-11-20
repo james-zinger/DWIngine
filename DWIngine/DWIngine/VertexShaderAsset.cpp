@@ -12,12 +12,12 @@
 /////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::VertexShaderAsset::VertexShaderAsset( const string uniqueName, const string vertexShader ) : AbstractAsset( uniqueName )
+DWI::VertexShaderAsset::VertexShaderAsset( string uniqueName, string vertexShader ) : AbstractAsset( uniqueName )
 {
 	__sourceCode = vertexShader;
 }
 
-DWI::VertexShaderAsset::VertexShaderAsset( const string uniqueName ) : AbstractAsset( uniqueName )
+DWI::VertexShaderAsset::VertexShaderAsset( string uniqueName ) : AbstractAsset( uniqueName )
 {
 	__sourceCode = "";
 }
@@ -40,7 +40,7 @@ string DWI::VertexShaderAsset::sourceCode( void )
 /////////////////////////////////////////////////////////////
 // Setters
 
-void DWI::VertexShaderAsset::sourceCode( const string value )
+void DWI::VertexShaderAsset::sourceCode( string value )
 {
 	__sourceCode = value;
 }

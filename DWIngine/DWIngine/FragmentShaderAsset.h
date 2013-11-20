@@ -32,8 +32,8 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		FragmentShaderAsset( const string uniqueName, const string fragmentShader );
-		FragmentShaderAsset( const string uniqueName );
+		FragmentShaderAsset( string uniqueName, string fragmentShader );
+		FragmentShaderAsset( string uniqueName );
 		~FragmentShaderAsset( void );
 
 
@@ -46,7 +46,7 @@ namespace DWI
 		/////////////////////////////////////////
 		// Setters
 
-		void sourceCode( const string value );
+		void sourceCode( string value );
 
 	};
 }
