@@ -1,11 +1,13 @@
-#ifndef DWI_TEXTUREDATA
-#define DWI_TEXTUREDATA
+#ifndef DWI_TEXTUREASSET
+#define DWI_TEXTUREASSET
 
 #include "DWMath.h"
-#include "DWResource.h"
+#include "AbstractAsset.h"
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
 
 
 
@@ -13,7 +15,7 @@ using std::string;
 namespace DWI
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	class TextureData : public DWResource
+	class TextureAsset : public AbstractAsset
 	{
 
 	/////////////////////////////////////////////////////////////
@@ -22,7 +24,9 @@ namespace DWI
 		/////////////////////////////////////////
 		// Private member variables
 
-		
+		int						__height;
+		vector<unsigned char>	__imageData;
+		int						__width;
 
 
 
@@ -32,22 +36,25 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		TextureData( const string uniqueName );
-		~TextureData( void );
+		TextureAsset( string uniqueName );
+		~TextureAsset( void );
 
 
 		/////////////////////////////////////////
 		// Getters
 
-		
+		int height( void );
+		vector<unsigned char>& imageData( void );
+		int width( void );
 
 
 		/////////////////////////////////////////
 		// Setters
 
-		
+		void height( int value );
+		void width( int value );
 
 	};
 }
 
-#endif // DWI_TEXTUREDATA
+#endif // DWI_TEXTUREASSET

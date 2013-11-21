@@ -1,10 +1,6 @@
 #ifndef TESTAPP
 #define TESTAPP
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 #include <sstream>
 #include "App.h"
 

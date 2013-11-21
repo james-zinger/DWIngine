@@ -1,16 +1,21 @@
-#ifndef DWI_DWRESOURCE
-#define DWI_DWRESOURCE
+#ifndef DWI_MESHASSET
+#define DWI_MESHASSET
 
+#include "DWMath.h"
+#include "AbstractAsset.h"
 #include <string>
+#include <vector>
 
 using std::string;
+using std::vector;
+
 
 
 
 namespace DWI
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	class DWResource
+	class MeshAsset : public AbstractAsset
 	{
 
 	/////////////////////////////////////////////////////////////
@@ -19,7 +24,10 @@ namespace DWI
 		/////////////////////////////////////////
 		// Private member variables
 
-		const string __uniqueName;
+		vector<Vector3> __normals;
+		vector<Vector2> __uvs;
+		vector<Vector3> __vertices;
+
 
 
 	/////////////////////////////////////////////////////////////
@@ -27,20 +35,19 @@ namespace DWI
 
 		/////////////////////////////////////////
 		// ctor and dtor
-
-		DWResource( const string uniqueName );
-		virtual ~DWResource( void );
+		
+		MeshAsset( const string uniqueName );
+		~MeshAsset( void );
 
 
 		/////////////////////////////////////////
 		// Getters
 
-		/*
-		* Returns the unique string used to identify this material in the material resources.
-		*/
-		string uniqueName( void );
+		vector<Vector3>& normals( void );
+		vector<Vector2>& uvs( void );
+		vector<Vector3>& vertices( void );
 
 	};
 }
 
-#endif // DWI_DWRESOURCE
+#endif // DWI_MESHASSET

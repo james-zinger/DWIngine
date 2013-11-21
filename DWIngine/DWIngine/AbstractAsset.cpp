@@ -1,4 +1,8 @@
-#include "DWResource.h"
+#include "AbstractAsset.h"
+
+#ifndef NULL
+#define NULL 0
+#endif
 
 
 
@@ -8,12 +12,12 @@
 /////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::DWResource::DWResource( const string uniqueName ) : __uniqueName( uniqueName )
+DWI::AbstractAsset::AbstractAsset( const string uniqueName ) : __uniqueName( uniqueName )
 {
 		
 }
 
-DWI::DWResource::~DWResource( void )
+DWI::AbstractAsset::~AbstractAsset( void )
 {
 
 }
@@ -22,7 +26,7 @@ DWI::DWResource::~DWResource( void )
 /////////////////////////////////////////////////////////////
 // Getters
 
-string DWI::DWResource::uniqueName( void )
+string DWI::AbstractAsset::uniqueName( void )
 {
 	return __uniqueName;
 }

@@ -45,7 +45,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\external\glew-1.9.0\include;$(SolutionDir)\external\glfw-2.7.6\include;$(SolutionDir)\external\glm-0.9.4.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\external\glew-1.9.0\include;$(SolutionDir)\external\glfw-2.7.6\include;C:\Development\_GitHub\DWIngine\DWIngine\DWIngine;$(SolutionDir)\external\glm-0.9.4.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>

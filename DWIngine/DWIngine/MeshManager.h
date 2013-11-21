@@ -18,7 +18,7 @@ namespace DWI
 
 		vector<Mesh> __meshes;
 
-	/////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////
 	private:
 
 #pragma region		Constructor And Destructor
@@ -39,12 +39,15 @@ namespace DWI
 #pragma endregion
 
 		/**
-		 * @fn	Mesh* MeshManager::MeshFactory( GameObject* gameObject );
-		 * @brief	Mesh factory.
+		 * @fn	Mesh* MeshManager::MeshFactory( GameObject* gameObject, MeshAsset* meshAsset,
+		 * 		MaterialAsset* matAsset );
+		 * @brief	Mesh factory method.
 		 * @param [in,out]	gameObject	If non-null, the game object.
+		 * @param [in,out]	meshAsset 	If non-null, the mesh asset.
+		 * @param [in,out]	matAsset  	If non-null, the material asset.
 		 * @return	null if it fails, else a Mesh*.
 		 */
-		Mesh* MeshFactory( GameObject* gameObject );
+		Mesh* MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset );
 
 #pragma region Event Method Overrides
 

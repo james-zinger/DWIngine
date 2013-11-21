@@ -16,9 +16,6 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{6d255fb9-e618-4594-b5ff-d7f6c481332f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Management">
-      <UniqueIdentifier>{ab011cb1-799b-4abd-a115-a1e257dc5bff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{7871cf1b-3af1-45f0-a542-8627b1337aca}</UniqueIdentifier>
     </Filter>
@@ -28,8 +25,11 @@
     <Filter Include="Core\Exceptions">
       <UniqueIdentifier>{e8f04e45-c237-425a-997f-2d58f0c1fca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{ab011cb1-799b-4abd-a115-a1e257dc5bff}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Components\Managers">
-      <UniqueIdentifier>{49a58911-bd31-40a9-83e3-b5a9e8762c0c}</UniqueIdentifier>
+      <UniqueIdentifier>{9e9196eb-b188-4635-bdf8-24b47e01c25c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,9 +41,6 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="HardwareClock.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="DWIngine.h">
       <Filter>Core</Filter>
@@ -69,26 +66,8 @@
     <ClInclude Include="Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Resource Management</Filter>
-    </ClInclude>
     <ClInclude Include="DWMath.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshData.h">
-      <Filter>Resource Management</Filter>
-    </ClInclude>
-    <ClInclude Include="TextData.h">
-      <Filter>Resource Management</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureData.h">
-      <Filter>Resource Management</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Resource Management</Filter>
-    </ClInclude>
-    <ClInclude Include="DWResource.h">
-      <Filter>Resource Management</Filter>
     </ClInclude>
     <ClInclude Include="ObjectCouldNotBeCreatedException.h">
       <Filter>Core\Exceptions</Filter>
@@ -108,13 +87,46 @@
     <ClInclude Include="..\external\texture.hpp">
       <Filter>opengl-tutorials-org</Filter>
     </ClInclude>
+    <ClInclude Include="TextAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="FragmentShaderAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShaderAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractAsset.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="FileCouldNotBeOpenedException.h">
+      <Filter>Core\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloth.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
     <ClInclude Include="ComponentManager.h">
       <Filter>Components\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TransformManager.h">
+    <ClInclude Include="MeshManager.h">
       <Filter>Components\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="MeshManager.h">
+    <ClInclude Include="TransformManager.h">
       <Filter>Components\Managers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="HardwareClock.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="DWIngine.cpp">
       <Filter>Core</Filter>
@@ -155,24 +164,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshData.cpp">
-      <Filter>Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="TextData.cpp">
-      <Filter>Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureData.cpp">
-      <Filter>Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="DWResource.cpp">
-      <Filter>Resource Management</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectCouldNotBeCreatedException.cpp">
       <Filter>Core\Exceptions</Filter>
     </ClCompile>
@@ -191,13 +182,46 @@
     <ClCompile Include="..\external\texture.cpp">
       <Filter>opengl-tutorials-org</Filter>
     </ClCompile>
+    <ClCompile Include="TextAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="FragmentShaderAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractAsset.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="FileCouldNotBeOpenedException.cpp">
+      <Filter>Core\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloth.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
       <Filter>Components\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="TransformManager.cpp">
+    <ClCompile Include="MeshManager.cpp">
       <Filter>Components\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="MeshManager.cpp">
+    <ClCompile Include="TransformManager.cpp">
       <Filter>Components\Managers</Filter>
     </ClCompile>
   </ItemGroup>

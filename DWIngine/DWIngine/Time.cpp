@@ -1,4 +1,4 @@
-#include "HardwareClock.h"
+#include "Time.h"
 #include <Windows.h>
 
 #ifndef NULL
@@ -13,13 +13,13 @@
 /////////////////////////////////////////////////////////////////
 // Singleton variable
 
-DWI::HardwareClock* DWI::HardwareClock::__singleton = NULL;
+DWI::Time* DWI::Time::__singleton = NULL;
 
 
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::HardwareClock::HardwareClock( void )
+DWI::Time::Time( void )
 {
 	// Zero out the values set by refresh()
 	__currentHz			= 0L;
@@ -37,7 +37,7 @@ DWI::HardwareClock::HardwareClock( void )
 	__dt = 0.0;
 }
 
-DWI::HardwareClock::~HardwareClock( void )
+DWI::Time::~Time( void )
 {
 	// No resources to release
 }
@@ -50,17 +50,17 @@ DWI::HardwareClock::~HardwareClock( void )
 /////////////////////////////////////////////////////////////////
 // Singleton ctor and dtor
 
-DWI::HardwareClock* DWI::HardwareClock::singleton( void )
+DWI::Time* DWI::Time::singleton( void )
 {
 	if ( __singleton == NULL )
 	{
-		__singleton = new HardwareClock();
+		__singleton = new Time();
 	}
 
 	return __singleton;
 }
 
-void DWI::HardwareClock::destroySingleton( void )
+void DWI::Time::destroySingleton( void )
 {
 	if ( __singleton != NULL )
 	{
@@ -73,7 +73,7 @@ void DWI::HardwareClock::destroySingleton( void )
 /////////////////////////////////////////////////////////////////
 // Refresh
 
-void DWI::HardwareClock::refresh( bool updateHz )
+void DWI::Time::refresh( bool updateHz )
 {
 	LARGE_INTEGER temp;
 	
@@ -106,57 +106,57 @@ void DWI::HardwareClock::refresh( bool updateHz )
 /////////////////////////////////////////////////////////////////
 // Getters
 
-double DWI::HardwareClock::currentAppTime( void ) 
+double DWI::Time::currentAppTime( void ) 
 {
 	return __currentAppTime;
 }
 
-double DWI::HardwareClock::currentAppTimeMS( void )
+double DWI::Time::currentAppTimeMS( void )
 {
 	return __currentAppTime * 1000.0;
 }
 
-long DWI::HardwareClock::currentHz( void )
+long DWI::Time::currentHz( void )
 {
 	return __currentHz;
 }
 
-double DWI::HardwareClock::dt( void ) 
+double DWI::Time::dt( void ) 
 {
 	return __dt;
 }
 
-double DWI::HardwareClock::dtMS( void ) 
+double DWI::Time::dtMS( void ) 
 {
 	return __dt * 1000.0;
 }
 
-long DWI::HardwareClock::currentTicks( void )
+long DWI::Time::currentTicks( void )
 {
 	return __currentTicks;
 }
 
-bool DWI::HardwareClock::hiResSupported( void )
+bool DWI::Time::hiResSupported( void )
 {
 	return __hiResSupported;
 }
 
-double DWI::HardwareClock::previousAppTime( void ) 
+double DWI::Time::previousAppTime( void ) 
 {
 	return __previousAppTime;
 }
 
-double DWI::HardwareClock::previousAppTimeMS( void )
+double DWI::Time::previousAppTimeMS( void )
 {
 	return __previousAppTime * 1000.0;
 }
 
-long DWI::HardwareClock::previousTicks( void )
+long DWI::Time::previousTicks( void )
 {
 	return __previousTicks;
 }
 
-long DWI::HardwareClock::startTicks( void )
+long DWI::Time::startTicks( void )
 {
 	return __startTicks;
 }

@@ -1,8 +1,8 @@
-#ifndef DWI_TEXTDATA
-#define DWI_TEXTDATA
+#ifndef DWI_TEXTASSET
+#define DWI_TEXTASSET
 
 #include "DWMath.h"
-#include "DWResource.h"
+#include "AbstractAsset.h"
 #include <string>
 
 using std::string;
@@ -13,7 +13,7 @@ using std::string;
 namespace DWI
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	class TextData : public DWResource
+	class TextAsset : public AbstractAsset
 	{
 
 	/////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ namespace DWI
 		/////////////////////////////////////////
 		// Private member variables
 
-		
+		string __text;
 
 
 
@@ -32,22 +32,23 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		TextData( const string uniqueName );
-		~TextData( void );
+		TextAsset( string uniqueName, string text );
+		TextAsset( string uniqueName );
+		~TextAsset( void );
 
 
 		/////////////////////////////////////////
 		// Getters
 
-		
+		string text( void );
 
 
 		/////////////////////////////////////////
 		// Setters
 
-		
+		void text( string value );
 
 	};
 }
 
-#endif // DWI_TEXTDATA
+#endif // DWI_TEXTASSET

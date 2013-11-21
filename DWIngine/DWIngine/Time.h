@@ -1,12 +1,12 @@
-#ifndef DWI_HARDWARECLOCK
-#define DWI_HARDWARECLOCK
+#ifndef DWI_Time
+#define DWI_Time
 
 
 
 namespace DWI
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	class HardwareClock
+	class Time
 	{
 
 	/////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ namespace DWI
 		/////////////////////////////////////////////
 		// Singleton variable
 
-		static HardwareClock* __singleton;
+		static Time* __singleton;
 
 
 		/////////////////////////////////////////////
@@ -34,8 +34,8 @@ namespace DWI
 		/////////////////////////////////////////////
 		// ctor and dtor
 
-		HardwareClock( void );
-		~HardwareClock( void );
+		Time( void );
+		~Time( void );
 
 
 
@@ -46,10 +46,10 @@ namespace DWI
 		// Singleton ctor and dtor
 
 		/**
-		 * Returns a pointer to the singleton instance of the HardwareClock.
+:* L
 		 * @return	Pointer to the HardwareClock instance.
 		 */
-		static HardwareClock* singleton( void );
+		static Time* singleton( void );
 
 		/**
 		 * Destroys the HardwareClock instance and releases it from heap memory.
@@ -125,8 +125,10 @@ namespace DWI
 		double previousAppTime( void );
 
 		/**
-		 * Returns an estimation of the time since the HardwareClock was instantiated as of the 2nd most
-		 * recent measurement. Call refresh() frequently to ensure that this estimate is accurate.
+		 * @fn	double Time::previousAppTimeMS( void );
+		 * @brief	Returns an estimation of the time since the HardwareClock was instantiated as of the
+		 * 			2nd most recent measurement. Call refresh() frequently to ensure that this estimate
+		 * 			is accurate.
 		 * @return	Time, in milliseconds, since instantiation of the HardwareClock.
 		 */
 		double previousAppTimeMS( void );
@@ -145,4 +147,4 @@ namespace DWI
 	};
 }
 
-#endif // DWI_HARDWARECLOCK
+#endif // DWI_Time

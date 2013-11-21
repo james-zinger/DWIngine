@@ -1,10 +1,9 @@
-#ifndef DWI_MESHDATA
-#define DWI_MESHDATA
+#ifndef DWI_VERTEXSHADERASSET
+#define DWI_VERTEXSHADERASSET
 
 #include "DWMath.h"
-#include "DWResource.h"
+#include "AbstractAsset.h"
 #include <string>
-#include <vector>
 
 using std::string;
 
@@ -14,7 +13,7 @@ using std::string;
 namespace DWI
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	class MeshData : public DWResource
+	class VertexShaderAsset : public AbstractAsset
 	{
 
 	/////////////////////////////////////////////////////////////
@@ -23,7 +22,7 @@ namespace DWI
 		/////////////////////////////////////////
 		// Private member variables
 
-		
+		string __sourceCode;
 
 
 
@@ -33,22 +32,23 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		MeshData( const string uniqueName );
-		~MeshData( void );
+		VertexShaderAsset( string uniqueName, string vertexShader );
+		VertexShaderAsset( string uniqueName );
+		~VertexShaderAsset( void );
 
 
 		/////////////////////////////////////////
 		// Getters
 
-		
+		string sourceCode( void );
 
 
 		/////////////////////////////////////////
 		// Setters
 
-		
+		void sourceCode( string value );
 
 	};
 }
 
-#endif // DWI_MESHDATA
+#endif // DWI_VERTEXSHADERASSET

@@ -1,6 +1,7 @@
 #include "DWIngine.h"
+#include "Resources.h"
 #include "App.h"
-#include "HardwareClock.h"
+#include "Time.h"
 #include "Log.h"
 #include "AbstractRenderer.h"
 #include "OpenGL33Renderer.h"
@@ -29,17 +30,17 @@ namespace DWI
 	DWI::DWIngine::DWIngine( void )
 	{
 		__app = NULL;
-		__clock = HardwareClock::singleton();
-		__logger = Log::singleton();
-		__logger->outputLevel( LogLevel::DWI_ALL );
+		__time = Time::singleton( );
+		__log = Log::singleton();
+		__log->outputLevel( LogLevel::DWI_ALL );
 		__isStopping = false;
 		__renderer = new OpenGL33Renderer( this );
 		__input = Input::singleton();
 		__currentScene = new Scene();
 		__transformManager = new TransformManager( this );
-
+		__resources = Resources::singleton();
 	}
-
+	
 	DWI::DWIngine::~DWIngine( void )
 	{
 		delete __app;
@@ -47,9 +48,9 @@ namespace DWI
 		delete __currentScene;
 		delete __transformManager;
 		Log::destroySingleton();
-		HardwareClock::destroySingleton();
+		Time::destroySingleton();
 		Input::destroySingleton();
-
+		Resources::destroySingleton();
 	}
 
 
@@ -84,8 +85,6 @@ namespace DWI
 	{
 		// Perform end-user app behaviour
 		__app->onStart();
-
-
 	}
 
 	void DWIngine::eventPreRender( void )
@@ -101,7 +100,7 @@ namespace DWI
 	void DWIngine::eventRender( void )
 	{
 		// Refresh the game clock
-		__clock->refresh( false );
+		__time->refresh( false );
 
 		// Call render scene
 		__renderer->renderScene();
@@ -150,9 +149,14 @@ namespace DWI
 		}
 	}
 
+	bool DWI::DWIngine::isSingletonNull( void )
+	{
+		return __singleton == NULL;
+	}
 
-	/////////////////////////////////////////////////////////////////
-	// Start and stop the engine
+
+/////////////////////////////////////////////////////////////////
+// Start and stop the engine
 
 	void DWI::DWIngine::start( App* appToRun )
 	{
@@ -178,51 +182,51 @@ namespace DWI
 
 	void DWI::DWIngine::trace( const string& message )
 	{
-		__logger->log( LogLevel::DWI_TRACE, message );
+		__log->log( LogLevel::DWI_TRACE, message );
 	}
 
 	void DWI::DWIngine::logError( const string& message )
 	{
-		__logger->log( LogLevel::DWI_ERROR, message );
+		__log->log( LogLevel::DWI_ERROR, message );
 	}
 
 	void DWI::DWIngine::logInfo( const string& message )
 	{
-		__logger->log( LogLevel::DWI_INFO, message );
+		__log->log( LogLevel::DWI_INFO, message );
 	}
 
 	void DWI::DWIngine::logWarning( const string& message )
 	{
-		__logger->log( LogLevel::DWI_WARN, message );
+		__log->log( LogLevel::DWI_WARN, message );
 	}
 
 
 	/////////////////////////////////////////////////////////////////
 	// Timing
 
-	double DWI::DWIngine::dt( void )
+	double DWI::DWIngine::dtSec( void )
 	{
-		return __clock->dt();
+		return __time->dt( );
 	}
 
 	double DWI::DWIngine::dtMS( void )
 	{
-		return __clock->dtMS();
+		return __time->dtMS( );
 	}
 
 	double DWI::DWIngine::fps( void )
 	{
-		return 1.0 / dt();
+		return 1.0 / dtSec();
 	}
 
-	double DWI::DWIngine::time( void )
+	double DWI::DWIngine::timeSec( void )
 	{
-		return __clock->currentAppTime();
+		return __time->currentAppTime( );
 	}
 
 	double DWI::DWIngine::timeMS( void )
 	{
-		return __clock->currentAppTimeMS();
+		return __time->currentAppTimeMS( );
 	}
 
 
@@ -244,10 +248,16 @@ namespace DWI
 		return __renderer;
 	}
 
+	Resources* DWIngine::resources( void )
+	{
+		return __resources;
+	}
+
 	TransformManager* DWIngine::transformManager( void )
 	{
 		return __transformManager;
 	}
+
 
 	/////////////////////////////////////////////////////////////////
 	// Setters
@@ -258,11 +268,4 @@ namespace DWI
 		__app->engine( this );
 	}
 
-	////////////////////////////////////////////////////////////////
-	// Helper Methods
-
-	bool DWI::DWIngine::isSingletonNull( void )
-	{
-		return __singleton == NULL;
-	}
 }

@@ -10,14 +10,15 @@ using std::string;
 namespace DWI
 {
 	// Forward includes
-	class App;
-	class HardwareClock;
-	class Log;
 	class AbstractRenderer;
-	class OpenGL33Renderer;
+	class App;
 	class Input;
+	class Log;
+	class Resources;
+	class Time;
 	class Scene;
 	class TransformManager;
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	class DWIngine
@@ -36,11 +37,12 @@ namespace DWI
 		// Private member variables
 
 		App*				__app;
-		HardwareClock*		__clock;
-		bool				__isStopping;
-		Log*				__logger;
-		AbstractRenderer*	__renderer;
 		Input*				__input;
+		bool				__isStopping;
+		Log*				__log;
+		AbstractRenderer*	__renderer;
+		Resources*			__resources;
+		Time*				__time;
 		Scene*				__currentScene;
 		TransformManager*	__transformManager;
 
@@ -112,8 +114,14 @@ namespace DWI
 		 */
 		static void destroySingleton( void );
 
-#pragma endregion
+		/**
+		 * @fn	static bool DWIngine::isSingletonNull( void );
+		 * @brief	 Returns whether or not the singleton pointer is null.
+		 * @return	true if singleton null, false if not.
+		 */
+		static bool isSingletonNull( void );
 
+#pragma endregion
 
 		/////////////////////////////////////////////
 		// Start the engine
@@ -172,7 +180,7 @@ namespace DWI
 		 * @brief	Get the number of seconds since the scene was last rendered.
 		 * @return	A double containing the number of seconds since the last render event.
 		 */
-		double dt( void );
+		double dtSec( void );
 
 		/**
 		 * @fn	double DWIngine::dtMS( void );
@@ -193,7 +201,7 @@ namespace DWI
 		 * @brief	Get the number of seconds that the app has been running for.
 		 * @return	A double containing the number of seconds for which the app has been running.
 		 */
-		double time( void );
+		double timeSec( void );
 
 		/**
 		 * @fn	double DWIngine::timeMS( void );
@@ -230,10 +238,12 @@ namespace DWI
 		AbstractRenderer* renderer( void );
 
 		/**
-		 * @fn	TransformManager* DWIngine::transformManager( void );
-		 * @brief	returns the poitner to the Transform manager.
-		 * @return	null if it fails, else a TransformManager*.
+		 * @fn	Resources* DWIngine::resources( void );
+		 * @brief	Get a pointer to the Resources used by the game engine application.
+		 * @return	The Resources used by the game engine application to render content.
 		 */
+		Resources* resources( void );
+
 		TransformManager* transformManager( void );
 
 		/////////////////////////////////////////////
@@ -245,16 +255,6 @@ namespace DWI
 		 * @param [in,out]	value	If non-null, the application.
 		 */
 		void app( App* value );
-
-		////////////////////////////////////////////
-		// Helper Methods
-
-		/**
-		 * @fn	static bool DWIngine::isSingletonNull( void );
-		 * @brief	Checks the engine singleton if it exists.
-		 * @return	true if singleton null, false if not.
-		 */
-		static bool isSingletonNull( void );
 	};
 }
 

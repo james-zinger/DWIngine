@@ -1,6 +1,8 @@
 #ifndef DWI_MESH
 #define DWI_MESH
 
+#include "MeshAsset.h"
+#include "MaterialAsset.h"
 #include "Component.h"
 #include "DWMath.h"
 
@@ -14,12 +16,38 @@ namespace DWI
 	private:
 
 		/////////////////////////////////////////
-		// ctor and dtor
+		// Private member variables
 
-		Mesh( const unsigned int uniqueID, GameObject* gameObject );
+		MeshAsset*		__meshAsset;
+		MaterialAsset*	__materialAsset;
 
+
+		/////////////////////////////////////////
+		// ctor 
+
+		Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* materialAsset );
+		
+
+
+	/////////////////////////////////////////////////////////////
 	public:
-		virtual ~Mesh( void );
+		/////////////////////////////////////////
+		// dtor
+		~Mesh( void );
+
+
+		/////////////////////////////////////////
+		// Getters
+
+		/*
+		* The mesh asset this mesh uses for its geometry.
+		*/
+		MeshAsset* meshAsset( void );
+
+		/*
+		* The material asset this mesh uses for its shaders and texture.
+		*/
+		MaterialAsset* materialAsset( void );
 
 	};
 }

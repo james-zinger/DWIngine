@@ -19,9 +19,9 @@ namespace DWI
 
 	}
 
-	Mesh* MeshManager::MeshFactory( GameObject* gameObject )
+	Mesh* MeshManager::MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset )
 	{
-		Mesh M = Mesh( __keyToIndex.size(), gameObject );
+		Mesh M = Mesh( __keyToIndex.size(), gameObject, meshAsset, matAsset );
 
 		__meshes.push_back( M );
 
