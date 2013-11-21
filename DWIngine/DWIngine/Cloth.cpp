@@ -152,7 +152,7 @@ void DWI::Cloth::updatePhysics( float dt )
 		__nodes[ nodeIndex ].velocity /= dt * __dampingCoeff + 1.0;
 
 		// Integrate position
-		__nodes[ nodeIndex ].position += dt *	__nodes[ nodeIndex ].velocity;
+		__nodes[ nodeIndex ].position += dt * __nodes[ nodeIndex ].velocity;
 	}
 
 	// Clear the net forces on each node -- we need to start from scratch
@@ -189,7 +189,8 @@ Vector3 DWI::Cloth::computeSpringForce( int index )
 	direction /= distance;
 
 	// Return the force vector adjusted for magnitude
-	return direction * __springCoeff * ( distance - __equilibriumDistance );
+	float diagonalCoeff = __springs[ index ].isDiagonal ? CLOTH_SQRT2 : 1.0f;
+	return direction * __springCoeff * ( distance - __equilibriumDistance * diagonalCoeff );
 }
 
 
