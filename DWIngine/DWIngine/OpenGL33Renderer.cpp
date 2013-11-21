@@ -93,32 +93,40 @@ void DWI::mousebutton_callback( int button, int action )
 /**
  * Mouse Position on the windows pixel coords
  */
+
 void DWI::mousepos_callback( int x, int y )
 {
 	Input::UpdateMousePosition( vec2( x, y ) );
 }
 
-/*
- * Each roll up increment the mouse wheel index by 1 and rolls
- 8 down decrement the index by 1
+
+/**
+ * Callback, called when the mousewheel.
+ *
+ * @param	pos	The position.
  */
 void DWI::mousewheel_callback( int pos )
 {
 	Input::UpdateMouseWheelIndex( pos );
 }
 
+/**
+ * Gl log error.
+ *
+ * @param	error	The error.
+ *
+ * @return	true if an error occured, false if there is no error.
+ */
 bool OpenGL33Renderer::glLogError( GLenum error )
 {
 	bool result = false;
 	while ( error != GL_NO_ERROR )
 	{
-		if ( error != GL_INVALID_OPERATION )
-		{
-			string s = (char*)gluErrorString( error );
-			Log::LogError( s );
-			error = glGetError();
-			result = true;
-		}
+
+		string s = (char*)gluErrorString( error );
+		Log::LogError( s );
+		error = glGetError();
+		result = true;
 
 	}
 	return result;
@@ -226,11 +234,15 @@ OpenGL33Renderer::~OpenGL33Renderer( void )
 /////////////////////////////////////////////////////////////////
 // Public functions
 
+
 DWI::Camera* OpenGL33Renderer::getCamera( void )
 {
 	return &__cam;
 }
 
+/**
+ * Renders the scene.
+ */
 void OpenGL33Renderer::renderScene( void )
 {
 	__cam.Update();

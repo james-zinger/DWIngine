@@ -120,6 +120,7 @@
     <ClInclude Include="TextData.h" />
     <ClInclude Include="TextureData.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="TransformManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\texture.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="TextData.cpp" />
     <ClCompile Include="TextureData.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TransformManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

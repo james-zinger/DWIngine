@@ -10,6 +10,10 @@ using DWI::Vector2;
 
 namespace DWI
 {
+	#pragma region GLFWKeys
+	/**
+	 * Values that represent GLFWKeys.
+	 */
 	enum GLFWKeys :int
 	{
 		Key_Space = 32,
@@ -85,6 +89,7 @@ namespace DWI
 		Key_RSuper,
 		__COUNT = 71
 	};
+#pragma endregion
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	class Input
@@ -96,6 +101,7 @@ namespace DWI
 		// Singleton Member Variable
 
 		static Input*	__singleton;
+		
 		///////////////////////////////////////////////////
 		// Private Member Variables
 		unordered_map<int, bool> __keyState;
@@ -124,18 +130,20 @@ namespace DWI
 		// Singleton ctor and dtor
 
 		/**
-		* The get singleton method that returns the singleton instance
-		* @return the object of the singleton
-		*/
+		 * The get singleton method that returns the singleton instance.
+		 *
+		 * @return	the object of the singleton.
+		 */
 		static Input* singleton( void );
 
 		/**
-		* Call the destructor on the singleton instance
-		*/
+		 * Call the destructor on the singleton instance.
+		 */
 		static void destroySingleton( void );
 
 		////////////////////////////////////////////////////
 		// Static Interface functions
+		//
 
 		static bool isKeyDown( GLFWKeys key );
 		static bool isKeyPressed( GLFWKeys key );

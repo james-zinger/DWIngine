@@ -46,14 +46,14 @@ namespace DWI
 		// Singleton ctor and dtor
 
 		/**
-		* Returns a pointer to the singleton instance of the HardwareClock.
-		* @returns Pointer to the HardwareClock instance.
-		*/
+		 * Returns a pointer to the singleton instance of the HardwareClock.
+		 * @return	Pointer to the HardwareClock instance.
+		 */
 		static HardwareClock* singleton( void );
 
 		/**
-		* Destroys the HardwareClock instance and releases it from heap memory.
-		*/
+		 * Destroys the HardwareClock instance and releases it from heap memory.
+		 */
 		static void destroySingleton( void );
 
 
@@ -61,9 +61,11 @@ namespace DWI
 		// Update hardware ticks count value and time
 
 		/**
-		* Updates the HardwareClock with a new reading from the CPU. This should be called frequently so that clockspeed
-		* fluctuations can be accounted for at a high sampling rate, as this will lead to better appTime estimation.
-		*/
+		 * Updates the HardwareClock with a new reading from the CPU. This should be called frequently
+		 * so that clockspeed fluctuations can be accounted for at a high sampling rate, as this will
+		 * lead to better appTime estimation.
+		 * @param	updateHz	true to use the high resolution clock.
+		 */
 		void refresh( bool updateHz );
 
 
@@ -71,73 +73,74 @@ namespace DWI
 		// Getters for private members
 
 		/**
-		* Returns an estimation of the time since the HardwareClock was instantiated. Call refresh() frequently to
-		* ensure that this estimate is accurate.
-		* @returns Time, in seconds, since instantiation of the HardwareClock.
-		*/
+		 * Returns an estimation of the time since the HardwareClock was instantiated. Call refresh()
+		 * frequently to ensure that this estimate is accurate.
+		 * @return	Time, in seconds, since instantiation of the HardwareClock.
+		 */
 		double currentAppTime( void );
 
 		/**
-		* Returns an estimation of the time since the HardwareClock was instantiated. Call refresh() frequently to
-		* ensure that this estimate is accurate.
-		* @returns Time, in milliseconds, since instantiation of the HardwareClock.
-		*/
+		 * Returns an estimation of the time since the HardwareClock was instantiated. Call refresh()
+		 * frequently to ensure that this estimate is accurate.
+		 * @return	Time, in milliseconds, since instantiation of the HardwareClock.
+		 */
 		double currentAppTimeMS( void );
 
 		/**
-		* Returns the most current reading for the CPU's clockspeed.
-		* @returns Frequency, in Hz, at which the CPU processes operations recorded at the last refresh().
-		*/
+		 * Returns the most current reading for the CPU's clockspeed.
+		 * @return	Frequency, in Hz, at which the CPU processes operations recorded at the last
+		 * 			refresh().
+		 */
 		long currentHz( void );
 
 		/**
-		* Returns the most current reading of the CPU's tick count.
-		* @returns Number of operations the CPU had counted as of the most recent refresh().
-		*/
+		 * Returns the most current reading of the CPU's tick count.
+		 * @return	Number of operations the CPU had counted as of the most recent refresh().
+		 */
 		long currentTicks( void );
 
 		/**
-		* Returns the time since the previous measurement of the app time.
-		* @returns Time, in seconds, since the previous measurement of the app time.
-		*/
+		 * Returns the time since the previous measurement of the app time.
+		 * @return	Time, in seconds, since the previous measurement of the app time.
+		 */
 		double dt( void );
 
 		/**
-		* Returns the time since the previous measurement of the app time.
-		* @returns Time, in milliseconds, since the previous measurement of the app time.
-		*/
+		 * Returns the time since the previous measurement of the app time.
+		 * @return	Time, in milliseconds, since the previous measurement of the app time.
+		 */
 		double dtMS( void );
 
 		/**
-		* Returns whether or not the hardware supports high-resolution timing.
-		* @returns TRUE if the CPU supports high-resolution timing, FALSE if it does not.
-		*/
+		 * Returns whether or not the hardware supports high-resolution timing.
+		 * @return	TRUE if the CPU supports high-resolution timing, FALSE if it does not.
+		 */
 		bool hiResSupported( void );
 
 		/**
-		* Returns an estimation of the time since the HardwareClock was instantiated as of the 2nd most recent measurement. 
-		* Call refresh() frequently to ensure that this estimate is accurate.
-		* @returns Time, in seconds, since instantiation of the HardwareClock.
-		*/
+		 * Returns an estimation of the time since the HardwareClock was instantiated as of the 2nd most
+		 * recent measurement. Call refresh() frequently to ensure that this estimate is accurate.
+		 * @return	Time, in seconds, since instantiation of the HardwareClock.
+		 */
 		double previousAppTime( void );
 
 		/**
-		* Returns an estimation of the time since the HardwareClock was instantiated as of the 2nd most recent measurement. 
-		* Call refresh() frequently to ensure that this estimate is accurate.
-		* @returns Time, in milliseconds, since instantiation of the HardwareClock.
-		*/
+		 * Returns an estimation of the time since the HardwareClock was instantiated as of the 2nd most
+		 * recent measurement. Call refresh() frequently to ensure that this estimate is accurate.
+		 * @return	Time, in milliseconds, since instantiation of the HardwareClock.
+		 */
 		double previousAppTimeMS( void );
 
 		/**
-		* Returns the 2nd most current reading of the CPU's tick count.
-		* @returns Number of operations the CPU had counted as of the 2nd most recent refresh().
-		*/
+		 * Returns the 2nd most current reading of the CPU's tick count.
+		 * @return	Number of operations the CPU had counted as of the 2nd most recent refresh().
+		 */
 		long previousTicks( void );
 
 		/**
-		* Returns the CPU tick count that was recorded when the HardwareClock was instantiated.
-		* @returns Number of operations the CPU had counted when the HardwareClock started.
-		*/
+		 * Returns the CPU tick count that was recorded when the HardwareClock was instantiated.
+		 * @return	Number of operations the CPU had counted when the HardwareClock started.
+		 */
 		long startTicks( void );
 	};
 }

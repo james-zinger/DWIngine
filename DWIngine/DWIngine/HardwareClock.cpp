@@ -76,11 +76,13 @@ void DWI::HardwareClock::destroySingleton( void )
 void DWI::HardwareClock::refresh( bool updateHz )
 {
 	LARGE_INTEGER temp;
-
+	
 	// Fetch the latest CPU clock frequency
 	if ( updateHz )
 	{
-		__hiResSupported = QueryPerformanceFrequency( &temp );
+		int tempbool = QueryPerformanceFrequency( &temp );
+		__hiResSupported = tempbool == 0;
+		
 		__currentHz = (long)temp.QuadPart;
 	}
 

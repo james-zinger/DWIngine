@@ -15,7 +15,14 @@ namespace DWI
 	/////////////////////////////////////////////////////////////
 	private:
 
+		/**
+		 * Default constructor.
+		 */
 		GameObject( void );
+
+		/**
+		 * Destructor.
+		 */
 		virtual ~GameObject( void );
 
 		Transform* __transform;
@@ -24,7 +31,6 @@ namespace DWI
 
 	/////////////////////////////////////////////////////////////
 	public:
-
 		string name;
 		
 	};

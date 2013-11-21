@@ -28,6 +28,9 @@
     <Filter Include="Core\Exceptions">
       <UniqueIdentifier>{e8f04e45-c237-425a-997f-2d58f0c1fca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Managers">
+      <UniqueIdentifier>{49a58911-bd31-40a9-83e3-b5a9e8762c0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.hpp">
@@ -75,9 +78,6 @@
     <ClInclude Include="DWMath.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentManager.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MeshData.h">
       <Filter>Resource Management</Filter>
     </ClInclude>
@@ -110,6 +110,12 @@
     </ClInclude>
     <ClInclude Include="..\external\texture.hpp">
       <Filter>opengl-tutorials-org</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>Components\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformManager.h">
+      <Filter>Components\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +161,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>Resource Management</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentManager.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="MeshData.cpp">
       <Filter>Resource Management</Filter>
     </ClCompile>
@@ -190,6 +193,12 @@
     </ClCompile>
     <ClCompile Include="..\external\texture.cpp">
       <Filter>opengl-tutorials-org</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>Components\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformManager.cpp">
+      <Filter>Components\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

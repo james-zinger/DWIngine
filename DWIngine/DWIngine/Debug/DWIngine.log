@@ -1,2 +1,39 @@
-﻿  OpenGL33Renderer.cpp
-  DWIngine.vcxproj -> C:\Users\James\Git\DWIngine\DWIngine\Debug\DWIngine.lib
+﻿Build started 11/20/2013 12:10:25 PM.
+     1>Project "C:\Users\James\Git\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\James\Git\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Users\James\Git\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Users\James\Git\DWIngine\DWIngine\\include /I"C:\Users\James\Git\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt HardwareClock.cpp
+         HardwareClock.cpp
+     1>HardwareClock.cpp(83): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Users\James\Git\DWIngine\DWIngine\Debug\DWIngine.lib" /LIBPATH:C:\Users\James\Git\DWIngine\DWIngine\\lib /NOLOGO Debug\texture.obj
+         Debug\AbstractRenderer.obj
+         Debug\App.obj
+         Debug\Camera.obj
+         Debug\Component.obj
+         Debug\ComponentManager.obj
+         Debug\DWIngine.obj
+         Debug\DWResource.obj
+         Debug\GameObject.obj
+         Debug\HardwareClock.obj
+         Debug\Input.obj
+         Debug\Log.obj
+         Debug\Material.obj
+         Debug\Mesh.obj
+         Debug\MeshData.obj
+         Debug\MeshManager.obj
+         Debug\Model.obj
+         Debug\ObjectCouldNotBeCreatedException.obj
+         Debug\objloader.obj
+         Debug\OpenGL33Renderer.obj
+         Debug\ResourceManager.obj
+         Debug\Scene.obj
+         Debug\shader.obj
+         Debug\TextData.obj
+         Debug\TextureData.obj
+         Debug\Transform.obj
+         DWIngine.vcxproj -> C:\Users\James\Git\DWIngine\DWIngine\Debug\DWIngine.lib
+     1>Done Building Project "C:\Users\James\Git\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.44
