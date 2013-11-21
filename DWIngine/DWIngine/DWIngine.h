@@ -17,13 +17,13 @@ namespace DWI
 	class OpenGL33Renderer;
 	class Input;
 	class Scene;
-	class ComponentManager;
+	class TransformManager;
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	class DWIngine
 	{
 
-	/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
 	private:
 
 		/////////////////////////////////////////////
@@ -42,7 +42,8 @@ namespace DWI
 		AbstractRenderer*	__renderer;
 		Input*				__input;
 		Scene*				__currentScene;
-//		ComponentManager*	__componentManager;
+		TransformManager*	__transformManager;
+
 
 		/////////////////////////////////////////////
 		// ctor and dtor
@@ -61,8 +62,7 @@ namespace DWI
 		void mainLoop( void );
 
 
-		/////////////////////////////////////////////
-		// Event callbacks
+#pragma region Event callbacks
 
 		/**
 		 * This function is called to start the game engine application.
@@ -89,145 +89,160 @@ namespace DWI
 		 */
 		void eventStop( void );
 
+#pragma endregion
 
 
-	/////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
 	public:
 
-		/////////////////////////////////////////////
-		// Singleton ctor and dtor
+
+#pragma region Singleton methods
 
 		/**
-		 * Returns a pointer to the singleton instance of the game engine. This cannot be called from
-		 * DWIngine's constructor or any function called by its constructor.
-		 *
+		 * @fn	static DWIngine* DWIngine::singleton( void );
+		 * @brief	Returns a pointer to the singleton instance of the game engine. This cannot be called
+		 * 			from DWIngine's constructor or any function called by its constructor.
 		 * @return	The pointer to the DWIngine singleton instance.
-		 */		
+		 */
 		static DWIngine* singleton( void );
 
 		/**
-		 * Destroys the DWIngine instance and releases it from heap memory.
+		 * @fn	static void DWIngine::destroySingleton( void );
+		 * @brief	Destroys the DWIngine instance and releases it from heap memory.
 		 */
 		static void destroySingleton( void );
+
+#pragma endregion
 
 
 		/////////////////////////////////////////////
 		// Start the engine
 
 		/**
-		 * Initializes the game engine application and begins the render cycle.
+		 * @fn	void DWIngine::start( void );
+		 * @brief	Initializes the game engine application and begins the render cycle.
 		 */
 		void start( void );
 		void start( App* app );
 
 		/**
-		 * Causes the game loop to end after the next render cycle completes.
+		 * @fn	void DWIngine::stop( void );
+		 * @brief	Causes the game loop to end after the next render cycle completes.
 		 */
 		void stop( void );
 
 
-		/////////////////////////////////////////////
-		// Message logging
+#pragma region Message logging
 
 		/**
-		 * Trace out a message to the log file.
-		 *
+		 * @fn	void DWIngine::trace( const string& message );
+		 * @brief	Trace out a message to the log file.
 		 * @param	message	The message.
 		 */
 		void trace( const string& message );
 
 		/**
-		 * Output an error message to the log file.
-		 *
+		 * @fn	void DWIngine::logError( const string& message );
+		 * @brief	Output an error message to the log file.
 		 * @param	message	The message.
 		 */
 		void logError( const string& message );
 
 		/**
-		 * Output an informational message to the log file.
-		 *
+		 * @fn	void DWIngine::logInfo( const string& message );
+		 * @brief	Output an informational message to the log file.
 		 * @param	message	The message.
 		 */
 		void logInfo( const string& message );
 
 		/**
-		 * Output a warning message to the log file.
-		 *
+		 * @fn	void DWIngine::logWarning( const string& message );
+		 * @brief	Output a warning message to the log file.
 		 * @param	message	The message.
 		 */
 		void logWarning( const string& message );
 
+#pragma endregion
 
-		/////////////////////////////////////////////
-		// Timing
+
+#pragma region Timing
 
 		/**
-		 * Get the number of seconds since the scene was last rendered.
-		 *
+		 * @fn	double DWIngine::dt( void );
+		 * @brief	Get the number of seconds since the scene was last rendered.
 		 * @return	A double containing the number of seconds since the last render event.
 		 */
 		double dt( void );
 
 		/**
-		 * Get the number of milliseconds since the scene was last rendered.
-		 *
+		 * @fn	double DWIngine::dtMS( void );
+		 * @brief	Get the number of milliseconds since the scene was last rendered.
 		 * @return	A double containing the number of milliseconds since the last render event.
 		 */
 		double dtMS( void );
 
 		/**
-		 * Get the current frame rate at which rendering is occurring.
-		 *
+		 * @fn	double DWIngine::fps( void );
+		 * @brief	Get the current frame rate at which rendering is occurring.
 		 * @return	A double containing the current frame rate at which rendering is occurring.
 		 */
 		double fps( void );
 
 		/**
-		* Get the number of seconds that the app has been running for.
-		* @returns A double containing the number of seconds for which the app has been running.
-		*/
+		 * @fn	double DWIngine::time( void );
+		 * @brief	Get the number of seconds that the app has been running for.
+		 * @return	A double containing the number of seconds for which the app has been running.
+		 */
 		double time( void );
 
 		/**
-		 * Get the number of milliseconds that the app has been running for.
-		 *
+		 * @fn	double DWIngine::timeMS( void );
+		 * @brief	Get the number of milliseconds that the app has been running for.
 		 * @return	A double containing the number of milliseconds for which the app has been running.
 		 */
 		double timeMS( void );
+
+#pragma endregion
 
 
 		/////////////////////////////////////////////
 		// Getters for private members
 
 		/**
-		 * Returns a pointer to the app currently running in the game engine application.
-		 *
+		 * @fn	App* DWIngine::app( void );
+		 * @brief	Returns a pointer to the app currently running in the game engine application.
 		 * @return	A DWApp pointer to the app currently running in the game engine application.
 		 */
 		App* app( void );
 
 		/**
-		 * Returns whether or not the game engine application will stop after this render.
-		 *
+		 * @fn	bool DWIngine::isStopping( void );
+		 * @brief	Query if this object is stopping.
 		 * @return	A boolean value of whther or not the application will quit after this render.
 		 */
 		bool isStopping( void );
 
 		/**
-		 * Get a pointer to the AbstractRenderer used by the game engine application.
-		 *
+		 * @fn	AbstractRenderer* DWIngine::renderer( void );
+		 * @brief	Gets the renderer.
 		 * @return	The AbstractRenderer used by the game engine application to render content.
 		 */
 		AbstractRenderer* renderer( void );
 
+		/**
+		 * @fn	TransformManager* DWIngine::transformManager( void );
+		 * @brief	returns the poitner to the Transform manager.
+		 * @return	null if it fails, else a TransformManager*.
+		 */
+		TransformManager* transformManager( void );
 
 		/////////////////////////////////////////////
 		// Setters for private members
 
 		/**
-		 * Sets the current app running in the game engine application and hooks it to the engine.
-		 *
-		 * @param [in,out]	value	If non-null, the value.
+		 * @fn	void DWIngine::app( App* value );
+		 * @brief	Sets the current app running in the game engine application and hooks it to the engine.
+		 * @param [in,out]	value	If non-null, the application.
 		 */
 		void app( App* value );
 
@@ -235,8 +250,8 @@ namespace DWI
 		// Helper Methods
 
 		/**
-		 * Checks the engine singleton if it exists.
-		 *
+		 * @fn	static bool DWIngine::isSingletonNull( void );
+		 * @brief	Checks the engine singleton if it exists.
 		 * @return	true if singleton null, false if not.
 		 */
 		static bool isSingletonNull( void );

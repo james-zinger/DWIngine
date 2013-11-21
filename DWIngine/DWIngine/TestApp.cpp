@@ -1,13 +1,16 @@
 #include "DWIngine.h"
 #include "TestApp.h"
+#include "GameObject.h"
+#include <sstream>
 //#include "Primitive.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-
-
+using DWI::Vector3;
+using DWI::Quaternion;
+using DWI::GameObject;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public 
 
@@ -44,6 +47,17 @@ void TestApp::onStart( void )
 	//normals.push_back(glm::vec3(0,0,1));
 	//
 	//Primitive* p = new Primitive(PrimitiveType::Tri, 0,0,0, 0,0,1);
+
+	DWI::GameObject* go = GameObject::Instantiate( Vector3( 0, 0, 0 ), Quaternion(), Vector3( 1, 1, 1 ) );
+	
+	Vector3* pos = go->transform->GetPosition();
+	
+
+
+	stringstream ss;
+	ss.clear();
+	ss << "The Position of GO: ( " << pos->x << ", " << pos->y << ", " << pos->z << " )\n";
+	engine()->logInfo( ss.str() );
 
 	engine()->trace( "Starting" );
 }

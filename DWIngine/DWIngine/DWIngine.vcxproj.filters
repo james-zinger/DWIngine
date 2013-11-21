@@ -66,9 +66,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="MeshManager.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -117,6 +114,9 @@
     <ClInclude Include="TransformManager.h">
       <Filter>Components\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>Components\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shader.cpp">
@@ -150,9 +150,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshManager.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -198,6 +195,9 @@
       <Filter>Components\Managers</Filter>
     </ClCompile>
     <ClCompile Include="TransformManager.cpp">
+      <Filter>Components\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
       <Filter>Components\Managers</Filter>
     </ClCompile>
   </ItemGroup>

@@ -178,7 +178,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 		throw new ObjectCouldNotBeCreatedException( "Failed to Initalize GLEW.", this );
 	}
 	GLenum error = glGetError();
-	if ( error = !GL_INVALID_ENUM )
+	if ( error == !GL_INVALID_ENUM )
 	{
 		glLogError( error );
 	}

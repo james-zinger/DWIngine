@@ -13,7 +13,7 @@ namespace DWI
 	/////////////////////////////////////////////////////////////////
 	// ctor and dtor
 
-	Transform::Transform( const unsigned int uniqueID ) : Component( uniqueID )
+	Transform::Transform( const unsigned int uniqueID, GameObject* gameObject ) : Component( uniqueID, gameObject )
 	{
 		Position = Vector3( 0.0f );
 		Orientation = Quaternion();
@@ -22,7 +22,7 @@ namespace DWI
 
 	Transform::~Transform( void )
 	{
-
+		__enabled = false;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////

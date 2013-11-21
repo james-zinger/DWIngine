@@ -2,20 +2,78 @@
 #define DWI_MESHMANAGER
 
 #include "ComponentManager.h"
+#include "Mesh.h"
 
-
+using std::vector;
+using DWI::Mesh;
 
 namespace DWI
 {
+	class DWIngine;
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	class MeshManager : public ComponentManager
 	{
 
+	protected:
+
+		vector<Mesh> __meshes;
+
 	/////////////////////////////////////////////////////////
 	private:
 
-		MeshManager( void );
+#pragma region		Constructor And Destructor
+
+		/**
+		 * @fn	MeshManager::MeshManager( DWIngine* Engine );
+		 * @brief	Constructor.
+		 * @param [in,out]	Engine	Must have a non null engine pointer.
+		 */
+		MeshManager( DWIngine* Engine );
+
+		/**
+		 * @fn	MeshManager::~MeshManager( void );
+		 * @brief	Destructor.
+		 */
 		~MeshManager( void );
+
+#pragma endregion
+
+		/**
+		 * @fn	Mesh* MeshManager::MeshFactory( GameObject* gameObject );
+		 * @brief	Mesh factory.
+		 * @param [in,out]	gameObject	If non-null, the game object.
+		 * @return	null if it fails, else a Mesh*.
+		 */
+		Mesh* MeshFactory( GameObject* gameObject );
+
+#pragma region Event Method Overrides
+
+		/**
+		* @fn	virtual void TransformManager::Start( void );
+		* @brief	Calls Start on all meshes in the manager.
+		*/
+		virtual void Start( void );
+
+		/**
+		* @fn	virtual void TransformManager::Update( void );
+		* @brief	Calls Update on all meshes in the manager.
+		*/
+		virtual void Update( void );
+
+		/**
+		* @fn	virtual void TransformManager::FixedUpdate( float dt );
+		* @brief	Calls FixedUpdate on all meshes in the manager.
+		* @param	dt	The delta in time for every fixed update.
+		*/
+		virtual void FixedUpdate( float dt );
+
+		/**
+		* @fn	virtual void TransformManager::LateUpdate( void );
+		* @brief	Calls LateUpdate on all meshes in the manager.
+		*/
+		virtual void LateUpdate( void );
+
+#pragma endregion
 
 	};
 }

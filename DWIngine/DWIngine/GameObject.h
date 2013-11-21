@@ -2,7 +2,7 @@
 #define DWI_GAMEOBJECT
 
 #include <string>
-#include "Transform.h";
+#include "Transform.h"
 
 using std::string;
 
@@ -25,14 +25,18 @@ namespace DWI
 		 */
 		virtual ~GameObject( void );
 
-		Transform* __transform;
+		
 
 		bool isEnabled;
 
 	/////////////////////////////////////////////////////////////
 	public:
 		string name;
+
+		static GameObject* Instantiate( Vector3& Position, Quaternion& Orientation, Vector3& Scale );
 		
+		Transform* transform;
+
 	};
 }
 
