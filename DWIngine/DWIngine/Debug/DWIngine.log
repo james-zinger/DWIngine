@@ -1,20 +1,14 @@
-﻿Build started 11/19/2013 11:10:24 PM.
+﻿Build started 11/20/2013 10:47:10 PM.
      1>Project "C:\Development\_GitHub\DWIngine\DWIngine\DWIngine\DWIngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Development\_GitHub\DWIngine\DWIngine\\include /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Resources.cpp
-         Resources.cpp
-     1>Resources.cpp(266): warning C4018: '<' : signed/unsigned mismatch
-     1>Resources.cpp(344): warning C4101: 'e' : unreferenced local variable
-     1>Resources.cpp(389): warning C4101: 'e' : unreferenced local variable
-     1>Resources.cpp(439): warning C4101: 'e' : unreferenced local variable
-     1>Resources.cpp(495): warning C4101: 'e' : unreferenced local variable
-     1>Resources.cpp(551): warning C4101: 'e' : unreferenced local variable
-     1>Resources.cpp(607): warning C4101: 'e' : unreferenced local variable
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glew-1.9.0\include" /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glfw-2.7.6\include" /IC:\Development\_GitHub\DWIngine\DWIngine\\include /I"C:\Development\_GitHub\DWIngine\DWIngine\\external\glm-0.9.4.0\\" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Cloth.cpp
+         Cloth.cpp
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Development\_GitHub\DWIngine\DWIngine\Debug\DWIngine.lib" /LIBPATH:C:\Development\_GitHub\DWIngine\DWIngine\\lib /NOLOGO Debug\texture.obj
          Debug\AbstractRenderer.obj
          Debug\App.obj
          Debug\Camera.obj
+         Debug\Cloth.obj
          Debug\Component.obj
          Debug\ComponentManager.obj
          Debug\DWIngine.obj
@@ -45,4 +39,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.56
+Time Elapsed 00:00:01.87

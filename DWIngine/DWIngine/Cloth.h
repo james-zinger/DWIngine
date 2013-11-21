@@ -57,6 +57,25 @@ namespace DWI
 
 
 		/////////////////////////////////////////
+		// Initialization
+
+		/*
+		* Create the nodes that make up the cloth.
+		*/
+		void createNodes( int rows, int columns, float equilibriumDistance );
+
+		/*
+		* Create all the springs necessary to connect the cloth together based on the existing nodes.
+		*/
+		void createSprings( int rows, int columns, vector<Node>& nodes );
+
+		/*
+		* Start up the geometry by writing the vertices, normals and UVs for the first time.
+		*/
+		void startGeometry( int rows, int columns, float equilibriumDistance, vector<Node>& nodes );
+
+
+		/////////////////////////////////////////
 		// Update
 
 		/*
@@ -71,7 +90,7 @@ namespace DWI
 
 
 		/////////////////////////////////////////
-		// Springs
+		// Physics
 
 		/*
 		* Apply the specified force to the node at the specified index.
@@ -88,19 +107,19 @@ namespace DWI
 		// Dynamic meshing
 
 		/*
-		* Set the mesh vertices based on the physics nodes that make up the cloth.
-		*/
-		void setMeshVertices( void );
-
-		/*
 		* Set the mesh normals based on the physics nodes that make up the cloth.
 		*/
-		void setMeshNormals( void );
+		void setMeshNormals( int rows, int columns, vector<Node>& nodes, vector<Vector3>& normals );
 
 		/*
 		* Set the mesh UVs based on the physics nodes that make up the cloth.
 		*/
-		void setMeshUVs( void );
+		void setMeshUVs( int rows, int columns, float equilibriumDistance, vector<Node>& nodes, vector<Vector2>& uvs );
+
+		/*
+		* Set the mesh vertices based on the physics nodes that make up the cloth.
+		*/
+		void setMeshVertices( int rows, int columns, vector<Node>& nodes, vector<Vector3>& vertices );
 	
 	
 	/////////////////////////////////////////////////////////////
@@ -109,7 +128,7 @@ namespace DWI
 		/////////////////////////////////////////
 		// ctor and dtor
 
-		Cloth( int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff );
+		Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff );
 		Cloth( void );
 		~Cloth( void );
 
@@ -127,16 +146,6 @@ namespace DWI
 		*/
 		void reset( void );
 
-		/*
-		* Create the nodes that make up the cloth.
-		*/
-		void createNodes( int rows, int columns, int equilibriumDistance );
-
-		/*
-		* Create all the springs necessary to connect the cloth together based on the existing nodes.
-		*/
-		void createSprings( int rows, int columns, vector<Node>& nodes );
-
 
 		/////////////////////////////////////////
 		// Update
@@ -148,7 +157,7 @@ namespace DWI
 
 
 		/////////////////////////////////////////
-		// Dynamics
+		// Physics
 
 		/*
 		* Apply the specified force to the node at the specified index.

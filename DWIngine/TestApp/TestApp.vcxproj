@@ -80,14 +80,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\DWIngine\TestApp.h" />
-    <ClInclude Include="Cloth.h" />
-    <ClInclude Include="DynamicMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\DWIngine\TestApp.cpp" />
     <ClCompile Include="..\DWIngine\Win32Main.cpp" />
-    <ClCompile Include="Cloth.cpp" />
-    <ClCompile Include="DynamicMesh.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

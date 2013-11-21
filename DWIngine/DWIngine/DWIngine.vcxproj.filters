@@ -120,6 +120,9 @@
     <ClInclude Include="Time.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Cloth.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shader.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloth.cpp">
+      <Filter>Scripting</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
