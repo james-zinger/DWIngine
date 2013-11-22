@@ -19,15 +19,17 @@ namespace DWI
 
 	}
 
-	Mesh* MeshManager::MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset )
+	int MeshManager::MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset )
 	{
 		Mesh M = Mesh( __keyToIndex.size(), gameObject, meshAsset, matAsset );
 
 		__meshes.push_back( M );
 
-		__keyToIndex[ __keyToIndex.size() ] = __meshes.size() - 1;
+		int key = __keyToIndex.size();
 
-		return &( __meshes.back() );
+		__keyToIndex[ key ] = __meshes.size() - 1;
+
+		return key;
 	}
 
 	/**
@@ -89,5 +91,16 @@ namespace DWI
 				it->LateUpdate( );
 			}
 		}
+	}
+
+	/**
+	 * @fn	Mesh* MeshManager::KeytoPointer( int key )
+	 * @brief	Gets the object related to the key
+	 * @param	key	The key in the hash map.
+	 * @return	null if it fails, else a Mesh*.
+	 */
+	Mesh* MeshManager::KeytoPointer( int key )
+	{
+		return &( __meshes[__keyToIndex[key]] );
 	}
 }

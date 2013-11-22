@@ -51,6 +51,8 @@ namespace DWI
 		vector<vec3> Normals;
 		vector<vec2> UVs;
 
+
+
 		/////////////////////////////////////////
 		// public getter
 		int getID( void );

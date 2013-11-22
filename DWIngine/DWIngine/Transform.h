@@ -3,7 +3,9 @@
 
 #include "Component.h"
 #include "DWMath.h"
+#include <vector>
 
+using std::vector;
 
 namespace DWI
 {
@@ -21,9 +23,18 @@ namespace DWI
 
 		/////////////////////////////////////////////
 		// Private member variables
-
+		
+		int			__parent;
+		vector<int>	__children;
+		/**
+		 * @fn	Transform::Transform( const unsigned int uniqueID, GameObject* gameObject );
+		 * @brief	Constructor.
+		 * @param	uniqueID		  	Unique identifier.
+		 * @param [in,out]	gameObject	If non-null, the game object.
+		 */
 		Transform( const unsigned int uniqueID, GameObject* gameObject );
 
+		
 		/////////////////////////////////////////////////////////////////
 	public:
 
@@ -34,8 +45,21 @@ namespace DWI
 		Vector3			Position;
 		Quaternion		Orientation;
 		Vector3			Scale;
-		Transform*		Parent;
 
+		/**
+		 * @fn	void Transform::AddChild( TransformKey Child );
+		 * @brief	Adds a child.
+		 * @param	Child	The child's Key.
+		 */
+		void	AddChild( int Child );
+
+		/**
+		 * @fn	bool Transform::RemoveChild( TransformKey Child );
+		 * @brief	Removes the child described by TransformKey Child.
+		 * @param	Child	The child.
+		 * @return	true if it succeeds, false if it fails.
+		 */
+		bool	RemoveChild( int Child );
 
 #pragma region Public Getters And Setters
 
@@ -60,7 +84,12 @@ namespace DWI
 		 */
 		Vector3*		GetScale( void );
 
-
+		/**
+		 * @fn	TransformKey Transform::GetParent( void );
+		 * @brief	Gets the parent of this item.
+		 * @return	null if it fails, else the parent.
+		 */
+		int		GetParent( void );
 
 		/**
 		 * @fn	void Transform::SetPosition( Vector3* position );
@@ -83,7 +112,15 @@ namespace DWI
 		 */
 		void			SetScale( Vector3* scale );
 
+		/**
+		 * @fn	void Transform::SetParent( TransformKey parent );
+		 * @brief	Sets a parent.
+		 * @param	parent	If non-null, the parent.
+		 */
+		void			SetParent( int parent );
+
 #pragma endregion
+
 
 	};
 }

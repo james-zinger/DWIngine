@@ -22,20 +22,22 @@ namespace DWI
 	}
 
 	/**
-	 * @fn	Transform* TransformManager::TransformFactory( GameObject* gameObject )
+	 * @fn	TransformKey TransformManager::TransformFactory( GameObject* gameObject )
 	 * @brief	Transform factory.
 	 * @param [in,out]	gameObject	If non-null, the game object.
-	 * @return	null if it fails, else a Transform*.
+	 * @return	null if it fails, else a Transform Key.
 	 */
-	Transform* TransformManager::TransformFactory( GameObject* gameObject )
+	int TransformManager::TransformFactory( GameObject* gameObject )
 	{
 		Transform T = Transform( __keyToIndex.size(), gameObject );
 
 		__transforms.push_back( T );
 
-		__keyToIndex[ __keyToIndex.size() ] = __transforms.size() - 1;
+		int key = __keyToIndex.size();
 
-		return &( __transforms.back() );
+		__keyToIndex[ key ] = __transforms.size() - 1;
+
+		return key;
 	}
 
 	/**
@@ -97,5 +99,10 @@ namespace DWI
 				it->LateUpdate();
 			}
 		}
+	}
+
+	Transform* TransformManager::KeytoPointer( int key )
+	{
+		return &(__transforms[__keyToIndex[key]]);
 	}
 }

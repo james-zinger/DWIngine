@@ -5,6 +5,8 @@
 
 using std::vector;
 
+
+
 namespace DWI
 {
 	class DWIngine;
@@ -43,12 +45,12 @@ namespace DWI
 #pragma endregion
 
 		/**
-		 * @fn	Transform* TransformManager::TransformFactory( GameObject* gameObject );
+		 * @fn	int TransformManager::TransformFactory( GameObject* gameObject );
 		 * @brief	Transform factory.
 		 * @param [in,out]	gameObject	The game object the transform is related to.
-		 * @return	null if it fails, else a Transform*.
+		 * @return	null if it fails, else a TrasnformKey.
 		 */
-		Transform* TransformFactory( GameObject* gameObject );
+		int TransformFactory( GameObject* gameObject );
 
 #pragma region Event Method Overrides
 
@@ -78,6 +80,8 @@ namespace DWI
 		virtual void LateUpdate( void );
 
 #pragma endregion
+
+		virtual Transform* KeytoPointer( int key );
 
 	};
 

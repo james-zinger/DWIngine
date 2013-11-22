@@ -75,6 +75,7 @@ namespace DWI
 
 #pragma endregion
 
+		virtual Component* KeytoPointer( int key ) = 0;
 	};
 }
 

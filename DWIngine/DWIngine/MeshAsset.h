@@ -5,12 +5,10 @@
 #include "AbstractAsset.h"
 #include <string>
 #include <vector>
+#include "GL\glew.h"
 
 using std::string;
 using std::vector;
-
-
-
 
 namespace DWI
 {
@@ -28,7 +26,43 @@ namespace DWI
 		vector<Vector2> __uvs;
 		vector<Vector3> __vertices;
 
+		/**
+		 * @brief	The vertex array object.
+		 */
+		GLuint __VAO;
 
+		/**
+		 * @brief	The vertex buffer object.
+		 */
+		GLuint __VBO;
+
+		/**
+		 * @brief	The uv buffer object.
+		 */
+		GLuint __UVBO;
+
+		/**
+		 * @brief	The normal buffer object.
+		 */
+		GLuint __NBO;
+
+		/**
+		 * @brief	true if this object is loaded.
+		 */
+		bool __isLoaded;
+
+		/**
+		 * @fn	void MeshAsset::LoadMeshToGFXCard( bool isDyanmic );
+		 * @brief	Loads mesh to graphics card.
+		 * @param	isDyanmic	true if this object is dyanmic.
+		 */
+		void LoadMeshToGFXCard( bool isDyanmic );
+
+		/**
+		 * @fn	void MeshAsset::UnLoadFromGFXCard();
+		 * @brief	Un load from graphics card.
+		 */
+		void UnLoadFromGFXCard();
 
 	/////////////////////////////////////////////////////////////
 	public:

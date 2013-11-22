@@ -4,11 +4,9 @@
 #include "DWMath.h"
 #include "AbstractAsset.h"
 #include <string>
+#include "GL\glew.h"
 
 using std::string;
-
-
-
 
 namespace DWI
 {
@@ -26,7 +24,16 @@ namespace DWI
 		string	__textureUniqueName;
 		string	__vertexShaderUniqueName;
 
+		GLuint __shaderProgramID;
+		GLuint __shaderMatrixID;
+		GLuint __shaderViewID;
+		GLuint __shaderModelID;
+		GLuint __shaderLightPos;
+		GLuint __texture;
+		GLuint __textureID;
 
+		bool __isShaderLoaded;
+		bool __isTextureLoaded;
 
 	/////////////////////////////////////////////////////////////
 	public:

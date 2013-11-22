@@ -244,7 +244,19 @@ namespace DWI
 		 */
 		Resources* resources( void );
 
+		/**
+		 * @fn	TransformManager* DWIngine::transformManager( void );
+		 * @brief	The pointer to the Transform manager
+		 * @return	null if it fails, else a TransformManager*.
+		 */
 		TransformManager* transformManager( void );
+
+		/**
+		 * @fn	Scene* DWIngine::currentScene( void );
+		 * @brief	Current scene.
+		 * @return	null if it fails, else a Scene*.
+		 */
+		Scene* currentScene( void );
 
 		/////////////////////////////////////////////
 		// Setters for private members

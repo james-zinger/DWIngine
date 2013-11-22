@@ -1,5 +1,6 @@
 #include "Mesh.h"
-#include "GameObject.h"
+#include "DWIngine.h"
+#include "MeshManager.h"
 #ifndef NULL
 #define NULL 0
 #endif

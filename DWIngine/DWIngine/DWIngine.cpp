@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "Scene.h"
 #include "TransformManager.h"
+#include "GameObject.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -51,6 +52,14 @@ namespace DWI
 		Time::destroySingleton();
 		Input::destroySingleton();
 		Resources::destroySingleton();
+
+		list<GameObject*>::iterator it;
+		for ( it = GameObject::GameObjectsList( )->begin( ); it != GameObject::GameObjectsList()->end( ); it++ )
+		{
+			delete ( *it );
+		}
+
+		delete (GameObject::GameObjectsList());
 	}
 
 
@@ -83,6 +92,7 @@ namespace DWI
 
 	void DWIngine::eventStart( void )
 	{
+		__currentScene->Start();
 		// Perform end-user app behaviour
 		__app->onStart();
 	}
@@ -258,6 +268,10 @@ namespace DWI
 		return __transformManager;
 	}
 
+	Scene* DWIngine::currentScene( void )
+	{
+		return __currentScene;
+	}
 
 	/////////////////////////////////////////////////////////////////
 	// Setters

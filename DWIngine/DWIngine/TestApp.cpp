@@ -2,6 +2,7 @@
 #include "Resources.h"
 #include "TestApp.h"
 #include "GameObject.h"
+#include "Scene.h"
 #include <sstream>
 //#include "Primitive.h"
 
@@ -37,12 +38,25 @@ void TestApp::onStart( void )
 {
 	__sstream.str( string() );
 
+	GameObject* go = GameObject::Instantiate(
+		Vector3( 0, 0, 0 ),
+		Quaternion(),
+		Vector3( 1, 1, 1 ),
+		DWI::DWIngine::singleton()->currentScene()->GetRoot()->transform );
+
+
+	GameObject* go2 = GameObject::Instantiate(
+		Vector3( 0, 0, 0 ),
+		Quaternion( ),
+		Vector3( 1, 1, 1 ),
+		engine( )->currentScene( )->GetRoot( )->transform );
+
 	__sstream << "=============\nResource Test\n=============\n\n";
 
 	// Load a fragment shader from a .FRAGMENTSHADER file
 	engine()->resources()->addFragmentShaderFromFile( "Test", "test.fragmentshader" );
 	__sstream << "Fragment Shader (Test): \n\n" << engine()->resources()->getFragmentShader( "Test" )->sourceCode() << "\n===\n\n";
-	
+
 	// Load a mesh from an .OBJ file
 	engine()->resources()->addMeshFromObjFile( "M-16", "M16_model.obj" );
 	DWI::MeshAsset* meshAsset = engine()->resources()->getMesh( "M-16" );
@@ -50,24 +64,24 @@ void TestApp::onStart( void )
 	__sstream << "Vertices: \n\n";
 	for ( int i = 0; i < meshAsset->vertices().size(); i++ )
 	{
-		 __sstream << "(x, y, z) = ( "
-			<< meshAsset->vertices()[ i ].x << ", " 
-			<< meshAsset->vertices()[ i ].y << ", " 
+		__sstream << "(x, y, z) = ( "
+			<< meshAsset->vertices()[ i ].x << ", "
+			<< meshAsset->vertices()[ i ].y << ", "
 			<< meshAsset->vertices()[ i ].z << " )\n";
 	}
 	__sstream << "\nNormals: \n\n";
 	for ( int i = 0; i < meshAsset->normals().size(); i++ )
 	{
-		 __sstream << "(x, y, z) = ( "
-			<< meshAsset->normals()[ i ].x << ", " 
-			<< meshAsset->normals()[ i ].y << ", " 
+		__sstream << "(x, y, z) = ( "
+			<< meshAsset->normals()[ i ].x << ", "
+			<< meshAsset->normals()[ i ].y << ", "
 			<< meshAsset->normals()[ i ].z << " )\n";
 	}
 	__sstream << "\nUVs: \n\n";
 	for ( int i = 0; i < meshAsset->uvs().size(); i++ )
 	{
-		 __sstream << "(u, v) = ( "
-			<< meshAsset->uvs()[ i ].x << ", " 
+		__sstream << "(u, v) = ( "
+			<< meshAsset->uvs()[ i ].x << ", "
 			<< meshAsset->uvs()[ i ].y << " )\n";
 	}
 	__sstream << "\n===\n\n";
@@ -80,10 +94,10 @@ void TestApp::onStart( void )
 	__sstream << "Height: " << textureAsset->height() << "\n";
 	for ( int i = 0; i < textureAsset->imageData().size(); i += 3 )
 	{
-		 __sstream << "(r, g, b) = ( " 
-			 << (int)textureAsset->imageData()[ i + 2 ] << ", "
-			 << (int)textureAsset->imageData()[ i + 1 ] << ", "
-			 << (int)textureAsset->imageData()[ i + 0 ] << " )\n";
+		__sstream << "(r, g, b) = ( "
+			<< (int)textureAsset->imageData()[ i + 2 ] << ", "
+			<< (int)textureAsset->imageData()[ i + 1 ] << ", "
+			<< (int)textureAsset->imageData()[ i + 0 ] << " )\n";
 	}
 	__sstream << "\n===\n\n";
 
@@ -94,7 +108,7 @@ void TestApp::onStart( void )
 	// Load a vertex shader from a .VERTEXSHADER file
 	engine()->resources()->addVertexShaderFromFile( "Test", "test.vertexshader" );
 	__sstream << "Vertex Shader (Test): \n\n" << engine()->resources()->getVertexShader( "Test" )->sourceCode() << "\n===\n\n";
-	
+
 	// Create a material from the above shaders and texture
 	engine()->resources()->addMaterialFromString( "M-16", "Test", "Test", "M-16" );
 	__sstream << "Material (M-16): \n\n";

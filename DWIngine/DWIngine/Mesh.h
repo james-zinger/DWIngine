@@ -6,6 +6,8 @@
 #include "Component.h"
 #include "DWMath.h"
 
+using std::vector;
+
 namespace DWI
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,9 +24,15 @@ namespace DWI
 		MaterialAsset*	__materialAsset;
 
 
-		/////////////////////////////////////////
-		// ctor 
-
+		/**
+		 * @fn	Mesh::Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset,
+		 * 		MaterialAsset* materialAsset );
+		 * @brief	Constructor.
+		 * @param	uniqueID			 	Unique identifier.
+		 * @param [in,out]	gameObject   	If non-null, the game object.
+		 * @param [in,out]	meshAsset	 	If non-null, the mesh asset.
+		 * @param [in,out]	materialAsset	If non-null, the material asset.
+		 */
 		Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* materialAsset );
 		
 

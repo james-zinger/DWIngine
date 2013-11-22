@@ -28,7 +28,15 @@ DWI::MaterialAsset::MaterialAsset( string uniqueName ) : AbstractAsset( uniqueNa
 
 DWI::MaterialAsset::~MaterialAsset( void )
 {
+	if ( __isTextureLoaded )
+	{
+		glDeleteTextures( 1, &__texture );
+	}
 
+	if ( __isShaderLoaded )
+	{
+		glDeleteProgram( __shaderProgramID );
+	}
 }
 
 

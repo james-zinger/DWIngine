@@ -1,10 +1,12 @@
 #ifndef DWI_GAMEOBJECT
 #define DWI_GAMEOBJECT
 
+#include <list>
 #include <string>
 #include "Transform.h"
 
 using std::string;
+using std::list;
 
 namespace DWI
 {
@@ -12,6 +14,7 @@ namespace DWI
 	class GameObject
 	{
 
+		friend class Scene;
 	/////////////////////////////////////////////////////////////
 	private:
 
@@ -20,22 +23,27 @@ namespace DWI
 		 */
 		GameObject( void );
 
-		/**
-		 * Destructor.
-		 */
-		virtual ~GameObject( void );
-
 		
+
+		static list<GameObject*>* __gameObjects;
 
 		bool isEnabled;
 
 	/////////////////////////////////////////////////////////////
 	public:
+
+		/**
+		* Destructor.
+		*/
+		virtual ~GameObject( void );
+
 		string name;
 
-		static GameObject* Instantiate( Vector3& Position, Quaternion& Orientation, Vector3& Scale );
+		static GameObject* Instantiate( Vector3& Position, Quaternion& Orientation, Vector3& Scale, int parent );
 		
-		Transform* transform;
+		int transform;
+
+		static list<GameObject*>* GameObjectsList( void );
 
 	};
 }

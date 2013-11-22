@@ -10,7 +10,12 @@ using DWI::Mesh;
 namespace DWI
 {
 	class DWIngine;
-	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @class	MeshManager
+	 * @brief	Manager for mesh components.
+	 * @sa	ComponentManager
+	 */
 	class MeshManager : public ComponentManager
 	{
 
@@ -47,7 +52,7 @@ namespace DWI
 		 * @param [in,out]	matAsset  	If non-null, the material asset.
 		 * @return	null if it fails, else a Mesh*.
 		 */
-		Mesh* MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset );
+		int MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset );
 
 #pragma region Event Method Overrides
 
@@ -77,6 +82,8 @@ namespace DWI
 		virtual void LateUpdate( void );
 
 #pragma endregion
+
+		virtual Mesh* KeytoPointer( int key );
 
 	};
 }

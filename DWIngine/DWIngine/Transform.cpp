@@ -1,5 +1,6 @@
 #include "Transform.h"
-
+#include "DWIngine.h"
+#include "TransformManager.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -18,6 +19,7 @@ namespace DWI
 		Position = Vector3( 0.0f );
 		Orientation = Quaternion();
 		Scale = Vector3( 1.0f );
+		__parent = -1;
 	}
 
 	Transform::~Transform( void )
@@ -27,7 +29,33 @@ namespace DWI
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	// Public
+	
+	void Transform::AddChild( int Child )
+	{
+		__children.push_back( Child );
+	}
 
+	bool Transform::RemoveChild( int Child )
+	{
+		Transform* child = DWIngine::singleton()->transformManager()->KeytoPointer( Child );
+
+		for ( vector<int>::iterator it = __children.begin( ); it != __children.end( ); it++ )
+		{
+			int key = ( *it );
+
+			Transform* T = DWIngine::singleton()->transformManager()->KeytoPointer( key );
+
+			if ( T->uniqueID() == child->uniqueID() )
+			{
+				__children.erase( it );
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	
 	////////////////////////////////////////////////
 	// Public Getter Functions
 
@@ -46,6 +74,11 @@ namespace DWI
 		return &Scale;
 	}
 
+	int Transform::GetParent( void )
+	{
+		return __parent;
+	}
+
 	////////////////////////////////////////////////
 	// Public Setter Functions
 
@@ -62,5 +95,22 @@ namespace DWI
 	void Transform::SetScale( Vector3* scale )
 	{
 		Scale = *scale;
+	}
+
+	void Transform::SetParent( int parent )
+	{
+		if ( __parent != -1 )
+		{
+			Transform* T = DWIngine::singleton()->transformManager()->KeytoPointer( __parent );
+			T->RemoveChild( this->uniqueID() );
+		}
+		
+		__parent = parent;
+		
+		if ( parent != -1 )
+		{
+			Transform* T = DWIngine::singleton( )->transformManager( )->KeytoPointer( parent );
+			T->AddChild( this->uniqueID() );
+		}
 	}
 }
