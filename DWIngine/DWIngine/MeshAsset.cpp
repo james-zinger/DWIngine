@@ -21,10 +21,10 @@ namespace DWI
 
 	MeshAsset::~MeshAsset( void )
 	{
-		UnLoadFromGFXCard();
+		__unLoadFromGFXCard();
 	}
 
-	void MeshAsset::LoadMeshToGFXCard( bool isDyanmic )
+	void MeshAsset::__loadMeshToGFXCard( bool isDyanmic )
 	{
 		if ( !__isLoaded )
 		{
@@ -78,7 +78,7 @@ namespace DWI
 		}
 	}
 
-	void MeshAsset::UnLoadFromGFXCard( void )
+	void MeshAsset::__unLoadFromGFXCard( void )
 	{
 		if ( __isLoaded )
 		{

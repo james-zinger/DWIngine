@@ -56,13 +56,13 @@ namespace DWI
 		 * @brief	Loads mesh to graphics card.
 		 * @param	isDyanmic	true if this object is dyanmic.
 		 */
-		void LoadMeshToGFXCard( bool isDyanmic );
+		void __loadMeshToGFXCard( bool isDyanmic );
 
 		/**
 		 * @fn	void MeshAsset::UnLoadFromGFXCard();
 		 * @brief	Un load from graphics card.
 		 */
-		void UnLoadFromGFXCard();
+		void __unLoadFromGFXCard();
 
 	/////////////////////////////////////////////////////////////
 	public:

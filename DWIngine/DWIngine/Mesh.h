@@ -3,6 +3,7 @@
 
 #include "MeshAsset.h"
 #include "MaterialAsset.h"
+#include "TextureAsset.h"
 #include "Component.h"
 #include "DWMath.h"
 
@@ -23,7 +24,6 @@ namespace DWI
 		MeshAsset*		__meshAsset;
 		MaterialAsset*	__materialAsset;
 
-
 		/**
 		 * @fn	Mesh::Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset,
 		 * 		MaterialAsset* materialAsset );
@@ -33,7 +33,7 @@ namespace DWI
 		 * @param [in,out]	meshAsset	 	If non-null, the mesh asset.
 		 * @param [in,out]	materialAsset	If non-null, the material asset.
 		 */
-		Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* materialAsset );
+		Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* materialAsset);
 		
 
 
@@ -56,6 +56,7 @@ namespace DWI
 		* The material asset this mesh uses for its shaders and texture.
 		*/
 		MaterialAsset* materialAsset( void );
+
 
 	};
 }

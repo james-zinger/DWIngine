@@ -30,10 +30,33 @@ namespace DWI
 		GLuint __shaderModelID;
 		GLuint __shaderLightPos;
 		GLuint __texture;
-		GLuint __textureID;
+		GLuint __textureShaderID;
 
 		bool __isShaderLoaded;
 		bool __isTextureLoaded;
+
+		/////////////////////////////////////////
+		// Private GFX functions
+
+		/**
+		 * @brief	Loads shader to graphics card.
+		 */
+		void __loadShaderToGFXCard( void );
+
+		/**
+		 * @brief	Loads texture to graphics card.
+		 */
+		void __loadTextureToGFXCard( void );
+
+		/**
+		 * @brief	Unload shader from graphics card.
+		 */
+		void __unloadShaderFromGFXCard( void );
+
+		/**
+		 * @brief	Unload texture from graphics card.
+		 */
+		void __unloadTextureFromGFXCard( void );
 
 	/////////////////////////////////////////////////////////////
 	public:

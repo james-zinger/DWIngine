@@ -62,43 +62,12 @@ void TestApp::onStart( void )
 	DWI::MeshAsset* meshAsset = engine()->resources()->getMesh( "M-16" );
 	__sstream << "Mesh (M-16): \n\n";
 	__sstream << "Vertices: \n\n";
-	for ( int i = 0; i < meshAsset->vertices().size(); i++ )
-	{
-		__sstream << "(x, y, z) = ( "
-			<< meshAsset->vertices()[ i ].x << ", "
-			<< meshAsset->vertices()[ i ].y << ", "
-			<< meshAsset->vertices()[ i ].z << " )\n";
-	}
-	__sstream << "\nNormals: \n\n";
-	for ( int i = 0; i < meshAsset->normals().size(); i++ )
-	{
-		__sstream << "(x, y, z) = ( "
-			<< meshAsset->normals()[ i ].x << ", "
-			<< meshAsset->normals()[ i ].y << ", "
-			<< meshAsset->normals()[ i ].z << " )\n";
-	}
-	__sstream << "\nUVs: \n\n";
-	for ( int i = 0; i < meshAsset->uvs().size(); i++ )
-	{
-		__sstream << "(u, v) = ( "
-			<< meshAsset->uvs()[ i ].x << ", "
-			<< meshAsset->uvs()[ i ].y << " )\n";
-	}
+	
 	__sstream << "\n===\n\n";
 
 	// Load a texture from a .BMP file
 	engine()->resources()->addTextureFromBmpFile( "M-16", "m16.bmp" );
 	DWI::TextureAsset* textureAsset = engine()->resources()->getTexture( "M-16" );
-	__sstream << "Texture (M-16): \n\n";
-	__sstream << "Width: " << textureAsset->width() << "\n";
-	__sstream << "Height: " << textureAsset->height() << "\n";
-	for ( int i = 0; i < textureAsset->imageData().size(); i += 3 )
-	{
-		__sstream << "(r, g, b) = ( "
-			<< (int)textureAsset->imageData()[ i + 2 ] << ", "
-			<< (int)textureAsset->imageData()[ i + 1 ] << ", "
-			<< (int)textureAsset->imageData()[ i + 0 ] << " )\n";
-	}
 	__sstream << "\n===\n\n";
 
 	// Load some text from a .TXT file
@@ -118,14 +87,19 @@ void TestApp::onStart( void )
 	__sstream << "Texture Name: " << materialAsset->textureUniqueName() << "\n";
 	__sstream << "\n===\n\n";
 
+
+	
+
 	engine()->trace( __sstream.str() );
+
+	
 
 	engine()->trace( "Starting up..." );
 }
 
 void TestApp::onPreRender( void )
 {
-	engine()->trace( "PreRender" );
+	//engine()->trace( "PreRender" );
 }
 
 void TestApp::onRender( void )
@@ -139,12 +113,12 @@ void TestApp::onRender( void )
 	//__sstream << "Render @ " << engine()->timeSec() << " seconds  ::  Frame rate: " << engine()->fps() << "FPS";
 	//engine()->trace( __sstream.str() );
 
-	engine()->trace( "Render" );
+	//engine()->trace( "Render" );
 }
 
 void TestApp::onPostRender( void )
 {
-	engine()->trace( "PostRender" );
+	//engine()->trace( "PostRender" );
 }
 
 void TestApp::onStop( void )
