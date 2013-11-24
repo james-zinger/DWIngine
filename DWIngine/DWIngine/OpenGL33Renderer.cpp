@@ -263,13 +263,12 @@ void OpenGL33Renderer::renderScene( void )
 
 	int count = 0;
 
-	Log::LogTrace( "Starting Render Loop" );
+	//Log::LogTrace( "Starting Render Loop" );
 
 	glLogError( glGetError() );
 
 	while ( t->GetNumberOfChildren() != count )
 	{
-
 		int childIndex = t->GetChildIndexAtIndex( count );
 		Transform* child = tm->KeytoPointer( childIndex );
 
@@ -300,23 +299,21 @@ void OpenGL33Renderer::renderScene( void )
 
 		glBindVertexArray( meshAsset->__VAO );
 		
-		glLogError( glGetError( ) );
-
-		Log::LogTrace( "Checking For Errors 1" );
+		//glLogError( glGetError() );
+		//Log::LogTrace( "Checking For Errors 1" );
 
 		glUseProgram( matAsset->__shaderProgramID );
 
 	
-		glLogError( glGetError( ) );
-
-		Log::LogTrace( "Checking For Errors 2" );
+		//glLogError( glGetError() );
+		//Log::LogTrace( "Checking For Errors 2" );
 
 		glUniformMatrix4fv( matAsset->__shaderMatrixID, 1, GL_FALSE, &mvp[ 0 ][ 0 ] );
 		glUniformMatrix4fv( matAsset->__shaderModelID, 1, GL_FALSE, &model[ 0 ][ 0 ] );
 		glUniformMatrix4fv( matAsset->__shaderViewID, 1, GL_FALSE, &(__cam.getView())[0][0]);
-		glLogError( glGetError( ) );
-
-		Log::LogTrace( "Checking For Errors 3" );
+		
+		//glLogError( glGetError() );
+		//Log::LogTrace( "Checking For Errors 3" );
 
 		vec3 lightPos = vec3( 0, 2, -2 );
 
@@ -327,9 +324,8 @@ void OpenGL33Renderer::renderScene( void )
 		glBindTexture( GL_TEXTURE_2D, matAsset->__texture );
 		glUniform1i( matAsset->__textureShaderID, 0 );
 
-		glLogError( glGetError( ) );
-
-		Log::LogTrace( "Checking For Errors 4" );
+		//glLogError( glGetError() );
+		//Log::LogTrace( "Checking For Errors 4" );
 
 		glEnableVertexAttribArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, meshAsset->__VBO );

@@ -117,9 +117,6 @@
     <ClInclude Include="Time.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Cloth.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentManager.h">
       <Filter>Components\Managers</Filter>
     </ClInclude>
@@ -211,9 +208,6 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Cloth.cpp">
-      <Filter>Scripting</Filter>
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
       <Filter>Components\Managers</Filter>

@@ -5,6 +5,7 @@
 #include <string>
 #include "Transform.h"
 #include "Resources.h"
+
 using std::string;
 using std::list;
 
@@ -30,6 +31,7 @@ namespace DWI
 		int __transform;
 
 		int __mesh;
+
 
 		/////////////////////////////////////////////////////////////
 	public:
@@ -65,6 +67,12 @@ namespace DWI
 		 * @param	materialAsset	The material asset.
 		 */
 		void addMesh( string meshAsset, string materialAsset );
+
+		/**
+		 * @fn	void GameObject::addCloth( void );
+		 * @brief	adds the cloth component to the gameobject
+		 */
+		void addCloth( void );
 
 		/**
 		 * @fn	Transform* GameObject::transform(void );

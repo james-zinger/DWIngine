@@ -1,4 +1,5 @@
 #include <math.h>
+#include "MeshAsset.h"
 #include "Cloth.h"
 
 #ifndef NULL
@@ -6,6 +7,8 @@
 #endif
 
 #define CLOTH_SQRT2 1.4142136
+
+using DWI::MeshAsset;
 
 
 
@@ -15,7 +18,7 @@
 /////////////////////////////////////////////////////////////////
 // Initialization
 
-void DWI::Cloth::createNodes( int rows, int columns, float equilibriumDistance )
+void Cloth::createNodes( int rows, int columns, float equilibriumDistance )
 {
 	for ( int col = 0; col < columns; col++ )
 	{
@@ -32,7 +35,7 @@ void DWI::Cloth::createNodes( int rows, int columns, float equilibriumDistance )
 	}
 }
 
-void DWI::Cloth::createSprings( int rows, int columns, vector<Node>& nodes )
+void Cloth::createSprings( int rows, int columns, vector<Node>& nodes )
 {
 	int numberOfSprings = 4 * ( ( columns - 1 ) * ( rows - 1 ) ) + ( columns - 1 ) + ( rows - 1 );
 
@@ -97,7 +100,7 @@ void DWI::Cloth::createSprings( int rows, int columns, vector<Node>& nodes )
 	}
 }
 
-void DWI::Cloth::startGeometry( int rows, int columns, float equilibriumDistance, vector<Node>& nodes )
+void Cloth::startGeometry( int rows, int columns, float equilibriumDistance, vector<Node>& nodes )
 {
 	vector<Vector3>& normals = __meshComponent->meshAsset()->normals();
 	vector<Vector2>& uvs = __meshComponent->meshAsset()->uvs();
@@ -128,7 +131,7 @@ void DWI::Cloth::startGeometry( int rows, int columns, float equilibriumDistance
 /////////////////////////////////////////////////////////////////
 // Update
 
-void DWI::Cloth::updatePhysics( float dt )
+void Cloth::updatePhysics( float dt )
 {
 	// Spring-wise force analysis to determine the new net force of each node
 	for ( unsigned int springIndex = 0; springIndex < __springs.size(); springIndex++ )
@@ -164,24 +167,31 @@ void DWI::Cloth::updatePhysics( float dt )
 	}
 }
 
-void DWI::Cloth::updateMesh( void )
+void Cloth::updateMesh( void )
 {
-	setMeshVertices( __rows, __columns, __nodes, __meshComponent->meshAsset()->vertices() );
-	setMeshNormals( __rows, __columns, __nodes, __meshComponent->meshAsset()->normals() );
+	MeshAsset* meshAsset = __meshComponent->meshAsset();
+
+	// Update the vertices and normals in RAM
+	setMeshVertices( __rows, __columns, __nodes, meshAsset->vertices() );
+	setMeshNormals( __rows, __columns, __nodes, meshAsset->normals() );
+
+	// Push the updated mesh to the graphics card
+	meshAsset->LoadGFXVertices();
+	meshAsset->LoadGFXNormals();
 }
 
 
 /////////////////////////////////////////////////////////////////
 // Physics
 
-void DWI::Cloth::applySpringForce( int index )
+void Cloth::applySpringForce( int index )
 {
 	Vector3 forceNode1ToNode2 = computeSpringForce( index );
 	__springs[ index ].node1->force += forceNode1ToNode2;
 	__springs[ index ].node2->force -= forceNode1ToNode2;
 }
 
-Vector3 DWI::Cloth::computeSpringForce( int index )
+Vector3 Cloth::computeSpringForce( int index )
 {
 	// Get the normalized direction of the force vector
 	Vector3 direction = __springs[ index ].node2->position - __springs[ index ].node1->position;
@@ -197,7 +207,7 @@ Vector3 DWI::Cloth::computeSpringForce( int index )
 /////////////////////////////////////////////////////////////////
 // Dynamic meshing
 
-void DWI::Cloth::setMeshNormals( int rows, int columns, vector<Node>& nodes, vector<Vector3>& normals )
+void Cloth::setMeshNormals( int rows, int columns, vector<Node>& nodes, vector<Vector3>& normals )
 {
 	int normIndex = 0;
 	Vector3 crossProduct;
@@ -242,7 +252,7 @@ void DWI::Cloth::setMeshNormals( int rows, int columns, vector<Node>& nodes, vec
 	}
 }
 
-void DWI::Cloth::setMeshUVs( int rows, int columns, float equilibriumDistance, vector<Node>& nodes, vector<Vector2>& uvs )
+void Cloth::setMeshUVs( int rows, int columns, float equilibriumDistance, vector<Node>& nodes, vector<Vector2>& uvs )
 {
 	int uvIndex = 0;
 	float width = columns * equilibriumDistance;
@@ -288,7 +298,7 @@ void DWI::Cloth::setMeshUVs( int rows, int columns, float equilibriumDistance, v
 	}
 }
 
-void DWI::Cloth::setMeshVertices( int rows, int columns, vector<Node>& nodes, vector<Vector3>& vertices )
+void Cloth::setMeshVertices( int rows, int columns, vector<Node>& nodes, vector<Vector3>& vertices )
 {
 	int vertIndex = 0;
 
@@ -335,19 +345,19 @@ void DWI::Cloth::setMeshVertices( int rows, int columns, vector<Node>& nodes, ve
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-DWI::Cloth::Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff )
+Cloth::Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff )
 {
 	__meshComponent = meshComponent;
 	init( rows, columns, equilibriumDistance, nodeMass, springCoeff, dampingCoeff );
 }
 
-DWI::Cloth::Cloth( void )
+Cloth::Cloth( void )
 {
 	__meshComponent = NULL;
 	reset();
 }
 
-DWI::Cloth::~Cloth( void )
+Cloth::~Cloth( void )
 {
 	
 }
@@ -356,7 +366,7 @@ DWI::Cloth::~Cloth( void )
 /////////////////////////////////////////////////////////////////
 // Initialization
 
-void DWI::Cloth::init( int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff )
+void Cloth::init( int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff )
 {
 	// Read in the necessary values
 	__ready = true;
@@ -377,7 +387,7 @@ void DWI::Cloth::init( int rows, int columns, float equilibriumDistance, float n
 	startGeometry( rows, columns, equilibriumDistance, __nodes );
 }
 
-void DWI::Cloth::reset( void )
+void Cloth::reset( void )
 {
 	// Zero out all values
 	__ready = false;
@@ -405,7 +415,7 @@ void DWI::Cloth::reset( void )
 /////////////////////////////////////////////////////////////////
 // Update
 
-void DWI::Cloth::update( float dt )
+void Cloth::update( float dt )
 {
 	updatePhysics( dt );
 	updateMesh();
@@ -415,7 +425,7 @@ void DWI::Cloth::update( float dt )
 /////////////////////////////////////////////////////////////////
 // Physics
 
-void DWI::Cloth::applyForceToNode( int index, Vector3 force )
+void Cloth::applyForceToNode( int index, Vector3 force )
 {
 	__nodes[ index ].force += force;
 }
@@ -424,42 +434,42 @@ void DWI::Cloth::applyForceToNode( int index, Vector3 force )
 /////////////////////////////////////////////////////////////////
 // Getters
 
-int DWI::Cloth::columns( void )
+int Cloth::columns( void )
 {
 	return __columns;
 }
 
-int DWI::Cloth::rows( void )
+int Cloth::rows( void )
 {
 	return __rows;
 }
 
-vector<DWI::Node>& DWI::Cloth::nodes( void )
+vector<Node>& Cloth::nodes( void )
 {
 	return __nodes;
 }
 
-vector<DWI::Spring>& DWI::Cloth::springs( void )
+vector<Spring>& Cloth::springs( void )
 {
 	return __springs;
 }
 
-float DWI::Cloth::dampingCoeff( void )
+float Cloth::dampingCoeff( void )
 {
 	return __dampingCoeff;
 }
 
-float DWI::Cloth::equilibriumDistance( void )
+float Cloth::equilibriumDistance( void )
 {
 	return __equilibriumDistance;
 }
 
-float DWI::Cloth::nodeMass( void )
+float Cloth::nodeMass( void )
 {
 	return __nodeMass;
 }
 
-float DWI::Cloth::springCoeff( void )
+float Cloth::springCoeff( void )
 {
 	return __springCoeff;
 }
@@ -468,22 +478,27 @@ float DWI::Cloth::springCoeff( void )
 /////////////////////////////////////////////////////////////////
 // Setters
 
-void DWI::Cloth::dampingCoeff( float value )
+void Cloth::meshComponent( Mesh* value )
+{
+	__meshComponent = value;
+}
+
+void Cloth::dampingCoeff( float value )
 {
 	__dampingCoeff = value;
 }
 
-void DWI::Cloth::equilibriumDistance( float value )
+void Cloth::equilibriumDistance( float value )
 {
 	__equilibriumDistance = value;
 }
 
-void DWI::Cloth::nodeMass( float value )
+void Cloth::nodeMass( float value )
 {
 	__nodeMass = value;
 }
 
-void DWI::Cloth::springCoeff( float value )
+void Cloth::springCoeff( float value )
 {
 	__springCoeff = value;
 }
