@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "DWIngine.h"
 #include "TransformManager.h"
+#include "MeshManager.h"
 #include "Scene.h"
 #include "ObjectCouldNotBeCreatedException.h"
 #include "Log.h"
@@ -23,13 +24,33 @@ namespace DWI
 
 	GameObject::GameObject( void )
 	{
-		transform = DWIngine::singleton()->transformManager()->TransformFactory( this );
-		
+		__transform = DWIngine::singleton()->transformManager()->TransformFactory( this );
+		__mesh = -1;
 	}
 
 	GameObject::~GameObject( void )
 	{
 
+	}
+
+	int GameObject::getTransformIndex( void )
+	{
+		return __transform;
+	}
+
+	void GameObject::addMesh( string meshAsset, string matAsset )
+	{
+		__mesh = DWIngine::singleton()->meshManager()->MeshFactory( this, meshAsset, matAsset );
+	}
+
+	int GameObject::getMeshIndex( void )
+	{
+		return __mesh;
+	}
+
+	Transform* GameObject::transform( void )
+	{
+		return DWIngine::singleton()->transformManager()->KeytoPointer( __transform );
 	}
 
 	GameObject* GameObject::Instantiate( Vector3& Position, Quaternion& Orientation, Vector3& Scale, int parent )
@@ -42,7 +63,7 @@ namespace DWI
 		}
 		GameObject* go = new GameObject();
 		
-		Transform* t = DWIngine::singleton()->transformManager()->KeytoPointer( go->transform );
+		Transform* t = DWIngine::singleton()->transformManager()->KeytoPointer( go->__transform );
 
 		t->Scale = Scale;
 		t->Orientation = Orientation;

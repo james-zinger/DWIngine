@@ -371,6 +371,7 @@ bool DWI::Resources::addMaterial( string uniqueName, MaterialAsset* materialAsse
 bool DWI::Resources::addMaterialFromString( string uniqueName, string fragmentShaderName, string vertexShaderName, string textureName )
 {
 	MaterialAsset* materialAsset = new MaterialAsset( uniqueName, fragmentShaderName, vertexShaderName, textureName );
+	
 	return addMaterial( uniqueName, materialAsset );
 }
 
@@ -413,12 +414,13 @@ bool DWI::Resources::addMesh( string uniqueName, MeshAsset* meshAsset )
 	return result.second;
 }
 
-bool DWI::Resources::addMeshFromObjFile( string uniqueName, string meshFilepath )
+bool DWI::Resources::addMeshFromObjFile( string uniqueName, string meshFilepath, bool isDynamic )
 {
 	try
 	{
-		MeshAsset* asset = new MeshAsset( uniqueName );
+		MeshAsset* asset = new MeshAsset( uniqueName, isDynamic );
 		Resources::loadMeshFromObjFile( meshFilepath, asset );
+		asset->init();
 		return addMesh( uniqueName, asset );
 	}
 	catch ( const FileCouldNotBeOpenedException& e )

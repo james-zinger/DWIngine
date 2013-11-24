@@ -89,7 +89,22 @@ namespace DWI
 		 * @brief	Gets the parent of this item.
 		 * @return	null if it fails, else the parent.
 		 */
-		int		GetParent( void );
+		int				GetParent( void );
+
+		/**
+		 * @fn	int Transform::GetNumberOfChildren( void );
+		 * @brief	Gets the children of this item.
+		 * @return	The number of children.
+		 */
+		int				GetNumberOfChildren( void );
+
+		/**
+		 * @fn	int Transform::GetChildIndexAtIndex( int index );
+		 * @brief	Gets a child index at index.
+		 * @param	index	Zero-based index of the.
+		 * @return	The child index at index.
+		 */
+		int				GetChildIndexAtIndex( int index );
 
 		/**
 		 * @fn	void Transform::SetPosition( Vector3* position );
@@ -121,6 +136,9 @@ namespace DWI
 
 #pragma endregion
 
+		void	Rotate( Quaternion rotation );
+		void	Rotate( Vector3 axis, float angle );
+		void	Translate( Vector3 translate );
 
 	};
 }

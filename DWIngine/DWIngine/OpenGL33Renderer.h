@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
-#include <map>
 #include "Input.h"
 #include "GL\glew.h"
 #include "GL\glfw.h"
@@ -44,15 +43,6 @@ namespace DWI
 
 		/////////////////////////////////////////////////////////////
 	private:
-
-		/////////////////////////////////////////
-		// Private member variables
-
-		mat4	__mvp;
-
-		Camera	__cam;
-
-
 
 		/////////////////////////////////////////
 		// Private Helper Functions

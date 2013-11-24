@@ -18,13 +18,13 @@ namespace DWI
 	 */
 	class MeshManager : public ComponentManager
 	{
-
+		friend class OpenGL33Renderer;
 	protected:
 
 		vector<Mesh> __meshes;
 
 		/////////////////////////////////////////////////////////
-	private:
+	public:
 
 #pragma region		Constructor And Destructor
 
@@ -52,7 +52,7 @@ namespace DWI
 		 * @param [in,out]	matAsset  	If non-null, the material asset.
 		 * @return	null if it fails, else a Mesh*.
 		 */
-		int MeshFactory( GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset );
+		int MeshFactory( GameObject* gameObject, string meshAsset, string matAsset );
 
 #pragma region Event Method Overrides
 

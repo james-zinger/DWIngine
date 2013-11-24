@@ -14,7 +14,7 @@ namespace DWI
 	/////////////////////////////////////////////////////////////////
 	// ctor and dtor
 
-	Mesh::Mesh( const unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* matAsset) : Component( uniqueID, gameObject )
+	Mesh::Mesh( const unsigned int uniqueID, GameObject* gameObject, string meshAsset, string matAsset) : Component( uniqueID, gameObject )
 	{
 		__meshAsset = meshAsset;
 		__materialAsset = matAsset;
@@ -22,8 +22,18 @@ namespace DWI
 
 	Mesh::~Mesh( void )
 	{
-		__meshAsset = NULL;
-		__materialAsset = NULL;
+		__meshAsset = "";
+		__materialAsset = "";
+	}
+
+	MeshAsset* Mesh::meshAsset( void )
+	{
+		return DWIngine::singleton()->resources()->getMesh( __meshAsset );
+	}
+
+	MaterialAsset* Mesh::materialAsset( void )
+	{
+		return DWIngine::singleton()->resources()->getMaterial( __materialAsset );
 	}
 	
 }

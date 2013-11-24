@@ -2,9 +2,7 @@
 #define DWI_ABSTRACTRENDERER
 
 #include "Mesh.h"
-#include <map>
-#include "Model.h"
-using std::map;
+#include "Camera.h"
 namespace DWI
 {
 	// Forward includes
@@ -23,8 +21,8 @@ namespace DWI
 		const DWIngine*	__engine;
 		unsigned int	__screenHeight;
 		unsigned int	__screenWidth;
-		map<int, Model*>	__models;
 
+		Camera __cam;
 
 		/////////////////////////////////////////////////////////////
 	public:
@@ -40,9 +38,6 @@ namespace DWI
 		// Public abstract functions
 
 		virtual void renderScene( void ) = 0;
-		virtual void registerModel( Model* m );
-		virtual void deregisterModel( Model* m );
-		virtual void deregisterModel( int key );
 
 		/////////////////////////////////////////
 		// Getters
@@ -63,6 +58,8 @@ namespace DWI
 		unsigned int screenWidth( void );
 
 		void setScreenDimensions( int width, int height );
+
+		virtual Camera* getCamera( void );
 	};
 }
 

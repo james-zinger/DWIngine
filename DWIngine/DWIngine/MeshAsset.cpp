@@ -14,9 +14,15 @@ namespace DWI
 	/////////////////////////////////////////////////////////////
 	// ctor and dtor
 
-	MeshAsset::MeshAsset( string uniqueName ) : AbstractAsset( uniqueName )
+	MeshAsset::MeshAsset( string uniqueName, bool isDynamic ) : AbstractAsset( uniqueName )
 	{
 		__isLoaded = false;
+		__isDynamic = isDynamic;	
+	}
+
+	void MeshAsset::init( void )
+	{
+		__loadMeshToGFXCard( );
 	}
 
 	MeshAsset::~MeshAsset( void )
@@ -24,7 +30,7 @@ namespace DWI
 		__unLoadFromGFXCard();
 	}
 
-	void MeshAsset::__loadMeshToGFXCard( bool isDyanmic )
+	void MeshAsset::__loadMeshToGFXCard()
 	{
 		if ( !__isLoaded )
 		{
@@ -37,7 +43,7 @@ namespace DWI
 			glGenBuffers( 1, &__VBO );
 			glBindBuffer( GL_ARRAY_BUFFER, __VBO );
 
-			if ( isDyanmic )
+			if ( __isDynamic )
 			{
 				glBufferData( GL_ARRAY_BUFFER, __vertices.size() * sizeof( Vector3 ), &__vertices[ 0 ], GL_DYNAMIC_DRAW );
 			}
@@ -52,7 +58,7 @@ namespace DWI
 			glGenBuffers( 1, &__UVBO );
 			glBindBuffer( GL_ARRAY_BUFFER, __UVBO );
 
-			if ( isDyanmic )
+			if ( __isDynamic )
 			{
 				glBufferData( GL_ARRAY_BUFFER, __uvs.size() * sizeof( Vector2 ), &__uvs[ 0 ], GL_DYNAMIC_DRAW );
 			}
@@ -65,7 +71,7 @@ namespace DWI
 			glGenBuffers( 1, &__NBO );
 			glBindBuffer( GL_ARRAY_BUFFER, __NBO );
 
-			if ( isDyanmic )
+			if ( __isDynamic )
 			{
 				glBufferData( GL_ARRAY_BUFFER, __normals.size() * sizeof( Vector3 ), &__normals[ 0 ], GL_DYNAMIC_DRAW );
 			}
@@ -90,6 +96,61 @@ namespace DWI
 			__isLoaded = !__isLoaded;
 		}
 	}
+
+	void MeshAsset::LoadGFXVertices( void )
+	{
+		if ( __isLoaded )
+		{
+			glBindVertexArray( __VAO );
+			glBindBuffer( GL_ARRAY_BUFFER, __VBO );
+
+			if ( __isDynamic )
+			{
+				glBufferData( GL_ARRAY_BUFFER, __vertices.size() * sizeof( Vector3 ), &__vertices[ 0 ], GL_DYNAMIC_DRAW );
+			}
+			else
+			{
+				glBufferData( GL_ARRAY_BUFFER, __vertices.size() * sizeof( Vector3 ), &__vertices[ 0 ], GL_STATIC_DRAW );
+			}
+		}
+	}
+
+	void MeshAsset::LoadGFXNormals( void )
+	{
+		if ( __isLoaded )
+		{
+			glBindVertexArray( __VAO );
+			glBindBuffer( GL_ARRAY_BUFFER, __NBO );
+
+			if ( __isDynamic )
+			{
+				glBufferData( GL_ARRAY_BUFFER, __normals.size( ) * sizeof( Vector3 ), &__normals[ 0 ], GL_DYNAMIC_DRAW );
+			}
+			else
+			{
+				glBufferData( GL_ARRAY_BUFFER, __normals.size( ) * sizeof( Vector3 ), &__normals[ 0 ], GL_STATIC_DRAW );
+			}
+		}
+	}
+
+	void MeshAsset::LoadGFXUVs( void )
+	{
+		if ( __isLoaded )
+		{
+			glBindVertexArray( __VAO );
+			glBindBuffer( GL_ARRAY_BUFFER, __UVBO );
+
+			if ( __isDynamic )
+			{
+				glBufferData( GL_ARRAY_BUFFER, __uvs.size( ) * sizeof( Vector2 ), &__uvs[ 0 ], GL_DYNAMIC_DRAW );
+			}
+			else
+			{
+				glBufferData( GL_ARRAY_BUFFER, __uvs.size( ) * sizeof( Vector2 ), &__uvs[ 0 ], GL_STATIC_DRAW );
+			}
+		}
+	}
+
 
 	/////////////////////////////////////////////////////////////
 	// Getters

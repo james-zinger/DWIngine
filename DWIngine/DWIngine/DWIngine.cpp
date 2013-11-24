@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "Scene.h"
 #include "TransformManager.h"
+#include "MeshManager.h"
 #include "GameObject.h"
 #ifndef NULL
 #define NULL 0
@@ -39,6 +40,7 @@ namespace DWI
 		__input = Input::singleton();
 		__currentScene = new Scene();
 		__transformManager = new TransformManager( this );
+		__meshManager = new MeshManager( this );
 		__resources = Resources::singleton();
 	}
 	
@@ -48,6 +50,7 @@ namespace DWI
 		delete __renderer;
 		delete __currentScene;
 		delete __transformManager;
+		delete __meshManager;
 		Log::destroySingleton();
 		Time::destroySingleton();
 		Input::destroySingleton();
@@ -268,9 +271,19 @@ namespace DWI
 		return __transformManager;
 	}
 
+	MeshManager* DWIngine::meshManager( void )
+	{
+		return __meshManager;
+	}
+
 	Scene* DWIngine::currentScene( void )
 	{
 		return __currentScene;
+	}
+
+	Camera* DWIngine::camera( void )
+	{
+		return __renderer->getCamera();
 	}
 
 	/////////////////////////////////////////////////////////////////

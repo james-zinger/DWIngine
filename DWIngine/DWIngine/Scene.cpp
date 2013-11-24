@@ -29,7 +29,7 @@ namespace DWI
 	{
 		__rootObject = new GameObject();
 
-		Transform* t = DWIngine::singleton()->transformManager()->KeytoPointer( __rootObject->transform );
+		Transform* t = DWIngine::singleton()->transformManager()->KeytoPointer( __rootObject->__transform );
 
 		t->Position = Vector3( 0, 0, 0 );
 		t->Orientation = Quaternion();

@@ -6,6 +6,7 @@
 #include "TextureAsset.h"
 #include "Component.h"
 #include "DWMath.h"
+#include "Resources.h"
 
 using std::vector;
 
@@ -15,14 +16,15 @@ namespace DWI
 	class Mesh : public Component
 	{
 		friend class MeshManager;
+		friend class OpenGL33Renderer;
 	/////////////////////////////////////////////////////////////
 	private:
 
 		/////////////////////////////////////////
 		// Private member variables
 
-		MeshAsset*		__meshAsset;
-		MaterialAsset*	__materialAsset;
+		string		__meshAsset;
+		string		__materialAsset;
 
 		/**
 		 * @fn	Mesh::Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset,
@@ -33,7 +35,7 @@ namespace DWI
 		 * @param [in,out]	meshAsset	 	If non-null, the mesh asset.
 		 * @param [in,out]	materialAsset	If non-null, the material asset.
 		 */
-		Mesh( unsigned int uniqueID, GameObject* gameObject, MeshAsset* meshAsset, MaterialAsset* materialAsset);
+		Mesh( unsigned int uniqueID, GameObject* gameObject, string meshAsset, string materialAsset);
 		
 
 

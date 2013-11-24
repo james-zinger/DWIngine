@@ -2,7 +2,9 @@
 #include "Resources.h"
 #include "TestApp.h"
 #include "GameObject.h"
+#include "MeshManager.h"
 #include "Scene.h"
+#include "Camera.h"
 #include <sstream>
 //#include "Primitive.h"
 
@@ -42,23 +44,24 @@ void TestApp::onStart( void )
 		Vector3( 0, 0, 0 ),
 		Quaternion(),
 		Vector3( 1, 1, 1 ),
-		DWI::DWIngine::singleton()->currentScene()->GetRoot()->transform );
+		DWI::DWIngine::singleton()->currentScene()->GetRoot()->getTransformIndex() );
+
 
 
 	GameObject* go2 = GameObject::Instantiate(
 		Vector3( 0, 0, 0 ),
 		Quaternion( ),
 		Vector3( 1, 1, 1 ),
-		engine( )->currentScene( )->GetRoot( )->transform );
+		engine( )->currentScene( )->GetRoot( )->getTransformIndex() );
 
 	__sstream << "=============\nResource Test\n=============\n\n";
 
 	// Load a fragment shader from a .FRAGMENTSHADER file
-	engine()->resources()->addFragmentShaderFromFile( "Test", "test.fragmentshader" );
+	engine()->resources()->addFragmentShaderFromFile( "Test", "StandardShading.fragmentshader" );
 	__sstream << "Fragment Shader (Test): \n\n" << engine()->resources()->getFragmentShader( "Test" )->sourceCode() << "\n===\n\n";
 
 	// Load a mesh from an .OBJ file
-	engine()->resources()->addMeshFromObjFile( "M-16", "M16_model.obj" );
+	engine()->resources()->addMeshFromObjFile( "M-16", "M16_model.obj", false );
 	DWI::MeshAsset* meshAsset = engine()->resources()->getMesh( "M-16" );
 	__sstream << "Mesh (M-16): \n\n";
 	__sstream << "Vertices: \n\n";
@@ -75,7 +78,7 @@ void TestApp::onStart( void )
 	__sstream << "Text (Test): \n\n" << engine()->resources()->getText( "Test" )->text() << "\n===\n\n";
 
 	// Load a vertex shader from a .VERTEXSHADER file
-	engine()->resources()->addVertexShaderFromFile( "Test", "test.vertexshader" );
+	engine()->resources()->addVertexShaderFromFile( "Test", "StandardShading.vertexshader" );
 	__sstream << "Vertex Shader (Test): \n\n" << engine()->resources()->getVertexShader( "Test" )->sourceCode() << "\n===\n\n";
 
 	// Create a material from the above shaders and texture
@@ -87,13 +90,20 @@ void TestApp::onStart( void )
 	__sstream << "Texture Name: " << materialAsset->textureUniqueName() << "\n";
 	__sstream << "\n===\n\n";
 
-
+	go->addMesh( "M-16", "M-16" );
 	
 
 	engine()->trace( __sstream.str() );
 
-	
+	go2->transform();
 
+	go->transform()->Scale = Vector3( 0.5f, 0.5f, 0.5f );
+	go->transform()->Rotate( Vector3(0,1,0), 45 );
+	go->transform()->Translate( Vector3( 1, 1, 0 ) );
+
+	DWI::Camera* cam = DWI::DWIngine::singleton()->camera();
+
+	cam->setPosition( Vector3( -5, 1, 0 ) );
 	engine()->trace( "Starting up..." );
 }
 

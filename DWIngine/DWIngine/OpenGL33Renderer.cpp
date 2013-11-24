@@ -1,5 +1,13 @@
 #include "ObjectCouldNotBeCreatedException.h"
 #include "OpenGL33Renderer.h"
+#include "MeshManager.h"
+#include "Scene.h"
+#include "TransformManager.h"
+#include "Transform.h"
+#include "Mesh.h"
+#include "Resources.h"
+#include "glm\gtc\quaternion.hpp"
+#include "glm\gtx\quaternion.hpp"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -69,7 +77,7 @@ void DWI::windowrefresh_callback( void )
 /*
  * Left mouse button = 0
  * Right mouse button = 1
- * 
+ *
  */
 void DWI::mousebutton_callback( int button, int action )
 {
@@ -91,9 +99,11 @@ void DWI::mousebutton_callback( int button, int action )
 }
 
 /**
- * Mouse Position on the windows pixel coords
+ * @fn	void DWI::mousepos_callback( int x, int y )
+ * @brief	Callback, called when the mouse moves
+ * @param	x	The x coordinate.
+ * @param	y	The y coordinate.
  */
-
 void DWI::mousepos_callback( int x, int y )
 {
 	Input::UpdateMousePosition( vec2( x, y ) );
@@ -206,14 +216,6 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 	// Cull triangles which normal is not towards the camera
 	glEnable( GL_CULL_FACE );
 
-	vector<vec3> Verts;
-	vector<vec2> UVs;
-	vector<vec3> Normals;
-
-	loadOBJ( "M16_Model.obj", Verts, UVs, Normals );
-
-	registerModel( new Model( __models.size(), "StandardShading.vertexshader", "StandardShading.fragmentshader", "M16.bmp", Verts, UVs, Normals ) );
-
 	//Setting Callbacks
 	glfwSetKeyCallback( key_callback );
 	glfwSetWindowSizeCallback( resize_callback );
@@ -222,7 +224,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 	glfwSetMouseButtonCallback( mousebutton_callback );
 	glfwSetMousePosCallback( mousepos_callback );
 	glfwSetMouseWheelCallback( mousewheel_callback );
-	
+
 }
 
 OpenGL33Renderer::~OpenGL33Renderer( void )
@@ -249,72 +251,127 @@ void OpenGL33Renderer::renderScene( void )
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	if ( __models.size() > 0 )
+	GameObject* root = DWIngine::singleton()->currentScene()->GetRoot();
+
+	int transformIndex = root->getTransformIndex();
+
+	TransformManager* tm = DWIngine::singleton()->transformManager();
+
+	MeshManager* mm = DWIngine::singleton()->meshManager();
+
+	Transform* t = tm->KeytoPointer( transformIndex );
+
+	int count = 0;
+
+	Log::LogTrace( "Starting Render Loop" );
+
+	glLogError( glGetError() );
+
+	while ( t->GetNumberOfChildren() != count )
 	{
-		int count = 0;
-		for ( map<int, Model*>::iterator it = __models.begin(); it != __models.end(); it++ )
+
+		int childIndex = t->GetChildIndexAtIndex( count );
+		Transform* child = tm->KeytoPointer( childIndex );
+
+		GameObject* go = child->gameObject();
+
+		int meshIndex = go->getMeshIndex();
+
+		if ( meshIndex == -1 )
 		{
-
-			Model* m = it->second;
-			mat4 modelMat = mat4( 1.0f );
-
-			mat4 mvp = __cam.getProj() * __cam.getView() * modelMat;
-
-			glBindVertexArray( m->VertexArrayObjectID );
-
-			glUseProgram( m->ShaderProgramID );
-
-			glUniformMatrix4fv( m->ShaderMatrixID, 1, GL_FALSE, &mvp[ 0 ][ 0 ] );
-			glUniformMatrix4fv( m->ShaderModelID, 1, GL_FALSE, &modelMat[ 0 ][ 0 ] );
-			glUniformMatrix4fv( m->ShaderViewID, 1, GL_FALSE, &( __cam.getView() )[ 0 ][ 0 ] );
-
-			vec3 lightPos = vec3( 0, 2, -2 );
-			glUniform3f( m->ShaderLightPos, lightPos.x, lightPos.y, lightPos.z );
-
-			glActiveTexture( GL_TEXTURE0 );
-			glBindTexture( GL_TEXTURE_2D, m->Texture );
-			glUniform1i( m->TextureID, 0 );
-
-			glEnableVertexAttribArray( 0 );
-			glBindBuffer( GL_ARRAY_BUFFER, m->VertexBuffer );
-			glVertexAttribPointer(
-				0,
-				3,
-				GL_FLOAT,
-				GL_FALSE,
-				0,
-				(void*)0
-				);
-
-			glEnableVertexAttribArray( 1 );
-			glBindBuffer( GL_ARRAY_BUFFER, m->UVBuffer );
-			glVertexAttribPointer(
-				1,
-				2,
-				GL_FLOAT,
-				GL_FALSE,
-				0,
-				(void*)0
-				);
-
-			glEnableVertexAttribArray( 2 );
-			glBindBuffer( GL_ARRAY_BUFFER, m->NormalBuffer );
-			glVertexAttribPointer(
-				2,
-				3,
-				GL_FLOAT,
-				GL_FALSE,
-				0,
-				(void*)0
-				);
-
-			glDrawArrays( GL_TRIANGLES, 0, m->Verts.size() );
-
-			glDisableVertexAttribArray( 0 );
-			glDisableVertexAttribArray( 1 );
-			glDisableVertexAttribArray( 2 );
 			count++;
+			continue;
 		}
+
+		Mesh* mesh = mm->KeytoPointer( meshIndex );
+
+		mat4 model = mat4( 1.0f );
+		
+		mat4 rotation = glm::toMat4( *(child->GetOrientation()) );
+		model = translate( model, *(child->GetPosition()) );
+		model = model * rotation;
+		model = scale( model, *(child->GetScale()) );
+		
+		mat4 mvp = __cam.getProj() * __cam.getView() * model;
+
+		MeshAsset* meshAsset = mesh->meshAsset();
+
+		MaterialAsset* matAsset = DWIngine::singleton()->resources()->getMaterial( mesh->__materialAsset );
+
+		glBindVertexArray( meshAsset->__VAO );
+		
+		glLogError( glGetError( ) );
+
+		Log::LogTrace( "Checking For Errors 1" );
+
+		glUseProgram( matAsset->__shaderProgramID );
+
+	
+		glLogError( glGetError( ) );
+
+		Log::LogTrace( "Checking For Errors 2" );
+
+		glUniformMatrix4fv( matAsset->__shaderMatrixID, 1, GL_FALSE, &mvp[ 0 ][ 0 ] );
+		glUniformMatrix4fv( matAsset->__shaderModelID, 1, GL_FALSE, &model[ 0 ][ 0 ] );
+		glUniformMatrix4fv( matAsset->__shaderViewID, 1, GL_FALSE, &(__cam.getView())[0][0]);
+		glLogError( glGetError( ) );
+
+		Log::LogTrace( "Checking For Errors 3" );
+
+		vec3 lightPos = vec3( 0, 2, -2 );
+
+		glUniform3f( matAsset->__shaderLightPos, lightPos.x, lightPos.y, lightPos.z );
+
+
+		glActiveTexture( GL_TEXTURE0 );
+		glBindTexture( GL_TEXTURE_2D, matAsset->__texture );
+		glUniform1i( matAsset->__textureShaderID, 0 );
+
+		glLogError( glGetError( ) );
+
+		Log::LogTrace( "Checking For Errors 4" );
+
+		glEnableVertexAttribArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, meshAsset->__VBO );
+		glVertexAttribPointer(
+			0,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+			);
+
+		glEnableVertexAttribArray( 1 );
+		glBindBuffer( GL_ARRAY_BUFFER, meshAsset->__UVBO );
+		glVertexAttribPointer(
+			1,
+			2,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+			);
+
+		glEnableVertexAttribArray( 2 );
+		glBindBuffer( GL_ARRAY_BUFFER, meshAsset->__NBO );
+		glVertexAttribPointer(
+			2,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+			);
+
+		glDrawArrays( GL_TRIANGLES, 0, meshAsset->__vertices.size()  );
+
+		glDisableVertexAttribArray( 0 );
+		glDisableVertexAttribArray( 1 );
+		glDisableVertexAttribArray( 2 );
+
+		count++;
+
 	}
 
 	glfwSwapBuffers();

@@ -15,8 +15,8 @@ namespace DWI
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	class MeshAsset : public AbstractAsset
 	{
-
-	/////////////////////////////////////////////////////////////
+		friend class OpenGL33Renderer;
+		/////////////////////////////////////////////////////////////
 	private:
 
 		/////////////////////////////////////////
@@ -52,27 +52,39 @@ namespace DWI
 		bool __isLoaded;
 
 		/**
+		 * @brief	true if this object is dynamic.
+		 */
+		bool __isDynamic;
+
+		/**
 		 * @fn	void MeshAsset::LoadMeshToGFXCard( bool isDyanmic );
 		 * @brief	Loads mesh to graphics card.
 		 * @param	isDyanmic	true if this object is dyanmic.
 		 */
-		void __loadMeshToGFXCard( bool isDyanmic );
+		void __loadMeshToGFXCard( void );
 
 		/**
 		 * @fn	void MeshAsset::UnLoadFromGFXCard();
 		 * @brief	Un load from graphics card.
 		 */
-		void __unLoadFromGFXCard();
+		void __unLoadFromGFXCard( void );
 
-	/////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
 	public:
 
 		/////////////////////////////////////////
 		// ctor and dtor
-		
-		MeshAsset( const string uniqueName );
+
+		MeshAsset( const string uniqueName, bool isDynamic );
 		~MeshAsset( void );
 
+		void init( void );
+
+		void LoadGFXVertices( void );
+
+		void LoadGFXNormals( void );
+
+		void LoadGFXUVs( void );
 
 		/////////////////////////////////////////
 		// Getters

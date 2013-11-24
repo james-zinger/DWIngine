@@ -18,7 +18,8 @@ namespace DWI
 	class Time;
 	class Scene;
 	class TransformManager;
-
+	class MeshManager;
+	class Camera;
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	class DWIngine
@@ -45,7 +46,7 @@ namespace DWI
 		Time*				__time;
 		Scene*				__currentScene;
 		TransformManager*	__transformManager;
-
+		MeshManager*		__meshManager;
 
 		/////////////////////////////////////////////
 		// ctor and dtor
@@ -246,10 +247,17 @@ namespace DWI
 
 		/**
 		 * @fn	TransformManager* DWIngine::transformManager( void );
-		 * @brief	The pointer to the Transform manager
+		 * @brief	The pointer to the Transform Manager
 		 * @return	null if it fails, else a TransformManager*.
 		 */
 		TransformManager* transformManager( void );
+
+		/**
+		 * @fn	MeshManager* DWIngine::meshManager( void );
+		 * @brief	the pointer to the Mesh Manager.
+		 * @return	null if it fails, else a MeshManager*.
+		 */
+		MeshManager* meshManager( void );
 
 		/**
 		 * @fn	Scene* DWIngine::currentScene( void );
@@ -257,6 +265,8 @@ namespace DWI
 		 * @return	null if it fails, else a Scene*.
 		 */
 		Scene* currentScene( void );
+		
+		Camera* camera( void );
 
 		/////////////////////////////////////////////
 		// Setters for private members

@@ -79,6 +79,33 @@ namespace DWI
 		return __parent;
 	}
 
+	int Transform::GetNumberOfChildren( void )
+	{
+		return __children.size();
+	}
+
+	int Transform::GetChildIndexAtIndex( int index )
+	{
+		return __children[ index ];
+	}
+
+	void Transform::Rotate( Quaternion q )
+	{
+		Vector3 axis = glm::axis( q );
+		float angle = glm::angle( q );
+		Orientation = glm::rotate( Orientation, angle, axis );
+	}
+
+	void Transform::Translate( Vector3 t )
+	{
+		Position += t;
+	}
+
+	void Transform::Rotate( Vector3 axis, float angle )
+	{
+		Orientation = glm::rotate( Orientation, angle, axis );
+	}
+
 	////////////////////////////////////////////////
 	// Public Setter Functions
 

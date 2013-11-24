@@ -223,12 +223,17 @@ namespace DWI
 		*/
 		bool addMesh( string uniqueName, MeshAsset* meshAsset );
 
-		/*
-		* Creates a MeshAsset from the .OBJ file at the provided filepath and adds it to the mesh 
-		* registry, identified by the name uniqueName.
-		* @returns Whether or not the new entry was added to the registry.
-		*/
-		bool addMeshFromObjFile( string uniqueName, string meshFilepath );
+		/**
+		 * @fn	bool Resources::addMeshFromObjFile( string uniqueName, string meshFilepath,
+		 * 		bool isDynamic );
+		 * @brief	Creates a MeshAsset from the .OBJ file at the provided filepath and adds it to the
+		 * 			mesh registry, identified by the name uniqueName.
+		 * @param	uniqueName  	unique name of the mesh.
+		 * @param	meshFilepath	The mesh filepath.
+		 * @param	isDynamic   	true if this object is dynamic.
+		 * @return	Whether or not the new entry was added to the registry.
+		 */
+		bool addMeshFromObjFile( string uniqueName, string meshFilepath, bool isDynamic );
 
 		/*
 		* Gets the mesh stored at uniqueName in the mesh registry.

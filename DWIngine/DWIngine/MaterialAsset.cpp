@@ -13,7 +13,6 @@ namespace DWI
 	
 	void MaterialAsset::__loadShaderToGFXCard( void )
 	{
-		//TODO: implement __loadShaderToGFXCard
 		if ( !__isShaderLoaded )
 		{
 			GLuint VertexShaderID = glCreateShader( GL_VERTEX_SHADER );
@@ -78,6 +77,13 @@ namespace DWI
 
 			__shaderProgramID = ProgramID;
 
+			__shaderMatrixID = glGetUniformLocation( ProgramID, "MVP" );
+			__shaderViewID = glGetUniformLocation( ProgramID, "V" );
+			__shaderModelID = glGetUniformLocation( ProgramID, "M" );
+			__textureShaderID = glGetUniformLocation( ProgramID, "TextureSampler" );
+			__shaderLightPos = glGetUniformLocation( ProgramID, "LightPosition_worldspace" );
+
+
 			__isShaderLoaded = !__isShaderLoaded;
 		}
 	}
@@ -97,7 +103,11 @@ namespace DWI
 
 			glBindTexture( GL_TEXTURE_2D, textureID );
 
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, tex->width(), tex->height(), 0, GL_BGR, GL_UNSIGNED_BYTE, &(tex->imageData()[0]) );
+			unsigned char * data = new unsigned char [tex->width() * tex->height() * 3];
+
+			data = &tex->imageData()[ 0 ];
+
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, tex->width(), tex->height(), 0, GL_RGB, GL_UNSIGNED_BYTE, data );
 
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -138,9 +148,12 @@ namespace DWI
 		__fragmentShaderUniqueName = fragmentShaderName;
 		__textureUniqueName = textureName;
 		__vertexShaderUniqueName = vertexShaderName;
-
 		__isTextureLoaded = false;
 		__isShaderLoaded = false;
+		__loadShaderToGFXCard();
+		__loadTextureToGFXCard();
+
+	
 	}
 
 	MaterialAsset::MaterialAsset( string uniqueName ) : AbstractAsset( uniqueName )
