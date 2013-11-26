@@ -76,20 +76,6 @@ private:
 
 
 	/////////////////////////////////////////
-	// Update
-
-	/*
-	* Update the nodes and springs based on the passage of dt seconds.
-	*/
-	void updatePhysics( float dt );
-
-	/*
-	* Update the attached mesh component with new vertices and normals.
-	*/
-	void updateMesh( void );
-
-
-	/////////////////////////////////////////
 	// Physics
 
 	/*
@@ -154,6 +140,16 @@ public:
 	* Update the nodes and springs based on the passage of dt seconds, then update the mesh.
 	*/
 	void update( float dt );
+	
+	/*
+	* Update the nodes and springs based on the passage of dt seconds.
+	*/
+	void updatePhysics( float dt );
+
+	/*
+	* Update the attached mesh component with new vertices and normals.
+	*/
+	void updateMesh( void );
 
 
 	/////////////////////////////////////////

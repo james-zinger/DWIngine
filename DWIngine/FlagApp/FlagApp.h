@@ -16,6 +16,7 @@ class FlagApp : public DWI::App
 /////////////////////////////////////////////////////////////////
 protected:
 
+	bool			__isStarting;
 	Cloth			__cloth;
 	stringstream	__sstream;
 

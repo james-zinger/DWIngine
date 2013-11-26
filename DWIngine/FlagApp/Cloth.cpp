@@ -1,6 +1,8 @@
 #include <math.h>
 #include "MeshAsset.h"
 #include "Cloth.h"
+#include "Log.h"
+#include <sstream>
 
 #ifndef NULL
 #define NULL 0
@@ -20,9 +22,9 @@ using DWI::MeshAsset;
 
 void Cloth::createNodes( int rows, int columns, float equilibriumDistance )
 {
-	for ( int col = 0; col < columns; col++ )
+	for ( int row = 0; row < rows; row++ )
 	{
-		for ( int row = 0; row < rows; row++ )
+		for ( int col = 0; col < columns; col++ )
 		{
 			Node node;
 			node.force = Vector3( 0, 0, 0 );
@@ -37,11 +39,9 @@ void Cloth::createNodes( int rows, int columns, float equilibriumDistance )
 
 void Cloth::createSprings( int rows, int columns, vector<Node>& nodes )
 {
-	int numberOfSprings = 4 * ( ( columns - 1 ) * ( rows - 1 ) ) + ( columns - 1 ) + ( rows - 1 );
-
-	for ( int col = 0; col < columns; col++ )
+	for ( int row = 0; row < rows; row++ )
 	{
-		for ( int row = 0; row < rows; row++ )
+		for ( int col = 0; col < columns; col++ )
 		{
 			Spring spring;
 			int nodeIndex = row * columns + col;
@@ -91,10 +91,10 @@ void Cloth::createSprings( int rows, int columns, vector<Node>& nodes )
 				__springs.push_back( spring );
 
 				// Create 1 BL to TR diagonal spring
-				spring.node1 = &__nodes[ nodeIndex + 1 ];
-				spring.node2 = &__nodes[ nodeIndex + columns ];
-				spring.isDiagonal = true;
-				__springs.push_back( spring );
+				//spring.node1 = &__nodes[ nodeIndex + 1 ];
+				//spring.node2 = &__nodes[ nodeIndex + columns ];
+				//spring.isDiagonal = true;
+				//__springs.push_back( spring );
 			}
 		}
 	}
@@ -109,10 +109,10 @@ void Cloth::startGeometry( int rows, int columns, float equilibriumDistance, vec
 	normals.clear();
 	uvs.clear();
 	vertices.clear();
-
-	for ( int col = 0; col < ( columns - 1 ); col++ )
+	
+	for ( int row = 0; row < ( rows - 1 ); row++ )
 	{
-		for ( int row = 0; row < ( rows - 1 ); row++ )
+		for ( int col = 0; col < ( columns - 1 ); col++ )
 		{
 			for ( int i = 0; i < 12; i++ )
 			{
@@ -125,59 +125,6 @@ void Cloth::startGeometry( int rows, int columns, float equilibriumDistance, vec
 
 	// Set the UVs for the first time
 	setMeshUVs( rows, columns, equilibriumDistance, nodes, uvs );
-}
-
-
-/////////////////////////////////////////////////////////////////
-// Update
-
-void Cloth::updatePhysics( float dt )
-{
-	// Spring-wise force analysis to determine the new net force of each node
-	for ( unsigned int springIndex = 0; springIndex < __springs.size(); springIndex++ )
-	{
-		applySpringForce( springIndex );
-	}
-
-	// Integrate acceleration, velocity and position for each node after forces 
-	// have been computed.
-	// Note: If this is done in the loop above, forces will be calculated incorrectly!
-	for ( unsigned int nodeIndex = 0; nodeIndex < __nodes.size(); nodeIndex++ )
-	{
-		// If this node's position is locked then skip this iteration
-		if ( __nodes[ nodeIndex ].locked ) continue;
-
-		// Determine acceleration from mass and net force
-		__nodes[ nodeIndex ].acceleration = dt * __nodes[ nodeIndex ].force / __nodeMass;
-
-		// Integrate velocity and apply damping
-		__nodes[ nodeIndex ].velocity += dt * __nodes[ nodeIndex ].acceleration;
-		__nodes[ nodeIndex ].velocity /= dt * __dampingCoeff + 1.0;
-
-		// Integrate position
-		__nodes[ nodeIndex ].position += dt * __nodes[ nodeIndex ].velocity;
-	}
-
-	// Clear the net forces on each node -- we need to start from scratch
-	// Note: This is done last so forces can be added to the cloth by the end-user
-	// during other code on each update.
-	for ( unsigned int nodeIndex = 0; nodeIndex < __nodes.size(); nodeIndex++ )
-	{
-		__nodes[ nodeIndex ].force = Vector3( 0, 0, 0 );
-	}
-}
-
-void Cloth::updateMesh( void )
-{
-	MeshAsset* meshAsset = __meshComponent->meshAsset();
-
-	// Update the vertices and normals in RAM
-	setMeshVertices( __rows, __columns, __nodes, meshAsset->vertices() );
-	setMeshNormals( __rows, __columns, __nodes, meshAsset->normals() );
-
-	// Push the updated mesh to the graphics card
-	meshAsset->LoadGFXVertices();
-	meshAsset->LoadGFXNormals();
 }
 
 
@@ -195,12 +142,17 @@ Vector3 Cloth::computeSpringForce( int index )
 {
 	// Get the normalized direction of the force vector
 	Vector3 direction = __springs[ index ].node2->position - __springs[ index ].node1->position;
-	float distance = (float)direction.length();
+	float distance = glm::length( direction );
 	direction /= distance;
+
+	//std::stringstream ss;
+	//ss << "Distance: " << distance;
+	//DWI::Log::LogInfo( ss.str() );
 
 	// Return the force vector adjusted for magnitude
 	float diagonalCoeff = __springs[ index ].isDiagonal ? CLOTH_SQRT2 : 1.0f;
-	return direction * __springCoeff * ( distance - __equilibriumDistance * diagonalCoeff );
+	float difference = distance - __equilibriumDistance * diagonalCoeff;
+	return direction * __springCoeff * difference;
 }
 
 
@@ -212,9 +164,9 @@ void Cloth::setMeshNormals( int rows, int columns, vector<Node>& nodes, vector<V
 	int normIndex = 0;
 	Vector3 crossProduct;
 
-	for ( int col = 0; col < ( columns - 1 ); col++ )
+	for ( int row = 0; row < ( rows - 1 ); row++ )
 	{
-		for ( int row = 0; row < ( rows - 1 ); row++ )
+		for ( int col = 0; col < ( columns - 1 ); col++ )
 		{
 			int nodeIndex = row * columns + col;
 			Node* tl = &nodes[ nodeIndex ];
@@ -226,25 +178,25 @@ void Cloth::setMeshNormals( int rows, int columns, vector<Node>& nodes, vector<V
 			// that comprise this square region of the cloth.
 
 			// Front-facing triangle: tl, bl, tr
-			crossProduct = glm::cross( bl->position - tl->position, tr->position - bl->position );
+			crossProduct = -glm::cross( bl->position - tl->position, tr->position - bl->position );
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 
 			// Back-facing triangle: tl, tr, bl
-			crossProduct = glm::cross( tr->position - tl->position, bl->position - tr->position );
+			crossProduct = -glm::cross( tr->position - tl->position, bl->position - tr->position );
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 
 			// Front-facing triangle: tr, bl, br
-			crossProduct = glm::cross( bl->position - tr->position, br->position - bl->position );
+			crossProduct = -glm::cross( bl->position - tr->position, br->position - bl->position );
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 
 			// Back-facing triangle: tr, br, bl
-			crossProduct = glm::cross( br->position - tr->position, bl->position - br->position );
+			crossProduct = -glm::cross( br->position - tr->position, bl->position - br->position );
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
 			normals[ normIndex++ ] = crossProduct;
@@ -258,19 +210,19 @@ void Cloth::setMeshUVs( int rows, int columns, float equilibriumDistance, vector
 	float width = columns * equilibriumDistance;
 	float height = rows * equilibriumDistance;
 
-	for ( int col = 0; col < ( __columns - 1 ); col++ )
+	for ( int row = 0; row < ( rows - 1 ); row++ )
 	{
-		for ( int row = 0; row < ( __rows - 1 ); row++ )
+		for ( int col = 0; col < ( columns - 1 ); col++ )
 		{
 			int nodeIndex = row * columns + col;
 			Node* tl = &nodes[ nodeIndex ];
 			Node* tr = &nodes[ nodeIndex + 1 ];
 			Node* bl = &nodes[ nodeIndex + columns ];
 			Node* br = &nodes[ nodeIndex + columns + 1 ];
-			Vector2 tlUV( tl->position.x / width, tl->position.z / height );
-			Vector2 trUV( tr->position.x / width, tr->position.z / height );
-			Vector2 blUV( bl->position.x / width, bl->position.z / height );
-			Vector2 brUV( tr->position.x / width, tr->position.z / height );
+			Vector2 tlUV( ( tl->position.x + 1.5f * equilibriumDistance ) / width, tl->position.y / height );
+			Vector2 trUV( ( tr->position.x + 1.5f * equilibriumDistance ) / width, tr->position.y / height );
+			Vector2 blUV( ( bl->position.x + 1.5f * equilibriumDistance ) / width, bl->position.y / height );
+			Vector2 brUV( ( br->position.x + 1.5f * equilibriumDistance ) / width, br->position.y / height );
 
 			// Set up uvs for the 2 front-facing triangles and the 2 back-facing triangles
 			// that comprise this square region of the cloth.
@@ -302,9 +254,9 @@ void Cloth::setMeshVertices( int rows, int columns, vector<Node>& nodes, vector<
 {
 	int vertIndex = 0;
 
-	for ( int col = 0; col < ( columns - 1 ); col++ )
+	for ( int row = 0; row < ( rows - 1 ); row++ )
 	{
-		for ( int row = 0; row < ( rows - 1 ); row++ )
+		for ( int col = 0; col < ( columns - 1 ); col++ )
 		{
 			int nodeIndex = row * columns + col;
 			Node* tl = &nodes[ nodeIndex ];
@@ -377,7 +329,7 @@ void Cloth::init( int rows, int columns, float equilibriumDistance, float nodeMa
 	__springCoeff = springCoeff;
 	__dampingCoeff = dampingCoeff;
 	
-	// Builld the nodes list
+	// Build the nodes list
 	createNodes( rows, columns, equilibriumDistance );
 
 	// Build the springs list
@@ -385,6 +337,12 @@ void Cloth::init( int rows, int columns, float equilibriumDistance, float nodeMa
 
 	// Start the mesh geometry by sizing the vectors correctly
 	startGeometry( rows, columns, equilibriumDistance, __nodes );
+
+	// Push the geometry out to the mesh component for the first time
+	updateMesh();
+
+	// Push the mesh out to the graphics card for the first time
+	__meshComponent->meshAsset()->init();
 }
 
 void Cloth::reset( void )
@@ -419,6 +377,55 @@ void Cloth::update( float dt )
 {
 	updatePhysics( dt );
 	updateMesh();
+}
+
+void Cloth::updatePhysics( float dt )
+{
+	// Spring-wise force analysis to determine the new net force of each node
+	for ( unsigned int springIndex = 0; springIndex < __springs.size(); springIndex++ )
+	{
+		applySpringForce( springIndex );
+	}
+
+	// Integrate acceleration, velocity and position for each node after forces 
+	// have been computed.
+	// Note: If this is done in the loop above, forces will be calculated incorrectly!
+	for ( unsigned int nodeIndex = 0; nodeIndex < __nodes.size(); nodeIndex++ )
+	{
+		// If this node's position is locked then skip this iteration
+		if ( __nodes[ nodeIndex ].locked ) continue;
+
+		// Determine acceleration from mass and net force
+		__nodes[ nodeIndex ].acceleration = dt * __nodes[ nodeIndex ].force / __nodeMass;
+
+		// Integrate velocity and apply damping
+		__nodes[ nodeIndex ].velocity += dt * __nodes[ nodeIndex ].acceleration;
+		__nodes[ nodeIndex ].velocity /= __dampingCoeff + 1.0;
+
+		// Integrate position
+		__nodes[ nodeIndex ].position += dt * __nodes[ nodeIndex ].velocity;
+	}
+
+	// Clear the net forces on each node -- we need to start from scratch
+	// Note: This is done last so forces can be added to the cloth by the end-user
+	// during other code on each update.
+	for ( unsigned int nodeIndex = 0; nodeIndex < __nodes.size(); nodeIndex++ )
+	{
+		__nodes[ nodeIndex ].force = Vector3( 0, 0, 0 );
+	}
+}
+
+void Cloth::updateMesh( void )
+{
+	MeshAsset* meshAsset = __meshComponent->meshAsset();
+
+	// Update the vertices and normals in RAM
+	setMeshVertices( __rows, __columns, __nodes, meshAsset->vertices() );
+	setMeshNormals( __rows, __columns, __nodes, meshAsset->normals() );
+
+	// Push the updated mesh to the graphics card
+	meshAsset->LoadGFXVertices();
+	meshAsset->LoadGFXNormals();
 }
 
 
