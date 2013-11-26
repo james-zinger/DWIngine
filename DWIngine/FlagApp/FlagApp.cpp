@@ -40,56 +40,90 @@ FlagApp::~FlagApp( void )
 
 void FlagApp::onStart( void )
 {
-	// Load file resources from the disk
+	// Load our standard diffuse shader package
 	engine()->resources()->addVertexShaderFromFile( "StandardShading", "StandardShading.vertexshader" );
 	engine()->resources()->addFragmentShaderFromFile( "StandardShading", "StandardShading.fragmentshader" );
+
+	//// GROUND ////
+
+	// Build the ground resources
+	engine()->resources()->addTextureFromBmpFile( "Ground", "Grass.bmp" );
+	engine()->resources()->addMaterialFromString( "Ground", "StandardShading", "StandardShading", "Ground" );
+	engine()->resources()->addMeshFromObjFile( "Ground", "Ground.obj", false );
+
+	// Create the flag pole game object
+	GameObject* go = GameObject::Instantiate(
+		Vector3( 0, 0, 0 ),
+		Quaternion(),
+		Vector3( 10, 10, 10 ),
+		engine()->currentScene()->GetRoot()->getTransformIndex()
+	);
+	go->addMesh( "Ground", "Ground" );
+
+	///// FLAG POLE /////
+
+	// Build the flag pole resources
+	engine()->resources()->addTextureFromBmpFile( "FlagPole", "FlagPole.bmp" );
+	engine()->resources()->addMaterialFromString( "FlagPole", "StandardShading", "StandardShading", "FlagPole" );
+	engine()->resources()->addMeshFromObjFile( "FlagPole", "FlagPole.obj", false );
+
+	// Create the flag pole game object
+	go = GameObject::Instantiate(
+		Vector3( 0, 15, 0 ),
+		Quaternion(),
+		Vector3( 3, 3, 3 ),
+		engine()->currentScene()->GetRoot()->getTransformIndex()
+	);
+	go->addMesh( "FlagPole", "FlagPole" );
+
+	///// FLAG CLOTH /////
+
+	// Build the flag resources
 	engine()->resources()->addTextureFromBmpFile( "Flag", "DOGE.bmp" );
 	engine()->resources()->addMaterialFromString( "Flag", "StandardShading", "StandardShading", "Flag" );
 	
-	// Create a blank mesh asset for the cloth to use
+	// Create a blank mesh asset for the flag to appear as cloth
 	DWI::MeshAsset* meshAsset = new DWI::MeshAsset( "Flag", true );
 	engine()->resources()->addMesh( "Flag", meshAsset );
 
 	// Create the cloth game object
-	GameObject* go = GameObject::Instantiate(
-		Vector3( 0, 0, 0 ),
+	go = GameObject::Instantiate(
+		Vector3( 0, 30, 0 ),
 		Quaternion(),
 		Vector3( 1, 1, 1 ),
 		engine()->currentScene()->GetRoot()->getTransformIndex()
 	);
 	go->addMesh( "Flag", "Flag" );
-	//go->transform()->Scale = Vector3( 0.5f, 0.5f, 0.5f );
-	//go->transform()->Rotate( Vector3( 0, 1, 0 ), 45 );
-	go->transform()->Translate( Vector3( -8, 5, 0 ) );
 
-	// Create a cloth to operate on it
+	// Create a cloth to operate on the flag
 	int rows = 40;
 	int cols = 64;
 	float equilibrium = 0.25f;
+	float maxDistance = 0.40f;
 	float nodeMass = 0.005f;
-	float springCoeff = 20.0f;
+	float springCoeff = 50.0f;
 	float dampingCoeff = 0.02f;
 	__cloth.meshComponent( engine()->meshManager()->KeytoPointer( go->getMeshIndex() ) );
-	__cloth.init( rows, cols, equilibrium, nodeMass, springCoeff, dampingCoeff );
+	__cloth.init( rows, cols, equilibrium, maxDistance, nodeMass, springCoeff, dampingCoeff );
 
-	// Lock the leftmost columns of nodes in position (to the flag pole)
+	// Lock the left-most columns of flag nodes in position (to the flag pole)
 	std::vector<Node>& clothNodes = __cloth.nodes();
 	for ( int row = 0; row < __cloth.rows(); row++ )
 	{
 		clothNodes[ row * __cloth.columns() ].locked = true;
 	}
-	//clothNodes[ 0 ].locked = true;
-	//clothNodes[ clothNodes.size() - __cloth.columns() ].locked = true;
 
 	// Position the camera in the scene
 	DWI::Camera* cam = DWI::DWIngine::singleton()->camera();
-	cam->setPosition( Vector3( 10, 0, 30 ) );
+	cam->setPosition( Vector3( 0, 5, 50 ) );
+	cam->setLookAt( Vector3( 0, 15, 0 ) );
 
 	engine()->trace( "Starting up..." );
 }
 
 void FlagApp::onPreRender( void )
 {
+	// Limit the time step to 1/10th of a second
 	float dt = engine()->dtSec();
 	if ( dt > 0.1f )
 	{
@@ -97,13 +131,13 @@ void FlagApp::onPreRender( void )
 	}
 
 	// Compute forces on the each node in the flag (wind and gravity)
-	DWI::Vector3 flagForces( 
-		 0, //5.0f * sinf( 0.2f * engine()->timeSec() ) + 0.0f, 
-		 0, //-0.98f, 
+	DWI::Vector3 flagForces(
+		25.0f * sinf( 0.2f * engine()->timeSec() ), 
+		-3.0f, 
 		 0.0f
 	);
 	
-	// Apply spring forces to the cloth nodes
+	// Apply spring forces to random cloth nodes
 	std::vector<Node>& clothNodes = __cloth.nodes();
 	for ( int i = 0; i < clothNodes.size(); i++ )
 	{
@@ -116,22 +150,19 @@ void FlagApp::onPreRender( void )
 	
 	// Update the cloth
 	__cloth.update( dt );
-
-	//engine()->trace( "PreRender" );
 }
 
 void FlagApp::onRender( void )
 {
-	//engine()->trace( "Render" );
+	
 }
 
 void FlagApp::onPostRender( void )
 {
+	// Report the FPS to track performance
 	//__sstream.str( string() );
 	//__sstream << "FPS: " << engine()->fps();
 	//engine()->logInfo( __sstream.str() );
-
-	//engine()->trace( "PostRender" );
 }
 
 void FlagApp::onStop( void )

@@ -160,8 +160,8 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 
 
 
-	__screenHeight = 400;
-	__screenWidth = 600;
+	__screenHeight = 900;
+	__screenWidth = 1600;
 	glViewport( 0, 0, __screenWidth, __screenHeight );
 
 	glfwOpenWindowHint( GLFW_FSAA_SAMPLES, 4 );
@@ -197,7 +197,7 @@ OpenGL33Renderer::OpenGL33Renderer( DWI::DWIngine* engine ) : AbstractRenderer( 
 
 	glfwEnable( GLFW_STICKY_KEYS );
 
-	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+	glClearColor( 0.7f, 1.0f, 1.0f, 1.0f );
 
 	// Enable depth test
 	glEnable( GL_DEPTH_TEST );
@@ -315,7 +315,7 @@ void OpenGL33Renderer::renderScene( void )
 		//glLogError( glGetError() );
 		//Log::LogTrace( "Checking For Errors 3" );
 
-		vec3 lightPos = vec3( 0, 2, -5 );
+		vec3 lightPos = vec3( 0, 50, 100 );
 
 		glUniform3f( matAsset->__shaderLightPos, lightPos.x, lightPos.y, lightPos.z );
 

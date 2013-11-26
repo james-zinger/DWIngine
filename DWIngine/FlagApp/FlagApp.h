@@ -5,6 +5,8 @@
 #include "App.h"
 #include "Cloth.h"
 
+#define WIND_TIME 5.0f
+
 using namespace std;
 
 

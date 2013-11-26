@@ -52,6 +52,7 @@ private:
 	vector<Spring>	__springs;
 	float			__dampingCoeff;
 	float			__equilibriumDistance;
+	float			__maxDistance;
 	float			__nodeMass;
 	float			__springCoeff;
 
@@ -114,7 +115,7 @@ public:
 	/////////////////////////////////////////
 	// ctor and dtor
 
-	Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff );
+	Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float maxDistance, float nodeMass, float springCoeff, float dampingCoeff );
 	Cloth( void );
 	~Cloth( void );
 
@@ -125,7 +126,7 @@ public:
 	/*
 	* Set up a cloth with the specified number of rows and columns, spaced apart by the equilibrium distance.
 	*/
-	void init( int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff );
+	void init( int rows, int columns, float equilibriumDistance, float maxDistance, float nodeMass, float springCoeff, float dampingCoeff );
 
 	/*
 	* Set all values of the cloth to zero and clear the nodes and springs lists.
@@ -200,6 +201,11 @@ public:
 	float equilibriumDistance( void );
 
 	/*
+	* Returns the maximum distance to limit spring interactions to.
+	*/
+	float maxDistance( void );
+
+	/*
 	* Returns the mass of a single node in the cloth.
 	*/
 	float nodeMass( void );
@@ -227,6 +233,11 @@ public:
 	* Sets the equilibrium distance used for the spring interactions.
 	*/
 	void equilibriumDistance( float value );
+
+	/*
+	* Sets the maximum distance to limit spring interactions to.
+	*/
+	void maxDistance( float value );
 
 	/*
 	* Sets the mass of a single node in the cloth.

@@ -145,13 +145,17 @@ Vector3 Cloth::computeSpringForce( int index )
 	float distance = glm::length( direction );
 	direction /= distance;
 
-	//std::stringstream ss;
-	//ss << "Distance: " << distance;
-	//DWI::Log::LogInfo( ss.str() );
+	// Limit the maximum spring distance by moving node2 closer
+	float diagonalCoeff = __springs[ index ].isDiagonal ? CLOTH_SQRT2 : 1.0f;
+	float overMax = distance - ( __maxDistance * diagonalCoeff );
+	if ( overMax > 0.0f )
+	{
+		__springs[ index ].node2->position -= direction * overMax;
+		distance = __maxDistance;
+	}
 
 	// Return the force vector adjusted for magnitude
-	float diagonalCoeff = __springs[ index ].isDiagonal ? CLOTH_SQRT2 : 1.0f;
-	float difference = distance - __equilibriumDistance * diagonalCoeff;
+	float difference = distance - ( __equilibriumDistance * diagonalCoeff );
 	return direction * __springCoeff * difference;
 }
 
@@ -297,10 +301,10 @@ void Cloth::setMeshVertices( int rows, int columns, vector<Node>& nodes, vector<
 /////////////////////////////////////////////////////////////////
 // ctor and dtor
 
-Cloth::Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff )
+Cloth::Cloth( Mesh* meshComponent, int rows, int columns, float equilibriumDistance, float maxDistance, float nodeMass, float springCoeff, float dampingCoeff )
 {
 	__meshComponent = meshComponent;
-	init( rows, columns, equilibriumDistance, nodeMass, springCoeff, dampingCoeff );
+	init( rows, columns, equilibriumDistance, maxDistance, nodeMass, springCoeff, dampingCoeff );
 }
 
 Cloth::Cloth( void )
@@ -318,13 +322,14 @@ Cloth::~Cloth( void )
 /////////////////////////////////////////////////////////////////
 // Initialization
 
-void Cloth::init( int rows, int columns, float equilibriumDistance, float nodeMass, float springCoeff, float dampingCoeff )
+void Cloth::init( int rows, int columns, float equilibriumDistance, float maxDistance, float nodeMass, float springCoeff, float dampingCoeff )
 {
 	// Read in the necessary values
 	__ready = true;
 	__rows = rows;
 	__columns = columns;
 	__equilibriumDistance = equilibriumDistance;
+	__maxDistance = maxDistance;
 	__nodeMass = nodeMass;
 	__springCoeff = springCoeff;
 	__dampingCoeff = dampingCoeff;
