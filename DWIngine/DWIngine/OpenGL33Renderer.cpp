@@ -315,7 +315,7 @@ void OpenGL33Renderer::renderScene( void )
 		//glLogError( glGetError() );
 		//Log::LogTrace( "Checking For Errors 3" );
 
-		vec3 lightPos = vec3( 0, 2, -2 );
+		vec3 lightPos = vec3( 0, 2, -5 );
 
 		glUniform3f( matAsset->__shaderLightPos, lightPos.x, lightPos.y, lightPos.z );
 

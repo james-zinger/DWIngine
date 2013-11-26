@@ -105,9 +105,9 @@ namespace DWI
 
 			unsigned char * data = new unsigned char [tex->width() * tex->height() * 3];
 
-			data = &tex->imageData()[ 0 ];
+			data = &tex->imageData()[ 68 ];
 
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, tex->width(), tex->height(), 0, GL_RGB, GL_UNSIGNED_BYTE, data );
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, tex->width(), tex->height(), 0, GL_BGR, GL_UNSIGNED_BYTE, data );
 			//glTexImage2D( GL_TEXTURE_2D, 0, GL_BGR, tex->width(), tex->height(), 0, GL_RGB, GL_UNSIGNED_BYTE, data );
 
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
