@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "MeshAsset.h"
 #include <sstream>
+#include "Input.h"
 
 #ifndef NULL
 #define NULL 0
@@ -60,6 +61,13 @@ void FlagApp::onStart( void )
 	);
 	go->addMesh( "Ground", "Ground" );
 
+	__parent = GameObject::Instantiate(
+		Vector3( 0, 0, 0 ),
+		Quaternion( ),
+		Vector3( 1, 1, 1 ),
+		engine( )->currentScene( )->GetRoot( )->getTransformIndex( )
+		);
+
 	///// FLAG POLE /////
 
 	// Build the flag pole resources
@@ -72,7 +80,7 @@ void FlagApp::onStart( void )
 		Vector3( 0, 15, 0 ),
 		Quaternion(),
 		Vector3( 3, 3, 3 ),
-		engine()->currentScene()->GetRoot()->getTransformIndex()
+		__parent->getTransformIndex( )
 	);
 	go->addMesh( "FlagPole", "FlagPole" );
 
@@ -91,8 +99,11 @@ void FlagApp::onStart( void )
 		Vector3( 0, 30, 0 ),
 		Quaternion(),
 		Vector3( 1, 1, 1 ),
-		engine()->currentScene()->GetRoot()->getTransformIndex()
+		__parent->getTransformIndex( )
 	);
+
+
+
 	go->addMesh( "Flag", "Flag" );
 
 	// Create a cloth to operate on the flag
@@ -137,6 +148,30 @@ void FlagApp::onPreRender( void )
 		 0.0f
 	);
 	
+	if ( DWI::Input::isKeyPressed( DWI::GLFWKeys::Key_D ) )
+	{
+		__parent->transform()->Translate( Vector3( 0.03f, 0, 0 ) );
+	}
+	else if ( DWI::Input::isKeyPressed( DWI::GLFWKeys::Key_A ) )
+	{
+		__parent->transform( )->Translate( Vector3( -0.03f, 0, 0 ) );
+	}
+
+	if ( DWI::Input::isKeyPressed( DWI::GLFWKeys::Key_S ) )
+	{
+		__parent->transform( )->Translate( Vector3( 0, 0, 0.03f ) );
+	}
+
+	else if ( DWI::Input::isKeyPressed( DWI::GLFWKeys::Key_W ) )
+	{
+		__parent->transform( )->Translate( Vector3( 0, 0, -0.03f ) );
+	}
+
+	if ( DWI::Input::isKeyPressed( DWI::GLFWKeys::Key_Up ) )
+	{
+		engine()->camera()->setPosition( Vector3( 0, 1, 0 ) + engine()->camera()->getPosition() );
+	}
+
 	// Apply spring forces to random cloth nodes
 	std::vector<Node>& clothNodes = __cloth.nodes();
 	for ( int i = 0; i < clothNodes.size(); i++ )

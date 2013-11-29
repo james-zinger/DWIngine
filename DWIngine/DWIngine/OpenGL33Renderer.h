@@ -16,7 +16,7 @@
 #include "Model.h"
 #include "Camera.h"
 #include "shader.hpp"
-
+#include "GameObject.h"
 //#include "glm\gtc\quaternion.hpp"
 
 using namespace glm;
@@ -49,7 +49,12 @@ namespace DWI
 
 		bool glLogError( GLenum error );
 
-		
+		void __renderSceneRecursive( GameObject* node, Matrix4 MVP );
+
+		void __renderGameObject( GameObject* go, Matrix4 MVP );
+
+		TransformManager* __tm;
+		MeshManager* __mm;
 
 		/////////////////////////////////////////////////////////////
 	public:

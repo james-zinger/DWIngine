@@ -4,7 +4,7 @@
 #include <sstream>
 #include "App.h"
 #include "Cloth.h"
-
+#include "GameObject.h"
 #define WIND_TIME 5.0f
 
 using namespace std;
@@ -21,7 +21,7 @@ protected:
 	bool			__isStarting;
 	Cloth			__cloth;
 	stringstream	__sstream;
-
+	DWI::GameObject*		__parent;
 
 
 /////////////////////////////////////////////////////////////////

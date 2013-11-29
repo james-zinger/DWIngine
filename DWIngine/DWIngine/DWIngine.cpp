@@ -102,8 +102,6 @@ namespace DWI
 
 	void DWIngine::eventPreRender( void )
 	{
-		Input::singleton()->Update();
-		
 		__transformManager->Update();
 		__transformManager->LateUpdate();
 		// Perform end-user app behaviour
@@ -114,6 +112,8 @@ namespace DWI
 	{
 		// Refresh the game clock
 		__time->refresh( false );
+		
+		Input::singleton( )->Update( );
 
 		// Call render scene
 		__renderer->renderScene();
@@ -127,6 +127,7 @@ namespace DWI
 
 		// Perform end-user app behaviour
 		__app->onPostRender();
+		
 	}
 
 	void DWIngine::eventStop( void )
